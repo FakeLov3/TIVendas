@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_fragment, fragment);
+            fragmentTransaction.replace(R.id.include, fragment);
             fragmentTransaction.commit();
         }
 

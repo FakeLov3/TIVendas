@@ -9,10 +9,12 @@
         android:layout_height="match_parent">
 
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="olá" />
+            android:gravity="center_vertical|center"
+            android:text="Usuarios"
+            android:textAlignment="center" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_usuarios_add"
