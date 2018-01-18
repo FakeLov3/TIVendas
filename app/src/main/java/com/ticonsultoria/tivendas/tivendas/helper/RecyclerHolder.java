@@ -19,8 +19,8 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
 
     public RecyclerHolder(View itemView) {
         super(itemView);
-        title = (TextView) itemView.findViewById(R.id.txt_line_layout_name);
-        editButton = (ImageButton) itemView.findViewById(R.id.btn_line_layout_edit);
-        deleteButton = (ImageButton) itemView.findViewById(R.id.btn_line_layout_delete);
+        title = itemView.findViewById(R.id.txt_line_layout_name);
+        editButton = itemView.findViewById(R.id.btn_line_layout_edit);
+        deleteButton = itemView.findViewById(R.id.btn_line_layout_delete);
     }
 }

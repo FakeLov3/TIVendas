@@ -67,9 +67,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
     // Método responsável por atualizar um usuário já existente na lista.
     private void updateItem(int position) {
-        /*String user = mUsers.get(position);
-        userModel.incrementAge();
-        notifyItemChanged(position);*/
+        mUsers.set(position, "Felipe");
+        notifyItemChanged(position);
     }
 
     // Método responsável por remover um usuário da lista.

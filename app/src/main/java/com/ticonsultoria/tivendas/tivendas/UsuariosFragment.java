@@ -2,6 +2,7 @@ package com.ticonsultoria.tivendas.tivendas;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ public class UsuariosFragment extends Fragment {
 
 
     RecyclerView mRecyclerView;
+    FloatingActionButton floatingActionButton;
 
     private RecyclerAdapter mAdapter;
 
@@ -39,8 +41,17 @@ public class UsuariosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_usuarios, container, false);
 
         mRecyclerView = view.findViewById(R.id.rv_usuarios);
+        floatingActionButton = view.findViewById(R.id.fab_usuarios_add);
 
         setupRecycler();
+
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.updateList("Marcelo");
+            }
+        });
 
         return view;
     }

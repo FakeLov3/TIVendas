@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_clientes) {
             fragment = new ClientesFragment();
         }
+        if (id == R.id.nav_produtos) {
+            fragment = new ProdutosFragment();
+        }
 
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
