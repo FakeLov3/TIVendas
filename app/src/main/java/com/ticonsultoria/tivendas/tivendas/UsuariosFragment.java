@@ -47,7 +47,6 @@ public class UsuariosFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.rv_usuarios);
         floatingActionButton = view.findViewById(R.id.fab_usuarios_add);
-
         setupRecycler();
 
         //Acão do botão flutuante de adicionar

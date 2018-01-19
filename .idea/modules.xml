@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Helder\AndroidStudioProjects\TIVendas\TIConsultoria.iml" filepath="C:\Users\Helder\AndroidStudioProjects\TIVendas\TIConsultoria.iml" />
       <module fileurl="file://$PROJECT_DIR$/TIVendas.iml" filepath="$PROJECT_DIR$/TIVendas.iml" />
-      <module fileurl="file://C:\Users\mpire\OneDrive\Documents\TIConsultoria\.idea\TIVendas.iml" filepath="C:\Users\mpire\OneDrive\Documents\TIConsultoria\.idea\TIVendas.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

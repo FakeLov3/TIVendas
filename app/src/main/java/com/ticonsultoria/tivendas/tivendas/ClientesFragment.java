@@ -25,10 +25,11 @@ import java.util.ArrayList;
 
 public class ClientesFragment extends Fragment {
 
-    RecyclerView mRecyclerView;
-    FloatingActionButton floatingActionButton;
+    RecyclerView mRecyclerViewC;
+    FloatingActionButton floatingActionButtonC;
 
     private RecyclerClienteAdapter mAdapter;
+
     public ClientesFragment() {
     //precisa de um construtor limpo
     }
@@ -39,19 +40,18 @@ public class ClientesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
 
-        mRecyclerView = view.findViewById(R.id.rv_clientes);
-        floatingActionButton = view.findViewById(R.id.fab_clientes_add);
+        mRecyclerViewC = view.findViewById(R.id.rv_clientes);
+        floatingActionButtonC = view.findViewById(R.id.fab_clientes_add);
         setupRecycler();
 
         //Acão do botão flutuante de adicionar
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        floatingActionButtonC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_cliente, null);
-
 
                 builder.setView(dialogView).setTitle("Adicionar Cliente")
                         .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
@@ -68,7 +68,6 @@ public class ClientesFragment extends Fragment {
 
                                 //Verificar se os campos estão preenchidos
                                 if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("")) {
-
 
                                     mAdapter.updateList(cliente);
 
@@ -92,15 +91,15 @@ public class ClientesFragment extends Fragment {
 
         // Configurando o gerenciador de layout para ser uma lista.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerViewC.setLayoutManager(layoutManager);
 
         // Adiciona o adapter que irá anexar os objetos à lista.
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.
         mAdapter = new RecyclerClienteAdapter(new ArrayList<>(), getContext());
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerViewC.setAdapter(mAdapter);
 
         // Configurando um dividr entre linhas, para uma melhor visualização.
-        mRecyclerView.addItemDecoration(
+        mRecyclerViewC.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
     }

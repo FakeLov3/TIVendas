@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
-import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
     }
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerClienteAdapter.RecyclerHolder(LayoutInflater.from(parent.getContext())
+        return new RecyclerHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_clientes, parent, false));
     }
     @Override
@@ -51,7 +49,6 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
             }
 
         });
-
         holder.deleteButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
@@ -60,9 +57,11 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
             }
         });
     }
+
     public int getItemCont(){
         return mClientes != null ? mClientes.size() : 0;
     }
+
     public void updateList(Cliente cliente){ insertItem(cliente);}
 
     private void insertItem(Cliente cliente){
@@ -73,17 +72,17 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
     private void updateItem(int position) {
 
         final int p = position;
-        Cliente user = mClientes.get(position);
+        Cliente cliente = mClientes.get(position);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_usuario, null);
+        final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_cliente, null);
 
         final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
         final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
 
-        edtDialogNome.setText(user.getNome());
-        edtDialogMercado.setText(user.getNomeMercado());
+        edtDialogNome.setText(cliente.getNome());
+        edtDialogMercado.setText(cliente.getNomeMercado());
 
 
         builder.setView(dialogView).setTitle("Editar cliente")
@@ -148,7 +147,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
         public RecyclerHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.txt_line_layout_name);
+            title = itemView.findViewById(R.id.txt_line_layout_name_cliente);
             nivel = itemView.findViewById(R.id.txt_line_layout_nome_mercado);
             editButton = itemView.findViewById(R.id.btn_line_layout_edit_cliente);
             deleteButton = itemView.findViewById(R.id.btn_line_layout_delete_cliente);
