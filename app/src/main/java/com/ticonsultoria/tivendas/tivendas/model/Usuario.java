@@ -9,8 +9,17 @@ public class Usuario {
     private String login;
     private String senha;
     private boolean adm;
+    private boolean cadastrarProdutos;
 
     public Usuario() {
+    }
+
+    public boolean isCadastrarProdutos() {
+        return cadastrarProdutos;
+    }
+
+    public void setCadastrarProdutos(boolean cadastrarProdutos) {
+        this.cadastrarProdutos = cadastrarProdutos;
     }
 
     public String getLogin() {

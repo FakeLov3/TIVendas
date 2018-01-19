@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
+import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.util.ArrayList;
@@ -87,6 +88,17 @@ public class UsuariosFragment extends Fragment {
                                                 "Selecione um nível de acesso para o usuário",
                                                 Toast.LENGTH_SHORT).show();
                                         return;
+                                    }
+
+                                    usuario.setCadastrarProdutos(true);
+
+                                    UsuarioDAO dao = new UsuarioDAO(getActivity());
+                                    boolean sucesso = dao.salvar(usuario);
+
+                                    if (sucesso) {
+                                        Toast.makeText(getActivity(),
+                                                "Usuário cadastrado com sucesso",
+                                                Toast.LENGTH_SHORT).show();
                                     }
 
                                     mAdapter.updateList(usuario);
