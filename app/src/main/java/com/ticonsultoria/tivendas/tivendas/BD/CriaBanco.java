@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by allanromanato on 5/27/15.
  */
 public class CriaBanco extends SQLiteOpenHelper {
-    private static final String NOME_BANCO = "TIVendas1.db";
+    private static final String NOME_BANCO = "TIVendas2.db";
 
 
     private static final String TABELA_USUARIOS = "usuarios";
@@ -23,7 +23,13 @@ public class CriaBanco extends SQLiteOpenHelper {
     private static final String CADASTRAR_PRODUTOS_USUARIO = "cadastrar_produtos";
     private static final String ATIVO_USUARIO = "ativo";
 
-    private static final String TABELA_CLIENTES = "";
+    private static final String TABELA_CLIENTES = "clientes";
+    private static final String ID_CLIENTE = "id_cliente";
+    private static final String NOME_CLIENTE = "nome";
+    private static final String CPF_CLIENTE = "cpf";
+    private static final String NOME_MERCADO = "nome_mercado";
+    private static final String ATIVO_CLIENTE = "ativo";
+
 
 
     private static final int VERSAO = 1;
@@ -45,6 +51,13 @@ public class CriaBanco extends SQLiteOpenHelper {
 
         db.execSQL(sqlUsuarios);
 
+        String sqlClientes = "CREATE TABLE "+TABELA_CLIENTES+ "("
+                +ID_CLIENTE + " integer primary key autoincrement,"
+                +NOME_CLIENTE + " VARCHAR,"
+                +CPF_CLIENTE + " VARCHAR,"
+                +NOME_MERCADO + " VARCHAR,"
+                +ATIVO_CLIENTE + " BOOLEAN" +")";
+        db.execSQL(sqlClientes);
     }
 
     @Override
