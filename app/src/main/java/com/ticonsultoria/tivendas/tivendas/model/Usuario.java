@@ -6,12 +6,39 @@ package com.ticonsultoria.tivendas.tivendas.model;
 
 public class Usuario {
 
+    private int id;
     private String login;
     private String senha;
     private boolean adm;
     private boolean cadastrarProdutos;
+    private boolean ativo;
 
     public Usuario() {
+    }
+
+    public Usuario(int id, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo) {
+        this.id = id;
+        this.login = login;
+        this.senha = senha;
+        this.adm = adm;
+        this.cadastrarProdutos = cadastrarProdutos;
+        this.ativo = ativo;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isCadastrarProdutos() {

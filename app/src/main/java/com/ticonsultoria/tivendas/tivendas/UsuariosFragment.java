@@ -20,6 +20,7 @@ import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -31,6 +32,8 @@ public class UsuariosFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     FloatingActionButton floatingActionButton;
+
+    UsuarioDAO dao;
 
     private RecyclerUsuariosAdapter mAdapter;
 
@@ -45,6 +48,8 @@ public class UsuariosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_usuarios, container, false);
+
+        dao = new UsuarioDAO(getActivity());
 
         mRecyclerView = view.findViewById(R.id.rv_usuarios);
         floatingActionButton = view.findViewById(R.id.fab_usuarios_add);
@@ -91,17 +96,17 @@ public class UsuariosFragment extends Fragment {
                                     }
 
                                     usuario.setCadastrarProdutos(true);
-
-                                    UsuarioDAO dao = new UsuarioDAO(getActivity());
+                                    usuario.setAtivo(true);
                                     boolean sucesso = dao.salvar(usuario);
 
                                     if (sucesso) {
                                         Toast.makeText(getActivity(),
                                                 "Usuário cadastrado com sucesso",
                                                 Toast.LENGTH_SHORT).show();
+
+                                        mAdapter.updateList(usuario);
                                     }
 
-                                    mAdapter.updateList(usuario);
 
                                 } else { //Campos não preenchidos
                                     Toast.makeText(getActivity(),
@@ -127,9 +132,9 @@ public class UsuariosFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // Adiciona o adapter que irá anexar os objetos à lista.
-        // Está sendo criado com lista vazia, pois será preenchida posteriormente.
-        mAdapter = new RecyclerUsuariosAdapter(new ArrayList<>(), getContext());
+        ArrayList<Usuario> array = new ArrayList<>(dao.retornarTodos());
+
+        mAdapter = new RecyclerUsuariosAdapter(array, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
         // Configurando um dividr entre linhas, para uma melhor visualização.

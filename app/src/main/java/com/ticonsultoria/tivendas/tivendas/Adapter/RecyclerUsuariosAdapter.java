@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -30,10 +31,13 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
 
     private final List<Usuario> mUsers;
     private Context context;
+    UsuarioDAO dao;
+
 
     public RecyclerUsuariosAdapter(ArrayList users, Context c) {
         mUsers = users;
         context = c;
+        dao = new UsuarioDAO(context);
     }
 
     @Override
@@ -108,7 +112,7 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Usuario usuario = new Usuario();
+                        Usuario usuario = mUsers.get(p);
 
                         usuario.setLogin(edtDialogLogin.getText().toString());
                         usuario.setSenha(edtDialogSenha.getText().toString());
@@ -127,8 +131,17 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
                                 return;
                             }
 
-                            mUsers.set(p, usuario);
-                            notifyItemChanged(p);
+                            boolean sucesso = dao.salvar(usuario.getId(), usuario);
+
+                            if (sucesso) {
+                                Toast.makeText(context,
+                                        "Usuário atualizado com sucesso",
+                                        Toast.LENGTH_SHORT).show();
+
+                                mUsers.set(p, usuario);
+                                notifyItemChanged(p);
+                            }
+
 
                         } else { //Campos não preenchidos
                             Toast.makeText(context,
