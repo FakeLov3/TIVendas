@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,15 +94,24 @@ public class ClientesFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewC.setLayoutManager(layoutManager);
 
+        ArrayList array = new ArrayList<Cliente>();
+
+        Cliente helder = new Cliente();
+
+        helder.setCpf("256464");
+        helder.setNome("helder");
+        helder.setNomeMercado("asdasd");
+
+        array.add(helder);
+
         // Adiciona o adapter que irá anexar os objetos à lista.
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.
-        mAdapter = new RecyclerClienteAdapter(new ArrayList<>(), getContext());
+        mAdapter = new RecyclerClienteAdapter(array, getContext());
         mRecyclerViewC.setAdapter(mAdapter);
-
         // Configurando um dividr entre linhas, para uma melhor visualização.
         mRecyclerViewC.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
-    }
+}
 
 

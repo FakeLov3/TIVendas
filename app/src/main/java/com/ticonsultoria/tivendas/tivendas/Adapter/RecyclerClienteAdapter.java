@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,8 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
     }
     @Override
     public void onBindViewHolder(RecyclerHolder holder,final int position) {
-
         holder.title.setText(mClientes.get(position).getNome());
-        holder.title.setText(mClientes.get(position).getNomeMercado());
+        holder.nivel.setText(mClientes.get(position).getNomeMercado());
 
         holder.editButton.setOnClickListener (new View.OnClickListener() {
             @Override
@@ -58,7 +58,8 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         });
     }
 
-    public int getItemCont(){
+    @Override
+    public int getItemCount() {
         return mClientes != null ? mClientes.size() : 0;
     }
 
@@ -66,7 +67,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
     private void insertItem(Cliente cliente){
         mClientes.add(cliente);
-        notifyItemInserted(getItemCont());
+        notifyItemInserted(getItemCount());
     }
 
     private void updateItem(int position) {
@@ -90,15 +91,15 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Cliente cliente = new Cliente();
+                        Cliente cliente1 = new Cliente();
 
-                        cliente.setNome(edtDialogNome.getText().toString());
-                        cliente.setNomeMercado(edtDialogMercado.getText().toString());
+                        cliente1.setNome(edtDialogNome.getText().toString());
+                        cliente1.setNomeMercado(edtDialogMercado.getText().toString());
 
                         //Verificar se os campos estão preenchidos
-                        if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("")) {
+                        if (!cliente1.getNome().equals("") && !cliente1.getNomeMercado().equals("")) {
 
-                            mClientes.set(p, cliente);
+                            mClientes.set(p, cliente1);
                             notifyItemChanged(p);
 
                         } else { //Campos não preenchidos
@@ -135,10 +136,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         dialog.show();
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+
     class RecyclerHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView nivel;
