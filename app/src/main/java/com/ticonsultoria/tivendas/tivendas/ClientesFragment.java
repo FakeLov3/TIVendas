@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerClienteAdapter;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
+import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -28,6 +29,8 @@ public class ClientesFragment extends Fragment {
 
     RecyclerView mRecyclerViewC;
     FloatingActionButton floatingActionButtonC;
+
+    ClienteDAO daoCliente;
 
     private RecyclerClienteAdapter mAdapter;
 
@@ -40,6 +43,8 @@ public class ClientesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+
+        daoCliente = new ClienteDAO(getActivity());
 
         mRecyclerViewC = view.findViewById(R.id.rv_clientes);
         floatingActionButtonC = view.findViewById(R.id.fab_clientes_add);
@@ -101,6 +106,7 @@ public class ClientesFragment extends Fragment {
         helder.setCpf("256464");
         helder.setNome("helder");
         helder.setNomeMercado("asdasd");
+        helder.setAtivo(true);
 
         array.add(helder);
 
