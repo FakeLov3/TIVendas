@@ -20,6 +20,10 @@ public class Cliente {
         this.ativo = ativo;
     }
 
+    public Cliente(){
+
+    }
+
     public boolean isAtivo() {
         return ativo;
     }
