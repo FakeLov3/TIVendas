@@ -68,14 +68,24 @@ public class ClientesFragment extends Fragment {
 
                                 final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
                                 final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
+                                final EditText edtDialogCPF = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
 
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
+                                cliente.setCpf(edtDialogCPF.getText().toString());
 
                                 //Verificar se os campos estão preenchidos
                                 if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("")) {
 
-                                    mAdapter.updateList(cliente);
+
+                                    cliente.setAtivo(true);
+                                    boolean sucesso  = daoCliente.salvar(cliente);
+                                    if (sucesso){
+                                        Toast.makeText(getActivity(),
+                                                "Cliente cadastrado com sucesso",
+                                                Toast.LENGTH_SHORT).show();
+                                        mAdapter.updateList(cliente);
+                                    }
 
                                 } else { //Campos não preenchidos
                                     Toast.makeText(getActivity(),
