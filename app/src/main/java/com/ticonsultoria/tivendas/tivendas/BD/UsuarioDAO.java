@@ -48,6 +48,8 @@ public class UsuarioDAO {
 
         Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_USUARIOS, null);
 
+        cursor.moveToFirst();
+
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex("_id"));
             String login = cursor.getString(cursor.getColumnIndex("login"));

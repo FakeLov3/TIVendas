@@ -24,10 +24,12 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public static final String SCRIPT_CRIACAO_TABELA_PRODUTOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
             + COLUNA_NOME_PRODUTO + " TEXT,"
-            + COLUNA_PRECO + " TEXT,"
+            + COLUNA_PRECO + " DOUBLE,"
             + COLUNA_CATEGORIA + " TEXT,"
             + COLUNA_FORNECEDOR + " TEXT,"
-            + COLUNA_MARCA + " TEXT"
+            + COLUNA_MARCA + " TEXT,"
+            + COLUNA_QUANTIDADE + " INT,"
+            + COLUNA_ATIVO + " BOOLEAN"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_PRODUTOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -74,7 +76,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     @Override
     public Produto contentValuesParaEntidade(ContentValues contentValues) {
         Produto produto = new Produto();
-        produto.setAtivo(contentValues.getAsBoolean(COLUNA_ATIVO));
+        produto.setId(contentValues.getAsInteger(COLUNA_ID));
+        produto.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         produto.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
         produto.setMarca(contentValues.getAsString(COLUNA_MARCA));
         produto.setFornecedor(contentValues.getAsString(COLUNA_FORNECEDOR));

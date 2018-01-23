@@ -30,9 +30,9 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
     public abstract ContentValues entidadeParaContentValues(T entidade);
     public abstract T contentValuesParaEntidade(ContentValues contentValues);
 
-    public void salvar(T entidade){
+    public long salvar(T entidade){
         ContentValues values = entidadeParaContentValues(entidade);
-        dataBase.insert(getNomeTabela(), null, values);
+        return dataBase.insert(getNomeTabela(), null, values);
     }
 
     public void deletar(T t){
