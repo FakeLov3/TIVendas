@@ -134,7 +134,7 @@ public class ProdutosFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<Produto> array = new ArrayList<>(dao.recuperarTodos());
+        ArrayList<Produto> array = new ArrayList<>(dao.recuperarAtivos());
 
         mAdapter = new RecyclerProdutosAdapter(array, getContext());
         mRecyclerView.setAdapter(mAdapter);

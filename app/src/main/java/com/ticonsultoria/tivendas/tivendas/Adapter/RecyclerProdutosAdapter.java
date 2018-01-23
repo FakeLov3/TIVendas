@@ -167,7 +167,8 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
 
                         try {
 
-                            dao.deletar(produto);
+                            produto.setAtivo(false);
+                            dao.editar(produto);
 
                             Toast.makeText(context,
                                     "Produto excluído com sucesso",

@@ -26,6 +26,7 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
 
     public abstract String getNomeColunaPrimaryKey();
     public abstract String getNomeTabela();
+    public abstract String getNomeColunaAtivo();
 
     public abstract ContentValues entidadeParaContentValues(T entidade);
     public abstract T contentValuesParaEntidade(ContentValues contentValues);
@@ -36,7 +37,10 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
     }
 
     public void deletar(T t){
-        //updade que vai mudar o status do produto para false;
+        String[] valoresParaSubstituir = {
+                String.valueOf(t.getId())
+        };
+        dataBase.delete(getNomeTabela(), getNomeColunaPrimaryKey() + " =  ?", valoresParaSubstituir);
     }
 
     public void editar(T t) {
@@ -53,6 +57,14 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
 
         return result;
     }
+
+    public List<T> recuperarAtivos() {
+        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 1";
+        List<T> result = recuperarPorQuery(queryReturnAll);
+
+        return result;
+    }
+
     public T recuperarPorID(int id) {
         String queryOne = "SELECT * FROM " + getNomeTabela() + " where " + getNomeColunaPrimaryKey() + " = " + id;
         List<T> result = recuperarPorQuery(queryOne);

@@ -57,6 +57,11 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     }
 
     @Override
+    public String getNomeColunaAtivo() {
+        return COLUNA_ATIVO;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Produto produto) {
         ContentValues values = new ContentValues();
         if(produto.getId() > 0) {
@@ -87,6 +92,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
 
         return produto;
     }
+
+
 
 
 }
