@@ -15,6 +15,9 @@ public class Produto implements EntidadePersistivel {
     private int quantidade;
     private boolean ativo;
 
+    public Produto() {
+    }
+
     public Produto(int id, String nome_produto, double preco, String categoria, String fornecedor, String marca) {
         this.id = id;
         this.nome_produto = nome_produto;

@@ -9,7 +9,7 @@ import com.ticonsultoria.tivendas.tivendas.model.Produto;
  * Created by Helder on 23/01/2018.
  */
 
-public class ProdutoDAO {
+public class ProdutoDAO extends DAOBasico<Produto> {
 
     public static final String NOME_TABELA = "produtos";
     public static final String COLUNA_ID = "id";
@@ -44,7 +44,18 @@ public class ProdutoDAO {
         super(context);
     }
 
-    public ContentValues entidadeParacontentValues(Produto produto) {
+    @Override
+    public String getNomeColunaPrimaryKey() {
+        return COLUNA_ID;
+    }
+
+    @Override
+    public String getNomeTabela() {
+        return NOME_TABELA;
+    }
+
+    @Override
+    public ContentValues entidadeParaContentValues(Produto produto) {
         ContentValues values = new ContentValues();
         if(produto.getId() > 0) {
             values.put(COLUNA_ID, produto.getId());
@@ -59,5 +70,20 @@ public class ProdutoDAO {
 
         return values;
     }
+
+    @Override
+    public Produto contentValuesParaEntidade(ContentValues contentValues) {
+        Produto produto = new Produto();
+        produto.setAtivo(contentValues.getAsBoolean(COLUNA_ATIVO));
+        produto.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
+        produto.setMarca(contentValues.getAsString(COLUNA_MARCA));
+        produto.setFornecedor(contentValues.getAsString(COLUNA_FORNECEDOR));
+        produto.setCategoria(contentValues.getAsString(COLUNA_CATEGORIA));
+        produto.setPreco(contentValues.getAsDouble(COLUNA_PRECO));
+        produto.setNome_produto(contentValues.getAsString(COLUNA_NOME_PRODUTO));
+
+        return produto;
+    }
+
 
 }
