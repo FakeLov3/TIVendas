@@ -12,6 +12,8 @@ public class Produto implements EntidadePersistivel {
     private String categoria;
     private String fornecedor;
     private String marca;
+    private int quantidade;
+    private boolean ativo;
 
     public Produto(int id, String nome_produto, double preco, String categoria, String fornecedor, String marca) {
         this.id = id;
@@ -68,5 +70,21 @@ public class Produto implements EntidadePersistivel {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
