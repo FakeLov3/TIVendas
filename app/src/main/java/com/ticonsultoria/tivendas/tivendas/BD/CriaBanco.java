@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by allanromanato on 5/27/15.
  */
 public class CriaBanco extends SQLiteOpenHelper {
-    private static final String NOME_BANCO = "TIVendas2.db";
+    private static final String NOME_BANCO = "TIVendas.db";
 
 
     private static final String TABELA_USUARIOS = "usuarios";
