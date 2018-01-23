@@ -29,6 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ProdutoDAO.SCRIPT_CRIACAO_TABELA_PRODUTOS);
+        db.execSQL(ClienteDAO.SCRIPT_CRIACAO_TABELA_CLIENTES);
         Log.i("DATABASE", "CRIANDO TABELA");
     }
 
@@ -36,6 +37,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("DATABASE", "ATUALIZANDO TABELA");
         db.execSQL(ProdutoDAO.SCRIPT_DELECAO_TABELA_PRODUTOS);
+        db.execSQL(ClienteDAO.SCRIPT_DELECAO_TABELA_CLIENTES);
         onCreate(db);
     }
 

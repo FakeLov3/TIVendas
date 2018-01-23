@@ -30,9 +30,9 @@ public class ClientesFragment extends Fragment {
     RecyclerView mRecyclerViewC;
     FloatingActionButton floatingActionButtonC;
 
-    ClienteDAO daoCliente;
-
     private RecyclerClienteAdapter mAdapter;
+
+    private ClienteDAO daoCliente;
 
     public ClientesFragment() {
     //precisa de um construtor limpo
@@ -44,11 +44,12 @@ public class ClientesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
 
-        daoCliente = new ClienteDAO(getActivity());
+        daoCliente = new ClienteDAO(getContext());
+
+        setupRecycler();
 
         mRecyclerViewC = view.findViewById(R.id.rv_clientes);
         floatingActionButtonC = view.findViewById(R.id.fab_clientes_add);
-        setupRecycler();
 
         //Acão do botão flutuante de adicionar
         floatingActionButtonC.setOnClickListener(new View.OnClickListener() {
@@ -70,29 +71,33 @@ public class ClientesFragment extends Fragment {
                                 final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
                                 final EditText edtDialogCPF = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
 
+                                //Verificar se os campos estão preenchidos
+                                if (    edtDialogNome.toString().equals("") ||
+                                        edtDialogMercado.toString().equals("") ||
+                                        edtDialogCPF.toString().equals("") ){
+                                    Toast.makeText(getActivity(),
+                                            "Preencha todos os campos para adicionar um Cliente",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(edtDialogCPF.getText().toString());
+                                cliente.setAtivo(true);
 
-                                //Verificar se os campos estão preenchidos
-                                if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("") && !cliente.getCpf().equals("")) {
+                                try {
+                                    cliente.setId((int)daoCliente.salvar(cliente));
 
-
-                                    cliente.setAtivo(true);
-                                    boolean sucesso  = daoCliente.salvar(cliente);
-                                    if (sucesso){
-                                        Toast.makeText(getActivity(),
-                                                "Cliente cadastrado com sucesso",
-                                                Toast.LENGTH_SHORT).show();
-                                        mAdapter.updateList(cliente);
-
-                                    }
-
-                                } else { //Campos não preenchidos
                                     Toast.makeText(getActivity(),
-                                            "Preencha todos os campos para adicionar um cliente",
+                                            "Cliente cadastrado com sucesso!",
                                             Toast.LENGTH_SHORT).show();
+                                    mAdapter.updateList(cliente);
+
+                                } catch (Exception e){
+                                    Log.e("ProdutosFragment", e.getMessage());
                                 }
+
                             }
                         })
                         .setNegativeButton("Cancelar", null);
@@ -110,16 +115,8 @@ public class ClientesFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewC.setLayoutManager(layoutManager);
 
-        ArrayList array = new ArrayList<Cliente>();
+        ArrayList<Cliente> array = new ArrayList<>(daoCliente.recuperarAtivos());
 
-        Cliente helder = new Cliente();
-
-        helder.setCpf("256464");
-        helder.setNome("helder");
-        helder.setNomeMercado("asdasd");
-        helder.setAtivo(true);
-
-        array.add(helder);
 
         // Adiciona o adapter que irá anexar os objetos à lista.
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.
