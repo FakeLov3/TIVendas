@@ -3,6 +3,7 @@ package com.ticonsultoria.tivendas.tivendas.BD;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by mpire on 23/01/2018.
@@ -28,10 +29,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL(VeiculoDAO.SCRIPT_CRIACAO_TABELA_VEICULOS);
+        Log.i("DATABASE", "CRIANDO TABELA");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.i("DATABASE", "ATUALIZANDO TABELA");
         //db.execSQL(VeiculoDAO.SCRIPT_DELECAO_TABELA);
         //onCreate(db);
     }
