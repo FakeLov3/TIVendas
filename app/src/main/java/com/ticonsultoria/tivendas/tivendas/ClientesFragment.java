@@ -75,7 +75,7 @@ public class ClientesFragment extends Fragment {
                                 cliente.setCpf(edtDialogCPF.getText().toString());
 
                                 //Verificar se os campos estão preenchidos
-                                if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("")) {
+                                if (!cliente.getNome().equals("") && !cliente.getNomeMercado().equals("") && !cliente.getCpf().equals("")) {
 
 
                                     cliente.setAtivo(true);
@@ -85,6 +85,7 @@ public class ClientesFragment extends Fragment {
                                                 "Cliente cadastrado com sucesso",
                                                 Toast.LENGTH_SHORT).show();
                                         mAdapter.updateList(cliente);
+
                                     }
 
                                 } else { //Campos não preenchidos
