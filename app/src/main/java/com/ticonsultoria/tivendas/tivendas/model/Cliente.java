@@ -4,16 +4,16 @@ package com.ticonsultoria.tivendas.tivendas.model;
  * Created by Helder on 18/01/2018.
  */
 
-public class Cliente {
+public class Cliente implements EntidadePersistivel {
 
-    private int id_cliente;
+    private int id;
     private String nome;
     private String cpf;
     private String nomeMercado;
     private boolean ativo;
 
-    public Cliente(int id_cliente, String nome, String cpf, String nomeMercado, boolean ativo) {
-        this.id_cliente = id_cliente;
+    public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo) {
+        this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.nomeMercado = nomeMercado;
@@ -30,14 +30,6 @@ public class Cliente {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public int getId_cliente() {
-        return id_cliente;
-    }
-
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
     }
 
     public String getNome() {
@@ -62,5 +54,15 @@ public class Cliente {
 
     public void setNomeMercado(String nomeMercado) {
         this.nomeMercado = nomeMercado;
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
+
+    @Override
+    public void setId(int id) {
+
     }
 }
