@@ -12,16 +12,16 @@ public class Cliente implements EntidadePersistivel {
     private String nomeMercado;
     private boolean ativo;
 
+    public Cliente(){
+
+    }
+
     public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.nomeMercado = nomeMercado;
         this.ativo = ativo;
-    }
-
-    public Cliente(){
-
     }
 
     public boolean isAtivo() {
@@ -58,11 +58,11 @@ public class Cliente implements EntidadePersistivel {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(int id) { this.id = id;
 
     }
 }

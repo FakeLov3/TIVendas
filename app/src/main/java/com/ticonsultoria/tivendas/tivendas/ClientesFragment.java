@@ -2,12 +2,14 @@ package com.ticonsultoria.tivendas.tivendas;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.MaskFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.style.MaskFilterSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerClienteAdapter;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
+import com.ticonsultoria.tivendas.tivendas.model.Mask;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.util.ArrayList;
@@ -115,8 +118,8 @@ public class ClientesFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewC.setLayoutManager(layoutManager);
 
+        //ArrayList<Cliente> array = new ArrayList<>(daoCliente.recuperarAtivos());
         ArrayList<Cliente> array = new ArrayList<>(daoCliente.recuperarAtivos());
-
 
         // Adiciona o adapter que irá anexar os objetos à lista.
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.

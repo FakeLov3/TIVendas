@@ -131,12 +131,19 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        cliente.setAtivo(false);
-                        daoCliente.deletar(cliente);
+
+                        try {
+                            cliente.setAtivo(false);
+                            daoCliente.editar(cliente);
+                        } catch (Exception e){
+                            Log.e("RecyclerClienteAdapter", e.getMessage());
+                        }
+
 
                         Toast.makeText(context,
                                 "Cliente desativado com sucesso",
                                 Toast.LENGTH_SHORT).show();
+
                         mClientes.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, mClientes.size());
