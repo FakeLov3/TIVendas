@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
 
@@ -27,10 +28,12 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
     private final List<Cliente> mClientes;
     private Context context;
+    private ClienteDAO daoCliente;
 
     public RecyclerClienteAdapter(ArrayList clientes, Context c) {
         mClientes = clientes;
         context = c;
+        daoCliente = new ClienteDAO(c);
     }
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -81,10 +84,11 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
         final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
         final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
+        final EditText edtDialogCpf = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
 
         edtDialogNome.setText(cliente.getNome());
         edtDialogMercado.setText(cliente.getNomeMercado());
-
+        edtDialogCpf.setText(cliente.getCpf());
 
         builder.setView(dialogView).setTitle("Editar cliente")
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {

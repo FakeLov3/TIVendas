@@ -44,12 +44,12 @@ public class ClientesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
 
+        mRecyclerViewC = view.findViewById(R.id.rv_clientes);
+        floatingActionButtonC = view.findViewById(R.id.fab_clientes_add);
+
         daoCliente = new ClienteDAO(getContext());
 
         setupRecycler();
-
-        mRecyclerViewC = view.findViewById(R.id.rv_clientes);
-        floatingActionButtonC = view.findViewById(R.id.fab_clientes_add);
 
         //Acão do botão flutuante de adicionar
         floatingActionButtonC.setOnClickListener(new View.OnClickListener() {
