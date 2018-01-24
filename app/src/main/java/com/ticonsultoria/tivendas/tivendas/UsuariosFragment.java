@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,16 +98,26 @@ public class UsuariosFragment extends Fragment {
 
                                     usuario.setCadastrarProdutos(true);
                                     usuario.setAtivo(true);
-                                    boolean sucesso = dao.salvar(usuario);
+                                    try {
 
-                                    if (sucesso) {
-                                        Toast.makeText(getActivity(),
-                                                "Usuário cadastrado com sucesso",
-                                                Toast.LENGTH_SHORT).show();
+                                        int idUsuario = ((int) dao.salvar(usuario));
 
-                                        mAdapter.updateList(usuario);
+                                        if (idUsuario == 0) { //usuário já existe
+                                            Toast.makeText(getActivity(),
+                                                    "O Login informado está indisponível, tente novamente com um login diferente",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            usuario.setId(idUsuario);
+                                            Toast.makeText(getActivity(),
+                                                    "Usuário cadastrado com sucesso",
+                                                    Toast.LENGTH_LONG).show();
+                                            mAdapter.updateList(usuario);
+                                        }
+
+
+                                    } catch (Exception e) {
+                                        Log.e("ProdutosFragment", e.getMessage());
                                     }
-
 
                                 } else { //Campos não preenchidos
                                     Toast.makeText(getActivity(),
@@ -132,7 +143,7 @@ public class UsuariosFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<Usuario> array = new ArrayList<>(dao.retornarTodos());
+        ArrayList<Usuario> array = new ArrayList<>(dao.recuperarAtivos());
 
         mAdapter = new RecyclerUsuariosAdapter(array, getContext());
         mRecyclerView.setAdapter(mAdapter);

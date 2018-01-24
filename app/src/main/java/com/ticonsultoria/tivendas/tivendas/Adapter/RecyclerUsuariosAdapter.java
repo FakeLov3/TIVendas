@@ -88,7 +88,7 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
     private void updateItem(int position) {
 
         final int p = position;
-        Usuario user = mUsers.get(position);
+        final Usuario usuario = mUsers.get(position);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -98,10 +98,10 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         final EditText edtDialogSenha = dialogView.findViewById(R.id.edt_dialog_usuario_senha);
         final RadioGroup radioGroupDialog = dialogView.findViewById(R.id.radio_group_dialog_usuario);
 
-        edtDialogLogin.setText(user.getLogin());
-        edtDialogSenha.setText(user.getSenha());
+        edtDialogLogin.setText(usuario.getLogin());
+        edtDialogSenha.setText(usuario.getSenha());
 
-        if (user.isAdm()) {
+        if (usuario.isAdm()) {
             radioGroupDialog.check(R.id.radio_adm);
         } else {
             radioGroupDialog.check(R.id.radio_user);
@@ -111,8 +111,6 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-                        Usuario usuario = mUsers.get(p);
 
                         usuario.setLogin(edtDialogLogin.getText().toString());
                         usuario.setSenha(edtDialogSenha.getText().toString());
@@ -131,17 +129,26 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
                                 return;
                             }
 
-                            boolean sucesso = dao.salvar(usuario.getId(), usuario);
+                            try {
 
-                            if (sucesso) {
+                                dao.editar(usuario);
+
+
+
+                            } catch (Exception e) {
+                                Log.e("RecyclerUsuariosAdapter", e.getMessage());
                                 Toast.makeText(context,
-                                        "Usuário atualizado com sucesso",
+                                        "Falha ao atualizar o usuário, tente novamente",
                                         Toast.LENGTH_SHORT).show();
-
-                                mUsers.set(p, usuario);
-                                notifyItemChanged(p);
+                                return;
                             }
 
+                            Toast.makeText(context,
+                                    "Usuário atualizado com sucesso",
+                                    Toast.LENGTH_SHORT).show();
+
+                            mUsers.set(p, usuario);
+                            notifyItemChanged(p);
 
                         } else { //Campos não preenchidos
                             Toast.makeText(context,
@@ -161,6 +168,7 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
     private void removerItem(int position) {
 
         final int p = position;
+        final Usuario usuario = mUsers.get(position);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -168,9 +176,28 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+
+                        try {
+
+                            usuario.setAtivo(false);
+                            dao.editar(usuario);
+
+                        } catch (Exception e) {
+                            Log.e("RecyclerUsuariosAdapter", e.getMessage());
+                            Toast.makeText(context,
+                                    "Falha ao excluir o usuário, tente novamente",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Toast.makeText(context,
+                                "Usuário excluído com sucesso",
+                                Toast.LENGTH_SHORT).show();
+
                         mUsers.remove(p);
                         notifyItemRemoved(p);
                         notifyItemRangeChanged(p, mUsers.size());
+
                     }
                 })
                 .setNegativeButton("Cancelar", null);

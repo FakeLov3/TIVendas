@@ -1,5 +1,6 @@
 package com.ticonsultoria.tivendas.tivendas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.ticonsultoria.tivendas.tivendas.model.Usuario;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +37,24 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        TextView navTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_header_title);
+        TextView navSubtitle = navigationView.getHeaderView(0).findViewById(R.id.nav_header_subtitle);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        Usuario usuario = new Usuario();
+        usuario.setId(bundle.getInt("id"));
+        usuario.setLogin(bundle.getString("login"));
+        usuario.setSenha(bundle.getString("senha"));
+        usuario.setAdm(bundle.getBoolean("adm"));
+        usuario.setCadastrarProdutos(bundle.getBoolean("cadastrarProdutos"));
+        usuario.setAtivo(bundle.getBoolean("ativo"));
+
+        navTitle.setText(usuario.getLogin());
+        navSubtitle.setText(usuario.getStringAdm());
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -58,9 +82,10 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_sair) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

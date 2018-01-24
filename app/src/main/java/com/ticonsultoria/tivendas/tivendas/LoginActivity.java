@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.model.Usuario;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText edtLogin;
     EditText edtSenha;
     Button btnLogar;
+
+    UsuarioDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +30,61 @@ public class LoginActivity extends AppCompatActivity {
         edtSenha = findViewById(R.id.edt_login_senha);
         btnLogar = findViewById(R.id.btn_login);
 
+        dao = new UsuarioDAO(this);
+
+        final List<Usuario> usuarios = dao.recuperarAtivos();
 
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+
+                String login = edtLogin.getText().toString();
+                String senha = edtSenha.getText().toString();
+
+                if (login.equals("") || senha.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Preencha todos os campos para continuar", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
+                boolean validado = false;
+
+                for (int i = 0; i < usuarios.size(); i++) {
+                    Usuario user = usuarios.get(i);
+
+                    if (user.getLogin().equals(login)) { //checar login
+
+                        if (user.getSenha().equals(senha)) { //checar senha
+                            logar(user);
+                            validado = true;
+                        }
+                    
+                    }
+
+                }
+                
+                if (!validado) {
+                    Toast.makeText(LoginActivity.this, "Login ou senha inválidos", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
     }
+
+    private void logar(Usuario usuario) {
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("id", usuario.getId());
+        bundle.putString("login", usuario.getLogin());
+        bundle.putString("senha", usuario.getSenha());
+        bundle.putBoolean("adm", usuario.isAdm());
+        bundle.putBoolean("cadastrarProdutos", usuario.isCadastrarProdutos());
+        bundle.putBoolean("ativo", usuario.isAtivo());
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
 }
