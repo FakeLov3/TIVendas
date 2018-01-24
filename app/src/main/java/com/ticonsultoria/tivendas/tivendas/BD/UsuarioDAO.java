@@ -32,6 +32,10 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + COLUNA_ATIVO + " BOOLEAN"
             + ")";
 
+    public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
+            + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
+            + " VALUES ('root', 'root', 1, 1, 1)";
+
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
 
     private static UsuarioDAO instance;
@@ -101,4 +105,5 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         }
 
     }
+
 }
