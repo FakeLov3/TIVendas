@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
         holder.showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mostrarItem(position);
             }
         });
         holder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,50 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
                 removerItem(position);
             }
         });
+    }
+
+    //método responsável por exibir informações completas de um item
+    private void mostrarItem(int position) {
+
+        final Produto produto = mProdutos.get(position);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_produto, null);
+
+        final EditText edtNome = dialogView.findViewById(R.id.edt_dialog_produto_nome_produto);
+        final EditText edtPreco = dialogView.findViewById(R.id.edt_dialog_produto_preco);
+        final EditText edtCategoria = dialogView.findViewById(R.id.edt_dialog_produto_categoria);
+        final EditText edtFornecedor = dialogView.findViewById(R.id.edt_dialog_produto_fornecedor);
+        final EditText edtMarca = dialogView.findViewById(R.id.edt_dialog_produto_marca);
+        final EditText edtQuantidade = dialogView.findViewById(R.id.edt_dialog_produto_quantidade);
+
+        edtNome.setEnabled(false);
+        edtPreco.setEnabled(false);
+        edtCategoria.setEnabled(false);
+        edtFornecedor.setEnabled(false);
+        edtMarca.setEnabled(false);
+        edtQuantidade.setEnabled(false);
+
+        edtNome.setTextColor(context.getResources().getColor(R.color.black));
+        edtPreco.setTextColor(context.getResources().getColor(R.color.black));
+        edtCategoria.setTextColor(context.getResources().getColor(R.color.black));
+        edtFornecedor.setTextColor(context.getResources().getColor(R.color.black));
+        edtMarca.setTextColor(context.getResources().getColor(R.color.black));
+        edtQuantidade.setTextColor(context.getResources().getColor(R.color.black));
+
+        edtNome.setText("Nome: " + produto.getNome_produto());
+        edtPreco.setText("Preço: " + String.valueOf(produto.getPreco()));
+        edtCategoria.setText("Categoria: " + produto.getCategoria());
+        edtFornecedor.setText("Fornecedor: " + produto.getFornecedor());
+        edtMarca.setText("Marca: " + produto.getMarca());
+        edtQuantidade.setText("Quantidade: " + String.valueOf(produto.getQuantidade()));
+
+        builder.setView(dialogView).setTitle("Detalhes");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     // Método responsável por atualizar um usuário já existente na lista.

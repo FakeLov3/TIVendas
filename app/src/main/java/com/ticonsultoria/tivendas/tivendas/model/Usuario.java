@@ -4,7 +4,7 @@ package com.ticonsultoria.tivendas.tivendas.model;
  * Created by mpire on 18/01/2018.
  */
 
-public class Usuario {
+public class Usuario implements EntidadePersistivel {
 
     private int id;
     private String login;
