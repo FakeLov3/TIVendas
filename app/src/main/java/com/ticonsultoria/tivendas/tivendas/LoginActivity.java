@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user.getLogin().equals(login)) { //checar login
 
                         if (user.getSenha().equals(senha)) { //checar senha
+                            logar(user);
                             validado = true;
                         }
                     
@@ -61,9 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 
-                if (validado) {
-                    logar();
-                } else {
+                if (!validado) {
                     Toast.makeText(LoginActivity.this, "Login ou senha inválidos", Toast.LENGTH_SHORT).show();
                 }
 
@@ -72,8 +71,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void logar() {
+    private void logar(Usuario usuario) {
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("id", usuario.getId());
+        bundle.putString("login", usuario.getLogin());
+        bundle.putString("senha", usuario.getSenha());
+        bundle.putBoolean("adm", usuario.isAdm());
+        bundle.putBoolean("cadastrarProdutos", usuario.isCadastrarProdutos());
+        bundle.putBoolean("ativo", usuario.isAtivo());
+
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }

@@ -16,19 +16,20 @@
             android:id="@+id/nav_pesq_itens"
             android:icon="@drawable/ic_action_search"
             android:title="Pesquisar Itens" />
-    </group>
 
-    <item android:title="Pessoas">
-        <menu>
-            <item
-                android:id="@+id/nav_usuarios"
-                android:icon="@drawable/ic_action_user"
-                android:title="Usuarios" />
-            <item
-                android:id="@+id/nav_clientes"
-                android:icon="@drawable/ic_people"
-                android:title="Clientes" />
-        </menu>
-    </item>
+
+        <item android:title="Pessoas">
+            <menu>
+                <item
+                    android:id="@+id/nav_usuarios"
+                    android:icon="@drawable/ic_action_user"
+                    android:title="Usuarios" />
+                <item
+                    android:id="@+id/nav_clientes"
+                    android:icon="@drawable/ic_people"
+                    android:title="Clientes" />
+            </menu>
+        </item>
+    </group>
 
 </menu>

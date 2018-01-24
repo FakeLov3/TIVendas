@@ -1,5 +1,7 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mpire on 18/01/2018.
  */
