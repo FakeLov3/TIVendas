@@ -18,7 +18,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
     public static final String COLUNA_NOME_MERCADO = "nome_mercado";
     public static final String COLUNA_ATIVO = "ativo";
 
-    public static final String SCRIPT_CRIACAO_TABELA_CLIENTES = "CREATE TABLE" + NOME_TABELA + "("
+    public static final String SCRIPT_CRIACAO_TABELA_CLIENTES = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
             + COLUNA_NOME_CLIENTE + " TEXT,"
             + COLUNA_CPF + " TEXT,"
