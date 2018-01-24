@@ -61,22 +61,9 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return mClientes != null ? mClientes.size() : 0;
-    }
+    private void updateItem(final int position) {
 
-    public void updateList(Cliente cliente){ insertItem(cliente);}
-
-    private void insertItem(Cliente cliente){
-        mClientes.add(cliente);
-        notifyItemInserted(getItemCount());
-    }
-
-    private void updateItem(int position) {
-
-        final int p = position;
-        Cliente cliente = mClientes.get(position);
+        final Cliente cliente = mClientes.get(position);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -95,22 +82,30 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Cliente cliente1 = new Cliente();
-
-                        cliente1.setNome(edtDialogNome.getText().toString());
-                        cliente1.setNomeMercado(edtDialogMercado.getText().toString());
-
-                        //Verificar se os campos estão preenchidos
-                        if (!cliente1.getNome().equals("") && !cliente1.getNomeMercado().equals("")) {
-
-                            mClientes.set(p, cliente1);
-                            notifyItemChanged(p);
-
-                        } else { //Campos não preenchidos
+                        if (    edtDialogNome.getText().toString().equals("") ||
+                                edtDialogMercado.getText().toString().equals("")||
+                                edtDialogCpf.getText().toString().equals("")
+                                ){
                             Toast.makeText(context,
-                                    "Preencha todos os campos para salvar",
+                                    "Preencha todos os campos para editar o Cliente",
                                     Toast.LENGTH_SHORT).show();
+                            return;
                         }
+
+
+                        cliente.setNome(edtDialogNome.getText().toString());
+                        cliente.setNomeMercado(edtDialogMercado.getText().toString());
+                        cliente.setCpf(edtDialogCpf.getText().toString());
+
+                        daoCliente.editar(cliente);
+
+                        Toast.makeText(context,
+                                "Cliente atualizado com sucesso",
+                                Toast.LENGTH_SHORT).show();
+
+                        mClientes.set(position, cliente);
+                        notifyItemChanged(position);
+
                     }
                 })
                 .setNegativeButton("Cancelar", null);
@@ -119,19 +114,33 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         dialog.show();
 
     }
-    private void removerItem(int position) {
 
-        final int p = position;
+    public void updateList(Cliente cliente){ insertItem(cliente);}
+
+    private void insertItem(Cliente cliente){
+        mClientes.add(cliente);
+        notifyItemInserted(getItemCount());
+    }
+
+    private void removerItem(final int position) {
+        final Cliente cliente = mClientes.get(position);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle("Excluir cliente").setMessage("Tem certeza que deseja excluir o cliente " + mClientes.get(p).getNome() + "?")
+        builder.setTitle("Excluir cliente").setMessage("Tem certeza que deseja excluir o cliente " + mClientes.get(position).getNome() + "?")
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        mClientes.remove(p);
-                        notifyItemRemoved(p);
-                        notifyItemRangeChanged(p, mClientes.size());
+                        cliente.setAtivo(false);
+                        daoCliente.deletar(cliente);
+
+                        Toast.makeText(context,
+                                "Cliente desativado com sucesso",
+                                Toast.LENGTH_SHORT).show();
+                        mClientes.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mClientes.size());
+
                     }
                 })
                 .setNegativeButton("Cancelar", null);
@@ -139,7 +148,8 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+    @Override
+    public int getItemCount() {return mClientes != null ? mClientes.size() : 0;}
 
     class RecyclerHolder extends RecyclerView.ViewHolder {
         public TextView title;
