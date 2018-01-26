@@ -1,10 +1,12 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+
 
 /**
  * Created by Helder on 23/01/2018.
@@ -111,6 +113,14 @@ public class Produto implements EntidadePersistivel {
         ByteArrayOutputStream saida = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
         foto = saida.toByteArray();
+    }
+
+    public Bitmap getImageView(){
+        if(foto!=null){
+            Bitmap raw  = BitmapFactory.decodeByteArray(foto,0,foto.length);
+            return raw;
+        }
+        return null;
     }
 
 //   TODO: fazer um código para transformar foto em array de bytes e outro para fazer o contrário

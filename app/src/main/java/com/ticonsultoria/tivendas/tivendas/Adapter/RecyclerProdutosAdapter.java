@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
                 removerItem(position);
             }
         });
+        holder.imagemProduto.setImageBitmap(mProdutos.get(position).getImageView());
     }
 
     //método responsável por exibir informações completas de um item
@@ -85,6 +87,7 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
         final EditText edtFornecedor = dialogView.findViewById(R.id.edt_dialog_produto_fornecedor);
         final EditText edtMarca = dialogView.findViewById(R.id.edt_dialog_produto_marca);
         final EditText edtQuantidade = dialogView.findViewById(R.id.edt_dialog_produto_quantidade);
+
 
         edtNome.setEnabled(false);
         edtPreco.setEnabled(false);
@@ -247,6 +250,7 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
         public ImageButton showButton;
         public ImageButton editButton;
         public ImageButton deleteButton;
+        public ImageView imagemProduto;
 
         public RecyclerHolder(View itemView) {
             super(itemView);
@@ -255,6 +259,8 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
             showButton = itemView.findViewById(R.id.btn_line_layout_show);
             editButton = itemView.findViewById(R.id.btn_line_layout_edit);
             deleteButton = itemView.findViewById(R.id.btn_line_layout_delete);
+            imagemProduto = itemView.findViewById(R.id.img_layout_produto);
+
         }
     }
 }

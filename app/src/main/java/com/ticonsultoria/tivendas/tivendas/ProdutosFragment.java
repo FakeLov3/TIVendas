@@ -54,6 +54,7 @@ public class ProdutosFragment extends Fragment {
         if(resultCode != Activity.RESULT_CANCELED){
                 Uri selectedImage = data.getData();
                 image.setImageURI(selectedImage);
+
                 if(!selectedImage.equals("")){
                     temImagem = true;
                 }
@@ -119,7 +120,7 @@ public class ProdutosFragment extends Fragment {
                                         edtFornecedor.getText().toString().equals("") ||
                                         edtMarca.getText().toString().equals("") ||
                                         edtQuantidade.getText().toString().equals("") ||
-                                        temImagem == true
+                                        temImagem == false
                                         ) {
 
                                     Toast.makeText(getActivity(),
