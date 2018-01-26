@@ -1,8 +1,11 @@
 package com.ticonsultoria.tivendas.tivendas;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerProdutosAdapter;
@@ -36,11 +41,26 @@ public class ProdutosFragment extends Fragment {
     private RecyclerProdutosAdapter mAdapter;
 
     private ProdutoDAO dao;
+    ImageView image;
+    private boolean temImagem;
 
     public ProdutosFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_CANCELED){
+                Uri selectedImage = data.getData();
+                image.setImageURI(selectedImage);
+                if(!selectedImage.equals("")){
+                    temImagem = true;
+                }
+                Toast.makeText(getActivity(), selectedImage.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +83,20 @@ public class ProdutosFragment extends Fragment {
 
                 final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_produto, null);
 
+                final ImageButton edtImagem = dialogView.findViewById(R.id.edt_dialog_imagem_produto);
+                image = dialogView.findViewById(R.id.edt_dialog_image_view_produto);
+
+                edtImagem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final int PICK_IMAGE = 1234;
+                        Intent i = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        startActivityForResult(Intent.createChooser(i, "Selecione uma imagem"), PICK_IMAGE);
+                    }
+                });
+
+
                 builder.setView(dialogView).setTitle("Adicionar produto")
                         .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             @Override
@@ -77,13 +111,16 @@ public class ProdutosFragment extends Fragment {
                                 final EditText edtMarca = dialogView.findViewById(R.id.edt_dialog_produto_marca);
                                 final EditText edtQuantidade = dialogView.findViewById(R.id.edt_dialog_produto_quantidade);
 
+
                                 //Verificar se os campos estão preenchidos
                                 if (    edtNome.getText().toString().equals("") ||
                                         edtPreco.getText().toString().equals("") ||
                                         edtCategoria.getText().toString().equals("") ||
                                         edtFornecedor.getText().toString().equals("") ||
                                         edtMarca.getText().toString().equals("") ||
-                                        edtQuantidade.getText().toString().equals("")   ) {
+                                        edtQuantidade.getText().toString().equals("") ||
+                                        temImagem == true
+                                        ) {
 
                                     Toast.makeText(getActivity(),
                                             "Preencha todos os campos para adicionar um produto",
@@ -98,6 +135,8 @@ public class ProdutosFragment extends Fragment {
                                 produto.setFornecedor(edtFornecedor.getText().toString());
                                 produto.setMarca(edtMarca.getText().toString());
                                 produto.setQuantidade(Integer.parseInt(edtQuantidade.getText().toString()));
+                                produto.setFotoImageView(image);
+
 
                                 produto.setAtivo(true);
 

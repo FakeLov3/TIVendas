@@ -20,6 +20,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public static final String COLUNA_MARCA = "marca";
     public static final String COLUNA_QUANTIDADE = "quantidade";
     public static final String COLUNA_ATIVO = "ativo";
+    public static final String COLUNA_FOTO = "foto";
 
     public static final String SCRIPT_CRIACAO_TABELA_PRODUTOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
@@ -29,7 +30,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
             + COLUNA_FORNECEDOR + " TEXT,"
             + COLUNA_MARCA + " TEXT,"
             + COLUNA_QUANTIDADE + " INT,"
-            + COLUNA_ATIVO + " BOOLEAN"
+            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_FOTO + " BLOB"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_PRODUTOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -74,6 +76,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         values.put(COLUNA_MARCA, produto.getMarca());
         values.put(COLUNA_QUANTIDADE, produto.getQuantidade());
         values.put(COLUNA_ATIVO, produto.isAtivo());
+        values.put(COLUNA_FOTO,produto.getFoto());
 
         return values;
     }
@@ -89,7 +92,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         produto.setCategoria(contentValues.getAsString(COLUNA_CATEGORIA));
         produto.setPreco(contentValues.getAsDouble(COLUNA_PRECO));
         produto.setNome_produto(contentValues.getAsString(COLUNA_NOME_PRODUTO));
-
+        produto.setFoto(contentValues.getAsByteArray(COLUNA_FOTO));
         return produto;
     }
 

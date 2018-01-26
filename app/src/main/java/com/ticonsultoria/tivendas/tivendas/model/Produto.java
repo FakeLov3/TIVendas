@@ -1,5 +1,11 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Helder on 23/01/2018.
  */
@@ -14,6 +20,7 @@ public class Produto implements EntidadePersistivel {
     private String marca;
     private int quantidade;
     private boolean ativo;
+    private byte [] foto;
 
     public Produto() {
     }
@@ -90,4 +97,21 @@ public class Produto implements EntidadePersistivel {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public void setFotoImageView(ImageView img){
+        Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+        ByteArrayOutputStream saida = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
+        foto = saida.toByteArray();
+    }
+
+//   TODO: fazer um código para transformar foto em array de bytes e outro para fazer o contrário
 }
