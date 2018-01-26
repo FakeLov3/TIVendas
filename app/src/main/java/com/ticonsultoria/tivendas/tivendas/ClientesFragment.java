@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerClienteAdapter;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
@@ -63,6 +65,11 @@ public class ClientesFragment extends Fragment {
 
                 final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_cliente, null);
 
+                final EditText edtDialogCPF = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
+                SimpleMaskFormatter smf = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
+                MaskTextWatcher mtw = new MaskTextWatcher(edtDialogCPF, smf);
+                edtDialogCPF.addTextChangedListener(mtw);
+
                 builder.setView(dialogView).setTitle("Adicionar Cliente")
                         .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             @Override
@@ -72,12 +79,13 @@ public class ClientesFragment extends Fragment {
 
                                 final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
                                 final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
-                                final EditText edtDialogCPF = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
+
+                                String cpf = edtDialogCPF.getText().toString().replace(".","").replace("-","");
 
                                 //Verificar se os campos estão preenchidos
-                                if (    edtDialogNome.toString().equals("") ||
-                                        edtDialogMercado.toString().equals("") ||
-                                        edtDialogCPF.toString().equals("") ){
+                                if (    edtDialogNome.getText().toString().equals("") ||
+                                        edtDialogMercado.getText().toString().equals("") ||
+                                        cpf.equals("") ){
                                     Toast.makeText(getActivity(),
                                             "Preencha todos os campos para adicionar um Cliente",
                                             Toast.LENGTH_SHORT).show();
