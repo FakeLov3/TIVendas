@@ -12,7 +12,7 @@ import android.util.Log;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String NOME_BANCO =  "DBVendas";
-    public static final int VERSAO =  5;
+    public static final int VERSAO =  7;
 
     private static DataBaseHelper instance;
 
@@ -31,6 +31,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(ProdutoDAO.SCRIPT_CRIACAO_TABELA_PRODUTOS);
         db.execSQL(ClienteDAO.SCRIPT_CRIACAO_TABELA_CLIENTES);
         db.execSQL(UsuarioDAO.SCRIPT_CRIACAO_TABELA_USUARIOS);
+        db.execSQL(PedidoDAO.SCRIPT_CRIACAO_TABELA_PEDIDOS);
+        db.execSQL(ItemDAO.SCRIPT_CRIACAO_TABELA_ITENS);
         Log.i("DATABASE", "CRIANDO TABELA");
 
 
@@ -46,6 +48,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(ProdutoDAO.SCRIPT_DELECAO_TABELA_PRODUTOS);
         db.execSQL(ClienteDAO.SCRIPT_DELECAO_TABELA_CLIENTES);
         db.execSQL(UsuarioDAO.SCRIPT_DELECAO_TABELA_USUARIOS);
+        db.execSQL(PedidoDAO.SCRIPT_DELECAO_TABELA_PEDIDOS);
+        db.execSQL(ItemDAO.SCRIPT_DELECAO_TABELA_ITENS);
         onCreate(db);
     }
 

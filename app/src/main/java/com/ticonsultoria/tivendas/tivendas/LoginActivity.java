@@ -1,6 +1,8 @@
 package com.ticonsultoria.tivendas.tivendas;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
 
     UsuarioDAO dao;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +34,19 @@ public class LoginActivity extends AppCompatActivity {
         edtSenha = findViewById(R.id.edt_login_senha);
         btnLogar = findViewById(R.id.btn_login);
 
+        sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
         dao = new UsuarioDAO(this);
 
         final List<Usuario> usuarios = dao.recuperarAtivos();
+
+        int userId = sharedPreferences.getInt("user_id",0);
+
+        for (Usuario usuario: usuarios) {
+            if (usuario.getId() == userId) {
+                logar(usuario);
+            }
+        }
 
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +94,10 @@ public class LoginActivity extends AppCompatActivity {
         bundle.putBoolean("adm", usuario.isAdm());
         bundle.putBoolean("cadastrarProdutos", usuario.isCadastrarProdutos());
         bundle.putBoolean("ativo", usuario.isAtivo());
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("user_id", usuario.getId());
+        editor.commit();
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtras(bundle);
