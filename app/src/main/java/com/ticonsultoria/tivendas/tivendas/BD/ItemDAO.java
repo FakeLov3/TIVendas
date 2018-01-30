@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.ticonsultoria.tivendas.tivendas.model.Item;
 
+import java.util.List;
+
 /**
  * Created by mpire on 28/01/2018.
  */
@@ -44,6 +46,14 @@ public class ItemDAO extends DAOBasico<Item> {
     @Override
     public String getNomeColunaAtivo() {
         return null;
+    }
+
+    public List<Item> recuperarItensPedido(int idPedido) {
+
+        String query = "SELECT * FROM " + NOME_TABELA + " WHERE " + COLUNA_ID_PEDIDO + " = "
+                + idPedido;
+
+        return super.recuperarPorQuery(query);
     }
 
     @Override

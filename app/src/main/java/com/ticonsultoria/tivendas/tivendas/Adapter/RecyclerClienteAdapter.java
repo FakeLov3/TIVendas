@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
@@ -40,6 +42,16 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         return new RecyclerHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_clientes, parent, false));
     }
+
+    public boolean verificarCpfValido(String cpf) {
+        for (Cliente cliente: mClientes) {
+            if (cliente.getCpf().equals(cpf)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public void onBindViewHolder(RecyclerHolder holder,final int position) {
         holder.title.setText(mClientes.get(position).getNome());
@@ -73,6 +85,10 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
         final EditText edtDialogCpf = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
 
+        SimpleMaskFormatter smf = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
+        MaskTextWatcher mtw = new MaskTextWatcher(edtDialogCpf, smf);
+        edtDialogCpf.addTextChangedListener(mtw);
+
         edtDialogNome.setText(cliente.getNome());
         edtDialogMercado.setText(cliente.getNomeMercado());
         edtDialogCpf.setText(cliente.getCpf());
@@ -82,9 +98,12 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
+                        String cpf = edtDialogCpf.getText().toString().replace(".","").replace("-","");
+
+
                         if (    edtDialogNome.getText().toString().equals("") ||
                                 edtDialogMercado.getText().toString().equals("")||
-                                edtDialogCpf.getText().toString().equals("")
+                                cpf.equals("")
                                 ){
                             Toast.makeText(context,
                                     "Preencha todos os campos para editar o Cliente",
@@ -92,10 +111,19 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                             return;
                         }
 
+                        //Verificar se já existe cliente com o cpf
+                        boolean cpfValido = verificarCpfValido(cpf);
+                        if (!cpfValido) {
+                            Toast.makeText(context,
+                                    "Já existe um cliente cadastrado com esse CPF",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
 
                         cliente.setNome(edtDialogNome.getText().toString());
                         cliente.setNomeMercado(edtDialogMercado.getText().toString());
-                        cliente.setCpf(edtDialogCpf.getText().toString());
+                        cliente.setCpf(cpf);
 
                         daoCliente.editar(cliente);
 

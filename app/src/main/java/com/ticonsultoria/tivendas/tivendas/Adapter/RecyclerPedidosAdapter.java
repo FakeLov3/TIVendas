@@ -2,6 +2,8 @@ package com.ticonsultoria.tivendas.tivendas.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.PedidoDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.CadastrarPedidosFragment;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
 import com.ticonsultoria.tivendas.tivendas.model.Pedido;
@@ -34,7 +38,9 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
     private UsuarioDAO daoUsuario;
     private ClienteDAO daoCliente;
 
-    public RecyclerPedidosAdapter(ArrayList pedidos, Context c) {
+    CustomEditClickListener editListener;
+
+    public RecyclerPedidosAdapter(ArrayList pedidos, Context c, CustomEditClickListener editListener) {
         mPedidos = pedidos;
 
         context = c;
@@ -45,6 +51,8 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
 
         mUsuarios = daoUsuario.recuperarAtivos();
         mClientes = daoCliente.recuperarAtivos();
+
+        this.editListener = editListener;
     }
 
     @Override
@@ -76,7 +84,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //updateItem(position);
+                editListener.onEditClick(view, mPedidos.get(position).getId());
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +94,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
             }
         });
     }
+
 
     //método responsável por exibir informações completas de um item
     private void mostrarItem(int position) {

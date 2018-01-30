@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerPedidosAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.PedidoDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.model.Pedido;
 
 import java.util.ArrayList;
@@ -55,6 +56,12 @@ public class PedidosFragment extends Fragment {
             public void onClick(View view) {
                 android.support.v4.app.Fragment fragment = new CadastrarPedidosFragment();
 
+                Bundle bundle = new Bundle();
+
+                bundle.putBoolean("editando",false);
+
+                fragment.setArguments(bundle);
+
                 if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -77,11 +84,33 @@ public class PedidosFragment extends Fragment {
 
         // Adiciona o adapter que irá anexar os objetos à lista.
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.
-        mAdapter = new RecyclerPedidosAdapter(array, getContext());
+        mAdapter = new RecyclerPedidosAdapter(array, getContext(), new CustomEditClickListener() {
+            @Override
+            public void onEditClick(View v, int id) {
+                editarPedido(id);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         // Configurando um dividr entre linhas, para uma melhor visualização.
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+    }
+
+    private void editarPedido(int id) {
+        android.support.v4.app.Fragment fragment = new CadastrarPedidosFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putBoolean("editando", true);
+        bundle.putInt("pedido_id", id);
+
+        fragment.setArguments(bundle);
+
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+        }
     }
 
 }

@@ -86,9 +86,18 @@ public class ClientesFragment extends Fragment {
                                     return;
                                 }
 
+                                //Verificar se já existe cliente com o cpf
+                                boolean cpfValido = mAdapter.verificarCpfValido(cpf);
+                                if (!cpfValido) {
+                                    Toast.makeText(getActivity(),
+                                            "Já existe um cliente cadastrado com esse CPF",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
-                                cliente.setCpf(edtDialogCPF.getText().toString());
+                                cliente.setCpf(cpf);
                                 cliente.setAtivo(true);
 
                                 try {

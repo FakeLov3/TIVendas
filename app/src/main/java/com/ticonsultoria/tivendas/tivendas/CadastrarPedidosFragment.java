@@ -58,11 +58,14 @@ public class CadastrarPedidosFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     Cliente cliente;
+    Pedido pedido;
 
     ArrayList<Produto> mProdutos;
 
     ItemDAO dao;
     PedidoDAO daoPedido;
+    ClienteDAO daoCliente;
+    ProdutoDAO daoProduto;
 
     RecyclerItensPedidoAdapter mAdapter;
 
@@ -72,34 +75,52 @@ public class CadastrarPedidosFragment extends Fragment {
 
     TextView txtInfoTotal;
 
+    EditText edtCliente;
+    RadioGroup rgFormaPagamento;
+
+    boolean editando;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cadastrar_pedidos, container, false);
 
+        Bundle bundle = getArguments();
+
         mRecyclerView = view.findViewById(R.id.rv_itens_pedidos);
 
         daoPedido = new PedidoDAO(getContext());
+        daoCliente = new ClienteDAO(getContext());
 
-        final ProdutoDAO daoProduto = new ProdutoDAO(getContext());
+
+        pedido = new Pedido();
+
+        daoProduto = new ProdutoDAO(getContext());
         mProdutos = new ArrayList<>(daoProduto.recuperarAtivos());
 
         Button btnCancelar = view.findViewById(R.id.btn_cadastrar_pedido_cancelar);
         Button btnSalvar = view.findViewById(R.id.btn_cadastrar_pedido_salvar);
         ImageButton btnProcurarCliente = view.findViewById(R.id.btn_cadastrar_pedido_buscar_cliente);
         ImageButton btnAdicionarProduto = view.findViewById(R.id.btn_cadastrar_pedidos_adicionar_produtos);
-        final RadioGroup rgFormaPagamento = view.findViewById(R.id.rg_forma_pagamento);
+        rgFormaPagamento = view.findViewById(R.id.rg_forma_pagamento);
         rgFormaPagamento.check(R.id.rg_forma_pagamento_vista);
 
         txtInfoTotal = view.findViewById(R.id.txt_info_total);
         txtInfoTotal.setText(INFO_TOTAL + total);
 
-        final EditText edtCliente = view.findViewById(R.id.edt_cadastrar_pedido_nome_cliente);
+        edtCliente = view.findViewById(R.id.edt_cadastrar_pedido_nome_cliente);
 
         dao = new ItemDAO(getContext());
 
         setupRecycler();
+
+        if (bundle.getBoolean("editando") == true) {
+            carregarPedido(bundle.getInt("pedido_id"));
+            editando = true;
+        } else {
+            editando = false;
+        }
 
         //Botão procurar cliente
         btnProcurarCliente.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +138,6 @@ public class CadastrarPedidosFragment extends Fragment {
                 final AlertDialog dialog = builder.create();
 
                 RecyclerView recycler = dialogView.findViewById(R.id.rv_procurar_cliente);
-
-                final ClienteDAO daoCliente = new ClienteDAO(getContext());
 
                 // Configurando o gerenciador de layout para ser uma lista.
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -221,6 +240,11 @@ public class CadastrarPedidosFragment extends Fragment {
 
                                 int quant = Integer.parseInt(edtQuantidade.getText().toString());
 
+                                if (quant <= 0) {
+                                    Toast.makeText(getContext(), "Quantidade inválida", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
                                 if (quant > mProdutos.get(position).getQuantidade()) {
                                     Toast.makeText(getContext(), "Quantidade superior ao estoque", Toast.LENGTH_LONG).show();
                                     return;
@@ -291,7 +315,7 @@ public class CadastrarPedidosFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Pedido pedido = new Pedido();
+                Pedido pedido = getPedido();
 
                 if (cliente == null) {
                     Toast.makeText(getContext(), "Selecione um cliente", Toast.LENGTH_LONG).show();
@@ -306,6 +330,37 @@ public class CadastrarPedidosFragment extends Fragment {
                     pedido.setFormaPagamento(Pedido.PAGAMENTO_PRAZO);
                 } else {
                     Toast.makeText(getContext(), "Forma de pagamento inválida", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (mAdapter.getItemCount() <= 0) {
+                    Toast.makeText(getContext(), "Selecione algum produto para continuar", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                pedido.setPrecoTotal(total);
+
+                if (editando) {
+
+                    daoPedido.editar(pedido);
+                    for (Item item: mListaItensAntiga) {
+                        //deletar itens antigos e devolver ao estoque
+                        Produto produto = daoProduto.recuperarPorID(item.getId_produto());
+                        produto.setQuantidade(produto.getQuantidade() + item.getQuantidade());
+                        daoProduto.editar(produto);
+                        dao.deletar(item);
+                    }
+
+                    //salvar novos itens e subtrair do estoque
+                    for (Item item: mAdapter.getmItens()) {
+                        item.setId_pedido(pedido.getId());
+                        dao.salvar(item);
+                        Produto produto = daoProduto.recuperarPorID(item.getId_produto());
+                        produto.setQuantidade(produto.getQuantidade() - item.getQuantidade());
+                        daoProduto.editar(produto);
+                    }
+
+                    retornar();
                     return;
                 }
 
@@ -340,14 +395,7 @@ public class CadastrarPedidosFragment extends Fragment {
 
                 pedido.setData(data_atual);
 
-                pedido.setPrecoTotal(total);
-
                 pedido.setAtivo(true);
-
-                if (mAdapter.getItemCount() <= 0) {
-                    Toast.makeText(getContext(), "Selecione algum produto para continuar", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 pedido.setId((int) daoPedido.salvar(pedido));
 
@@ -378,6 +426,40 @@ public class CadastrarPedidosFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    List<Item> mListaItensAntiga;
+
+    private void carregarPedido(int pedido_id) {
+        pedido = daoPedido.recuperarPorID(pedido_id);
+        List<Produto> produtos = daoProduto.recuperarTodos();
+
+        mListaItensAntiga = dao.recuperarItensPedido(pedido.getId());
+
+        mAdapter.removerTodos();
+        for (Item item: mListaItensAntiga) {
+            mAdapter.insertItem(item);
+        }
+
+        total = pedido.getPrecoTotal();
+
+        txtInfoTotal.setText(String.format(INFO_TOTAL + "%.2f", total));
+
+        if (pedido.getFormaPagamento().equals(Pedido.PAGAMENTO_PRAZO)) {
+            rgFormaPagamento.check(R.id.rg_forma_pagamento_prazo);
+        } else if (pedido.getFormaPagamento().equals(Pedido.PAGAMENTO_VISTA)) {
+            rgFormaPagamento.check(R.id.rg_forma_pagamento_vista);
+        } else {
+            Toast.makeText(getContext(), "Erro: forma de pagamento inválida", Toast.LENGTH_SHORT).show();
+        }
+
+        cliente = daoCliente.recuperarPorID(pedido.getId_cliente());
+        edtCliente.setText(cliente.getNome());
+
     }
 
     private void retornar() {
