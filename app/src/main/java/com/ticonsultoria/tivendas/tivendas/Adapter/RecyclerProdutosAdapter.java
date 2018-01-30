@@ -133,6 +133,7 @@ public class RecyclerProdutosAdapter extends RecyclerView.Adapter<RecyclerProdut
         final EditText edtMarca = dialogView.findViewById(R.id.edt_dialog_produto_marca);
         final EditText edtQuantidade = dialogView.findViewById(R.id.edt_dialog_produto_quantidade);
 
+
         edtNome.setText(produto.getNome_produto());
         edtPreco.setText(String.valueOf(produto.getPreco()));
         edtCategoria.setText(produto.getCategoria());

@@ -76,7 +76,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         values.put(COLUNA_MARCA, produto.getMarca());
         values.put(COLUNA_QUANTIDADE, produto.getQuantidade());
         values.put(COLUNA_ATIVO, produto.isAtivo());
-        values.put(COLUNA_FOTO,produto.getFoto());
+        values.put(COLUNA_FOTO, produto.getFoto());
 
         return values;
     }

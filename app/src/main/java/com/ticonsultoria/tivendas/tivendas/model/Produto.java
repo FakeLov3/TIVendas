@@ -3,6 +3,7 @@ package com.ticonsultoria.tivendas.tivendas.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -110,17 +111,19 @@ public class Produto implements EntidadePersistivel {
 
     public void setFotoImageView(ImageView img){
         Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+        int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
+        Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
         ByteArrayOutputStream saida = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
+        Log.d("bitmapaux", ""+bitmapaux.getByteCount());
+        bitmapaux.compress(Bitmap.CompressFormat.PNG,100,saida);
         foto = saida.toByteArray();
     }
 
     public Bitmap getImageView(){
-        if(foto!=null){
+
             Bitmap raw  = BitmapFactory.decodeByteArray(foto,0,foto.length);
             return raw;
-        }
-        return null;
+
     }
 
 //   TODO: fazer um código para transformar foto em array de bytes e outro para fazer o contrário
