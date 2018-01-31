@@ -63,7 +63,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         daoItem = new ItemDAO(c);
 
         mUsuarios = daoUsuario.recuperarAtivos();
-        mClientes = daoCliente.recuperarAtivos();
+        mClientes = daoCliente.recuperarTodos();
 
         this.editListener = editListener;
     }
