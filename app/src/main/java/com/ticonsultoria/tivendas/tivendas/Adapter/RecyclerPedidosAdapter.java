@@ -2,24 +2,32 @@ package com.ticonsultoria.tivendas.tivendas.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
+import com.ticonsultoria.tivendas.tivendas.BD.ItemDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.PedidoDAO;
+import com.ticonsultoria.tivendas.tivendas.BD.ProdutoDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.CadastrarPedidosFragment;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
+import com.ticonsultoria.tivendas.tivendas.model.Item;
 import com.ticonsultoria.tivendas.tivendas.model.Pedido;
+import com.ticonsultoria.tivendas.tivendas.model.Produto;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.util.ArrayList;
@@ -34,9 +42,12 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
     private final List<Cliente> mClientes;
     private final List<Usuario> mUsuarios;
     private final Context context;
+
     private PedidoDAO daoPedido;
     private UsuarioDAO daoUsuario;
     private ClienteDAO daoCliente;
+    private ProdutoDAO daoProduto;
+    private ItemDAO daoItem;
 
     CustomEditClickListener editListener;
 
@@ -48,6 +59,8 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         daoPedido = new PedidoDAO(c);
         daoUsuario = new UsuarioDAO(c);
         daoCliente = new ClienteDAO(c);
+        daoProduto = new ProdutoDAO(c);
+        daoItem = new ItemDAO(c);
 
         mUsuarios = daoUsuario.recuperarAtivos();
         mClientes = daoCliente.recuperarAtivos();
@@ -90,7 +103,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //removerItem(position);
+                removerItem(position);
             }
         });
     }
@@ -152,6 +165,52 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    // Método responsável por remover um usuário da lista.
+    private void removerItem(final int position) {
+
+        final Pedido pedido = mPedidos.get(position);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Excluir pedido").setMessage("Tem certeza que deseja excluir o pedido " + pedido.getNumero_pedido() + "?")
+                .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        try {
+
+                            pedido.setAtivo(false);
+                            daoPedido.editar(pedido);
+
+                            List<Item> itemList = daoItem.recuperarItensPedido(pedido.getId());
+
+                            for (Item item: itemList) {
+                                //devolver ao estoque
+                                Produto produto = daoProduto.recuperarPorID(item.getId_produto());
+                                produto.setQuantidade(produto.getQuantidade() + item.getQuantidade());
+                                daoProduto.editar(produto);
+                            }
+
+                            Toast.makeText(context,
+                                    "Pedido excluído com sucesso",
+                                    Toast.LENGTH_SHORT).show();
+
+                            mPedidos.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, mPedidos.size());
+
+                        } catch (Exception e) {
+                            Log.e("RecyclerPedidosAdapter", e.getMessage());
+                        }
+
+                    }
+                })
+                .setNegativeButton("Cancelar", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
