@@ -15,7 +15,12 @@ import java.util.List;
 public class UsuarioDAO extends DAOBasico<Usuario> {
 
     public static final String NOME_TABELA = "usuarios";
-    public static final String COLUNA_ID = "id";
+    public static final String COLUNA_ID_LOCAL = "id_local";
+    public static final String COLUNA_ID_WEB = "id_web";
+    public static final String COLUNA_NOME = "nome";
+    public static final String COLUNA_EMAIL = "email";
+    public static final String COLUNA_TELEFONE = "telefone";
+    public static final String COLUNA_IMAGEM = "imagem_usuario";
     public static final String COLUNA_LOGIN = "login";
     public static final String COLUNA_SENHA = "senha";
     public static final String COLUNA_ADM = "adm";
@@ -24,7 +29,12 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
 
 
     public static final String SCRIPT_CRIACAO_TABELA_USUARIOS = "CREATE TABLE " + NOME_TABELA + "("
-            + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_WEB + " INTEGER,"
+            + COLUNA_NOME + " TEXT,"
+            + COLUNA_EMAIL + " TEXT,"
+            + COLUNA_TELEFONE + " INT,"
+            + COLUNA_IMAGEM + " BLOB,"
             + COLUNA_LOGIN + " TEXT,"
             + COLUNA_SENHA + " TEXT,"
             + COLUNA_ADM + " BOOLEAN,"
@@ -33,7 +43,8 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + ")";
 
     public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
-            + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
+            + COLUNA_NOME + "," + COLUNA_EMAIL + "," + COLUNA_TELEFONE + "," + COLUNA_IMAGEM +
+            "," + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
             + " VALUES ('root', 'root', 1, 1, 1)";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -52,7 +63,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
 
     @Override
     public String getNomeColunaPrimaryKey() {
-        return COLUNA_ID;
+        return COLUNA_ID_LOCAL;
     }
 
     @Override
@@ -69,8 +80,13 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     public ContentValues entidadeParaContentValues(Usuario usuario) {
         ContentValues values = new ContentValues();
         if(usuario.getId() > 0) {
-            values.put(COLUNA_ID, usuario.getId());
+            values.put(COLUNA_ID_LOCAL, usuario.getId());
         }
+        values.put(COLUNA_ID_WEB, usuario.getId());
+        values.put(COLUNA_NOME, usuario.getNome());
+        values.put(COLUNA_EMAIL, usuario.getEmail());
+        values.put(COLUNA_TELEFONE, usuario.getTelefone());
+        values.put(COLUNA_IMAGEM, usuario.getImagem_usuario());
         values.put(COLUNA_LOGIN, usuario.getLogin());
         values.put(COLUNA_SENHA, usuario.getSenha());
         values.put(COLUNA_ADM, usuario.isAdm());
@@ -84,7 +100,12 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     public Usuario contentValuesParaEntidade(ContentValues contentValues) {
         Usuario usuario = new Usuario();
 
-        usuario.setId(contentValues.getAsInteger(COLUNA_ID));
+        usuario.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
+        usuario.setId(contentValues.getAsInteger(COLUNA_ID_WEB));
+        usuario.setNome(contentValues.getAsString(COLUNA_NOME));
+        usuario.setEmail(contentValues.getAsString(COLUNA_EMAIL));
+        usuario.setTelefone(contentValues.getAsInteger(COLUNA_TELEFONE));
+        usuario.setImagem_usuario(contentValues.getAsByteArray(COLUNA_IMAGEM));
         usuario.setLogin(contentValues.getAsString(COLUNA_LOGIN));
         usuario.setSenha(contentValues.getAsString(COLUNA_SENHA));
         usuario.setAdm(contentValues.getAsInteger(COLUNA_ADM) > 0);

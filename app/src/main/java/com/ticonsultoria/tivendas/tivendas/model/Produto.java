@@ -15,7 +15,8 @@ import java.io.ByteArrayOutputStream;
 
 public class Produto implements EntidadePersistivel {
 
-    private int id;
+    private int id_local;
+    private int id_web;
     private String nome_produto;
     private double preco;
     private String categoria;
@@ -29,7 +30,7 @@ public class Produto implements EntidadePersistivel {
     }
 
     public Produto(int id, String nome_produto, double preco, String categoria, String fornecedor, String marca) {
-        this.id = id;
+        this.id_local = id;
         this.nome_produto = nome_produto;
         this.preco = preco;
         this.categoria = categoria;
@@ -38,11 +39,11 @@ public class Produto implements EntidadePersistivel {
     }
 
     public int getId() {
-        return id;
+        return id_local;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id_local = id;
     }
 
     public String getNome_produto() {
@@ -107,6 +108,14 @@ public class Produto implements EntidadePersistivel {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+
+    public int getId_web() {
+        return id_web;
+    }
+
+    public void setId_web(int id_web) {
+        this.id_web = id_web;
     }
 
     public void setFotoImageView(ImageView img){

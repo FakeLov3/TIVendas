@@ -1,6 +1,12 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
-import java.io.Serializable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
+import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by mpire on 18/01/2018.
@@ -8,7 +14,12 @@ import java.io.Serializable;
 
 public class Usuario implements EntidadePersistivel {
 
-    private int id;
+    private int id_local;
+    private int id_web;
+    private String nome;
+    private String email;
+    private int telefone;
+    private byte [] imagem_usuario;
     private String login;
     private String senha;
     private boolean adm;
@@ -18,13 +29,18 @@ public class Usuario implements EntidadePersistivel {
     public Usuario() {
     }
 
-    public Usuario(int id, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo) {
-        this.id = id;
+    public Usuario(int id_local,int id_web, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo, String nome, String email, int telefone, byte[] imagem) {
+        this.id_local = id_local;
         this.login = login;
         this.senha = senha;
         this.adm = adm;
         this.cadastrarProdutos = cadastrarProdutos;
         this.ativo = ativo;
+        this.id_web = id_web;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.imagem_usuario = imagem;
     }
 
     public boolean isAtivo() {
@@ -33,14 +49,6 @@ public class Usuario implements EntidadePersistivel {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public boolean isCadastrarProdutos() {
@@ -82,4 +90,73 @@ public class Usuario implements EntidadePersistivel {
     public void setAdm(boolean adm) {
         this.adm = adm;
     }
+
+
+    public int getId_web() {
+        return id_web;
+    }
+
+    public void setId_web(int id_web) {
+        this.id_web = id_web;
+    }
+
+    @Override
+    public int getId() {
+        return id_local;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id_local = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(int telefone) {
+        this.telefone = telefone;
+    }
+
+    public byte[] getImagem_usuario() {
+        return imagem_usuario;
+    }
+
+    public void setImagem_usuario(byte[] imagem_usuario) {
+        this.imagem_usuario = imagem_usuario;
+    }
+
+    public void setFotoImageView(ImageView img){
+        Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+        int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
+        Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+        ByteArrayOutputStream saida = new ByteArrayOutputStream();
+        Log.d("bitmapaux", ""+bitmapaux.getByteCount());
+        bitmapaux.compress(Bitmap.CompressFormat.PNG,100,saida);
+        imagem_usuario = saida.toByteArray();
+    }
+
+    public Bitmap getImageView(){
+
+        Bitmap raw  = BitmapFactory.decodeByteArray(imagem_usuario,0,imagem_usuario.length);
+        return raw;
+
+    }
 }
+

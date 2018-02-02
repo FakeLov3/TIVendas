@@ -6,8 +6,12 @@ package com.ticonsultoria.tivendas.tivendas.model;
 
 public class Cliente implements EntidadePersistivel {
 
-    private int id;
+    private int id_local;
+    private int id_web;
     private String nome;
+    private String email;
+    private int telefone;
+
     private String cpf;
     private String nomeMercado;
     private boolean ativo;
@@ -17,7 +21,7 @@ public class Cliente implements EntidadePersistivel {
     }
 
     public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo) {
-        this.id = id;
+        this.id_local = id;
         this.nome = nome;
         this.cpf = cpf;
         this.nomeMercado = nomeMercado;
@@ -58,11 +62,11 @@ public class Cliente implements EntidadePersistivel {
 
     @Override
     public int getId() {
-        return this.id;
+        return this.id_local;
     }
 
     @Override
-    public void setId(int id) { this.id = id;
+    public void setId(int id) { this.id_local = id;
 
     }
 }

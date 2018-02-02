@@ -11,7 +11,8 @@ public class Pedido implements EntidadePersistivel {
     public static final String PAGAMENTO_VISTA = "vista";
     public static final String PAGAMENTO_PRAZO = "prazo";
 
-    private int id;
+    private int id_local;
+    private int id_web;
     private int codigo_pedido;
     private String numero_pedido;
     private Date data;
@@ -20,13 +21,14 @@ public class Pedido implements EntidadePersistivel {
     private String formaPagamento;
     private double precoTotal;
     private boolean ativo;
+    private Date data_pedido;
 
     public Pedido() {
 
     }
 
     public Pedido(int id, Date data, int id_vendedor, int id_cliente, String formaPagamento, double precoTotal) {
-        this.id = id;
+        this.id_local = id;
         this.data = data;
         this.id_vendedor = id_vendedor;
         this.id_cliente = id_cliente;
@@ -36,12 +38,12 @@ public class Pedido implements EntidadePersistivel {
 
     @Override
     public int getId() {
-        return id;
+        return id_local;
     }
 
     @Override
     public void setId(int id) {
-        this.id = id;
+        this.id_local = id;
     }
 
     public int getCodigo_pedido() {
@@ -106,6 +108,30 @@ public class Pedido implements EntidadePersistivel {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public static String getPagamentoVista() {
+        return PAGAMENTO_VISTA;
+    }
+
+    public static String getPagamentoPrazo() {
+        return PAGAMENTO_PRAZO;
+    }
+
+    public int getId_web() {
+        return id_web;
+    }
+
+    public void setId_web(int id_web) {
+        this.id_web = id_web;
+    }
+
+    public Date getData_pedido() {
+        return data_pedido;
+    }
+
+    public void setData_pedido(Date data_pedido) {
+        this.data_pedido = data_pedido;
     }
 
     public String getStringFormaPagamento() {
