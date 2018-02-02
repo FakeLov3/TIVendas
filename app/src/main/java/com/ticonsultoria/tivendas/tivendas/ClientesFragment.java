@@ -64,6 +64,11 @@ public class ClientesFragment extends Fragment {
                 MaskTextWatcher mtw = new MaskTextWatcher(edtDialogCPF, smf);
                 edtDialogCPF.addTextChangedListener(mtw);
 
+                final EditText edtDialogTelefone = dialogView.findViewById(R.id.edt_dialog_cliente_telefone);
+                SimpleMaskFormatter smfTelefone = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
+                MaskTextWatcher mtwTelefone = new MaskTextWatcher(edtDialogTelefone, smfTelefone);
+                edtDialogTelefone.addTextChangedListener(mtwTelefone);
+
                 builder.setView(dialogView).setTitle("Adicionar Cliente")
                         .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             @Override
@@ -73,13 +78,16 @@ public class ClientesFragment extends Fragment {
 
                                 final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
                                 final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
+                                final EditText edtDialogEmail = dialogView.findViewById(R.id.edt_dialog_cliente_email);
 
                                 String cpf = edtDialogCPF.getText().toString().replace(".","").replace("-","");
+                                String telefone = edtDialogTelefone.getText().toString().replace("(","").replace(")","")
+                                        .replace("-","");
 
                                 //Verificar se os campos estão preenchidos
                                 if (    edtDialogNome.getText().toString().equals("") ||
                                         edtDialogMercado.getText().toString().equals("") ||
-                                        cpf.equals("") ){
+                                        cpf.equals("") || edtDialogEmail.equals("") || telefone.equals("")){
                                     Toast.makeText(getActivity(),
                                             "Preencha todos os campos para adicionar um Cliente",
                                             Toast.LENGTH_SHORT).show();
@@ -98,6 +106,8 @@ public class ClientesFragment extends Fragment {
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(cpf);
+                                cliente.setTelefone((Integer.getInteger(telefone)));
+                                cliente.setEmail(edtDialogEmail.getText().toString());
                                 cliente.setAtivo(true);
 
                                 try {
