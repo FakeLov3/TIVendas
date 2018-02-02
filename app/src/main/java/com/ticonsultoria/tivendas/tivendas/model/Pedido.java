@@ -21,7 +21,7 @@ public class Pedido implements EntidadePersistivel {
     private String formaPagamento;
     private double precoTotal;
     private boolean ativo;
-    private Date data_pedido;
+
 
     public Pedido() {
 
@@ -126,13 +126,6 @@ public class Pedido implements EntidadePersistivel {
         this.id_web = id_web;
     }
 
-    public Date getData_pedido() {
-        return data_pedido;
-    }
-
-    public void setData_pedido(Date data_pedido) {
-        this.data_pedido = data_pedido;
-    }
 
     public String getStringFormaPagamento() {
         if (formaPagamento.equals(PAGAMENTO_VISTA)) {

@@ -12,7 +12,8 @@ import com.ticonsultoria.tivendas.tivendas.model.Produto;
 public class ProdutoDAO extends DAOBasico<Produto> {
 
     public static final String NOME_TABELA = "produtos";
-    public static final String COLUNA_ID = "id";
+    public static final String COLUNA_ID_LOCAL = "id_local";
+    public static final String COLUNA_ID_WEB = "id_web";
     public static final String COLUNA_NOME_PRODUTO = "nome_produto";
     public static final String COLUNA_PRECO = "preco";
     public static final String COLUNA_CATEGORIA = "categoria";
@@ -23,7 +24,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public static final String COLUNA_FOTO = "foto";
 
     public static final String SCRIPT_CRIACAO_TABELA_PRODUTOS = "CREATE TABLE " + NOME_TABELA + "("
-            + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_WEB + " INTEGER,"
             + COLUNA_NOME_PRODUTO + " TEXT,"
             + COLUNA_PRECO + " DOUBLE,"
             + COLUNA_CATEGORIA + " TEXT,"
@@ -50,7 +52,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
 
     @Override
     public String getNomeColunaPrimaryKey() {
-        return COLUNA_ID;
+        return COLUNA_ID_LOCAL;
     }
 
     @Override
@@ -67,8 +69,9 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public ContentValues entidadeParaContentValues(Produto produto) {
         ContentValues values = new ContentValues();
         if(produto.getId() > 0) {
-            values.put(COLUNA_ID, produto.getId());
+            values.put(COLUNA_ID_LOCAL, produto.getId());
         }
+        values.put(COLUNA_ID_WEB, produto.getId_web());
         values.put(COLUNA_NOME_PRODUTO, produto.getNome_produto());
         values.put(COLUNA_PRECO, produto.getPreco());
         values.put(COLUNA_CATEGORIA, produto.getCategoria());
@@ -84,7 +87,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     @Override
     public Produto contentValuesParaEntidade(ContentValues contentValues) {
         Produto produto = new Produto();
-        produto.setId(contentValues.getAsInteger(COLUNA_ID));
+        produto.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
+        produto.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
         produto.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         produto.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
         produto.setMarca(contentValues.getAsString(COLUNA_MARCA));

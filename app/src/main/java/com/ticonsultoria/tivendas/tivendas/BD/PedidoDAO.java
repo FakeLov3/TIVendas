@@ -14,7 +14,8 @@ import java.util.Date;
 public class PedidoDAO extends DAOBasico<Pedido> {
 
     public static final String NOME_TABELA = "pedidos";
-    public static final String COLUNA_ID = "id";
+    public static final String COLUNA_ID_LOCAL = "id_local";
+    public static final String COLUNA_ID_WEB = "id_web";
     public static final String COLUNA_CODIGO_PEDIDO = "codigo_pedido";
     public static final String COLUNA_NUMERO_PEDIDO = "numero_pedido";
     public static final String COLUNA_DATA = "data";
@@ -25,8 +26,9 @@ public class PedidoDAO extends DAOBasico<Pedido> {
     public static final String COLUNA_ATIVO = "ativo";
 
     public static final String SCRIPT_CRIACAO_TABELA_PEDIDOS = "CREATE TABLE " + NOME_TABELA + "("
-            + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
             + COLUNA_CODIGO_PEDIDO + " INTEGER,"
+            + COLUNA_ID_WEB + " INTEGER,"
             + COLUNA_NUMERO_PEDIDO + " TEXT,"
             + COLUNA_DATA + " TEXT,"
             + COLUNA_ID_VENDEDOR + " INT,"
@@ -45,7 +47,7 @@ public class PedidoDAO extends DAOBasico<Pedido> {
 
     @Override
     public String getNomeColunaPrimaryKey() {
-        return COLUNA_ID;
+        return COLUNA_ID_LOCAL;
     }
 
     @Override
@@ -62,11 +64,12 @@ public class PedidoDAO extends DAOBasico<Pedido> {
     public ContentValues entidadeParaContentValues(Pedido pedido) {
         ContentValues values = new ContentValues();
         if(pedido.getId() > 0) {
-            values.put(COLUNA_ID, pedido.getId());
+            values.put(COLUNA_ID_LOCAL, pedido.getId());
         }
         if(pedido.getCodigo_pedido() > 0) {
             values.put(COLUNA_CODIGO_PEDIDO, pedido.getCodigo_pedido());
         }
+        values.put(COLUNA_ID_WEB, pedido.getId_web());
         values.put(COLUNA_NUMERO_PEDIDO, pedido.getNumero_pedido());
         values.put(COLUNA_DATA, String.valueOf(pedido.getData().getTime()));
         values.put(COLUNA_ID_VENDEDOR, pedido.getId_vendedor());
@@ -82,7 +85,8 @@ public class PedidoDAO extends DAOBasico<Pedido> {
     public Pedido contentValuesParaEntidade(ContentValues contentValues) {
         Pedido pedido = new Pedido();
 
-        pedido.setId(contentValues.getAsInteger(COLUNA_ID));
+        pedido.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
+        pedido.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
         pedido.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         pedido.setPrecoTotal(contentValues.getAsDouble(COLUNA_PRECO_TOTAL));
         pedido.setFormaPagamento(contentValues.getAsString(COLUNA_FORMA_PAGAMENTO));

@@ -43,8 +43,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + ")";
 
     public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
-            + COLUNA_NOME + "," + COLUNA_EMAIL + "," + COLUNA_TELEFONE + "," + COLUNA_IMAGEM +
-            "," + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
+            + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
             + " VALUES ('root', 'root', 1, 1, 1)";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;

@@ -11,7 +11,6 @@ public class Cliente implements EntidadePersistivel {
     private String nome;
     private String email;
     private int telefone;
-
     private String cpf;
     private String nomeMercado;
     private boolean ativo;
@@ -58,6 +57,30 @@ public class Cliente implements EntidadePersistivel {
 
     public void setNomeMercado(String nomeMercado) {
         this.nomeMercado = nomeMercado;
+    }
+
+    public int getId_web() {
+        return id_web;
+    }
+
+    public void setId_web(int id_web) {
+        this.id_web = id_web;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(int telefone) {
+        this.telefone = telefone;
     }
 
     @Override

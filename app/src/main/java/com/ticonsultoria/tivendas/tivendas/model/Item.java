@@ -6,7 +6,8 @@ package com.ticonsultoria.tivendas.tivendas.model;
 
 public class Item implements EntidadePersistivel {
 
-    private int id;
+    private int id_local;
+    private int id_web;
     private int id_produto;
     private int id_pedido;
     private int quantidade;
@@ -16,7 +17,7 @@ public class Item implements EntidadePersistivel {
     }
 
     public Item(int id, int id_produto, int id_pedido, int quantidade) {
-        this.id = id;
+        this.id_local = id;
         this.id_produto = id_produto;
         this.id_pedido = id_pedido;
         this.quantidade = quantidade;
@@ -48,11 +49,11 @@ public class Item implements EntidadePersistivel {
 
     @Override
     public int getId() {
-        return this.id;
+        return this.id_local;
     }
 
     @Override
     public void setId(int id) {
-        this.id = id;
+        this.id_local = id;
     }
 }
