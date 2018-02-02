@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity
         usuario.setAdm(bundle.getBoolean("adm"));
         usuario.setCadastrarProdutos(bundle.getBoolean("cadastrarProdutos"));
         usuario.setAtivo(bundle.getBoolean("ativo"));
+
+        if (!usuario.isAdm()) {
+            navigationView.getMenu().findItem(R.id.nav_pessoas).getSubMenu().removeItem(R.id.nav_usuarios);
+            if (!usuario.isCadastrarProdutos()) {
+                navigationView.getMenu().removeItem(R.id.nav_produtos);
+            }
+        }
 
         navTitle.setText(usuario.getLogin());
         navSubtitle.setText(usuario.getStringAdm());

@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
@@ -68,6 +70,29 @@ public class UsuariosFragment extends Fragment {
                 final RadioGroup radioGroupDialog = dialogView.findViewById(R.id.radio_group_dialog_usuario);
 
                 radioGroupDialog.check(R.id.radio_user);
+
+                RadioButton radioButtonAdm = dialogView.findViewById(R.id.radio_adm);
+                RadioButton radioButtonUser = dialogView.findViewById(R.id.radio_user);
+
+                final Switch cadastrarProdutos = dialogView.findViewById(R.id.sw_cadastrar_produtos);
+
+                radioButtonAdm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cadastrarProdutos.setChecked(false);
+                        cadastrarProdutos.setEnabled(false);
+                        cadastrarProdutos.setVisibility(Switch.INVISIBLE);
+                    }
+                });
+
+                radioButtonUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cadastrarProdutos.setChecked(true);
+                        cadastrarProdutos.setEnabled(true);
+                        cadastrarProdutos.setVisibility(Switch.VISIBLE);
+                    }
+                });
 
                 builder.setView(dialogView).setTitle("Adicionar usuário")
                         .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
