@@ -86,7 +86,7 @@ public class PedidosFragment extends Fragment {
         // Está sendo criado com lista vazia, pois será preenchida posteriormente.
         mAdapter = new RecyclerPedidosAdapter(array, getContext(), new CustomEditClickListener() {
             @Override
-            public void onEditClick(View v, int id) {
+            public void onEditClick(View v, int id, int position) {
                 editarPedido(id);
             }
         });

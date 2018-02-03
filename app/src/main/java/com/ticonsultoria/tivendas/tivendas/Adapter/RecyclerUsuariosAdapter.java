@@ -3,6 +3,8 @@ package com.ticonsultoria.tivendas.tivendas.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -33,11 +40,15 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
     private Context context;
     UsuarioDAO dao;
 
+    CustomEditClickListener editClickListener;
 
-    public RecyclerUsuariosAdapter(ArrayList users, Context c) {
+
+    public RecyclerUsuariosAdapter(ArrayList users, Context c, CustomEditClickListener editClickListener) {
         mUsers = users;
         context = c;
         dao = new UsuarioDAO(context);
+
+        this.editClickListener = editClickListener;
     }
 
     @Override
@@ -51,10 +62,14 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         holder.title.setText(mUsers.get(position).getLogin());
         holder.nivel.setText(mUsers.get(position).getStringAdm());
 
+        if(mUsers.get(position).getImagem_usuario() != null) {
+            holder.foto.setImageBitmap(mUsers.get(position).getImageView());
+        }
+
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateItem(position);
+                editClickListener.onEditClick(view, mUsers.get(position).getId(), position);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -84,84 +99,15 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         notifyItemInserted(getItemCount());
     }
 
-    // Método responsável por atualizar um usuário já existente na lista.
-    private void updateItem(int position) {
+    public Usuario getItemById(int id) {
 
-        final int p = position;
-        final Usuario usuario = mUsers.get(position);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_usuario, null);
-
-        final EditText edtDialogLogin = dialogView.findViewById(R.id.edt_dialog_usuario_login);
-        final EditText edtDialogSenha = dialogView.findViewById(R.id.edt_dialog_usuario_senha);
-        final RadioGroup radioGroupDialog = dialogView.findViewById(R.id.radio_group_dialog_usuario);
-
-        edtDialogLogin.setText(usuario.getLogin());
-        edtDialogSenha.setText(usuario.getSenha());
-
-        if (usuario.isAdm()) {
-            radioGroupDialog.check(R.id.radio_adm);
-        } else {
-            radioGroupDialog.check(R.id.radio_user);
+        for (Usuario usuario: mUsers) {
+            if (usuario.getId() == id) {
+                return usuario;
+            }
         }
 
-        builder.setView(dialogView).setTitle("Editar usuário")
-                .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        usuario.setLogin(edtDialogLogin.getText().toString());
-                        usuario.setSenha(edtDialogSenha.getText().toString());
-
-                        //Verificar se os campos estão preenchidos
-                        if (!usuario.getLogin().equals("") && !usuario.getSenha().equals("")) {
-
-                            if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_adm) {
-                                usuario.setAdm(true);
-                            } else if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_user) {
-                                usuario.setAdm(false);
-                            } else {
-                                Toast.makeText(context,
-                                        "Selecione um nível de acesso para o usuário",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            try {
-
-                                dao.editar(usuario);
-
-
-
-                            } catch (Exception e) {
-                                Log.e("RecyclerUsuariosAdapter", e.getMessage());
-                                Toast.makeText(context,
-                                        "Falha ao atualizar o usuário, tente novamente",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            Toast.makeText(context,
-                                    "Usuário atualizado com sucesso",
-                                    Toast.LENGTH_SHORT).show();
-
-                            mUsers.set(p, usuario);
-                            notifyItemChanged(p);
-
-                        } else { //Campos não preenchidos
-                            Toast.makeText(context,
-                                    "Preencha todos os campos para salvar",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton("Cancelar", null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
+        return null;
     }
 
     // Método responsável por remover um usuário da lista.
@@ -213,9 +159,11 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         public TextView nivel;
         public ImageButton editButton;
         public ImageButton deleteButton;
+        public ImageView foto;
 
         public RecyclerHolder(View itemView) {
             super(itemView);
+            foto = itemView.findViewById(R.id.iv_line_layout_foto);
             title = itemView.findViewById(R.id.txt_line_layout_name);
             nivel = itemView.findViewById(R.id.txt_line_layout_nivel_acesso);
             editButton = itemView.findViewById(R.id.btn_line_layout_edit);

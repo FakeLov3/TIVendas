@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface CustomEditClickListener {
-    public void onEditClick(View v, int id);
+    public void onEditClick(View v, int id, int position);
 }

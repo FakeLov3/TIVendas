@@ -97,7 +97,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editListener.onEditClick(view, mPedidos.get(position).getId());
+                editListener.onEditClick(view, mPedidos.get(position).getId(), position);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {

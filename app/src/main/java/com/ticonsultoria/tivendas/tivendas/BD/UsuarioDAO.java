@@ -33,7 +33,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + COLUNA_ID_WEB + " INTEGER,"
             + COLUNA_NOME + " TEXT,"
             + COLUNA_EMAIL + " TEXT,"
-            + COLUNA_TELEFONE + " INT,"
+            + COLUNA_TELEFONE + " TEXT,"
             + COLUNA_IMAGEM + " BLOB,"
             + COLUNA_LOGIN + " TEXT,"
             + COLUNA_SENHA + " TEXT,"
@@ -43,8 +43,8 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + ")";
 
     public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
-            + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
-            + " VALUES ('root', 'root', 1, 1, 1)";
+            + COLUNA_NOME + "," + COLUNA_EMAIL + "," + COLUNA_TELEFONE + "," + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
+            + " VALUES ('Administrador', 'adm@adm.com', '0000000000000', 'root', 'root', 1, 1, 1)";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
 
@@ -81,7 +81,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         if(usuario.getId() > 0) {
             values.put(COLUNA_ID_LOCAL, usuario.getId());
         }
-        values.put(COLUNA_ID_WEB, usuario.getId());
+        values.put(COLUNA_ID_WEB, usuario.getId_web());
         values.put(COLUNA_NOME, usuario.getNome());
         values.put(COLUNA_EMAIL, usuario.getEmail());
         values.put(COLUNA_TELEFONE, usuario.getTelefone());
@@ -100,10 +100,14 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         Usuario usuario = new Usuario();
 
         usuario.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
-        usuario.setId(contentValues.getAsInteger(COLUNA_ID_WEB));
+
+        if (contentValues.getAsInteger(COLUNA_ID_WEB) != null) {
+            usuario.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        }
+
         usuario.setNome(contentValues.getAsString(COLUNA_NOME));
         usuario.setEmail(contentValues.getAsString(COLUNA_EMAIL));
-        usuario.setTelefone(contentValues.getAsInteger(COLUNA_TELEFONE));
+        usuario.setTelefone(contentValues.getAsString(COLUNA_TELEFONE));
         usuario.setImagem_usuario(contentValues.getAsByteArray(COLUNA_IMAGEM));
         usuario.setLogin(contentValues.getAsString(COLUNA_LOGIN));
         usuario.setSenha(contentValues.getAsString(COLUNA_SENHA));

@@ -18,7 +18,7 @@ public class Usuario implements EntidadePersistivel {
     private int id_web;
     private String nome;
     private String email;
-    private int telefone;
+    private String telefone;
     private byte [] imagem_usuario;
     private String login;
     private String senha;
@@ -29,7 +29,7 @@ public class Usuario implements EntidadePersistivel {
     public Usuario() {
     }
 
-    public Usuario(int id_local,int id_web, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo, String nome, String email, int telefone, byte[] imagem) {
+    public Usuario(int id_local,int id_web, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo, String nome, String email, String telefone, byte[] imagem) {
         this.id_local = id_local;
         this.login = login;
         this.senha = senha;
@@ -83,7 +83,7 @@ public class Usuario implements EntidadePersistivel {
         if (adm) {
             return "Administrador";
         } else {
-            return "Usuário";
+            return "Vendedor";
         }
     }
 
@@ -126,11 +126,11 @@ public class Usuario implements EntidadePersistivel {
         this.email = email;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
