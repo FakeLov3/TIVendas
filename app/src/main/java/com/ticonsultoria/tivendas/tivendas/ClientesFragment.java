@@ -65,7 +65,7 @@ public class ClientesFragment extends Fragment {
                 edtDialogCPF.addTextChangedListener(mtw);
 
                 final EditText edtDialogTelefone = dialogView.findViewById(R.id.edt_dialog_cliente_telefone);
-                SimpleMaskFormatter smfTelefone = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
+                SimpleMaskFormatter smfTelefone = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
                 MaskTextWatcher mtwTelefone = new MaskTextWatcher(edtDialogTelefone, smfTelefone);
                 edtDialogTelefone.addTextChangedListener(mtwTelefone);
 
@@ -81,7 +81,7 @@ public class ClientesFragment extends Fragment {
                                 final EditText edtDialogEmail = dialogView.findViewById(R.id.edt_dialog_cliente_email);
 
                                 String cpf = edtDialogCPF.getText().toString().replace(".","").replace("-","");
-                                String telefone = edtDialogTelefone.getText().toString().replace("(","").replace(")","")
+                                String telefone = edtDialogTelefone.getText().toString().replace("(","").replace(")","").replace(" ","")
                                         .replace("-","");
 
                                 //Verificar se os campos estão preenchidos
@@ -106,7 +106,7 @@ public class ClientesFragment extends Fragment {
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(cpf);
-                                cliente.setTelefone((Integer.getInteger(telefone)));
+                                cliente.setTelefone(telefone);
                                 cliente.setEmail(edtDialogEmail.getText().toString());
                                 cliente.setAtivo(true);
 

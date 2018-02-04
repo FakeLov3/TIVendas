@@ -10,7 +10,7 @@ public class Cliente implements EntidadePersistivel {
     private int id_web;
     private String nome;
     private String email;
-    private int telefone;
+    private String telefone;
     private String cpf;
     private String nomeMercado;
     private boolean ativo;
@@ -75,11 +75,11 @@ public class Cliente implements EntidadePersistivel {
         this.email = email;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 

@@ -17,8 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.io.Serializable;
@@ -43,17 +46,19 @@ public class MainActivity extends AppCompatActivity
 
         TextView navTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_header_title);
         TextView navSubtitle = navigationView.getHeaderView(0).findViewById(R.id.nav_header_subtitle);
+        ImageView navImage = navigationView.getHeaderView(0).findViewById(R.id.nav_header_img);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
-        Usuario usuario = new Usuario();
-        usuario.setId(bundle.getInt("id"));
-        usuario.setLogin(bundle.getString("login"));
-        usuario.setSenha(bundle.getString("senha"));
-        usuario.setAdm(bundle.getBoolean("adm"));
-        usuario.setCadastrarProdutos(bundle.getBoolean("cadastrarProdutos"));
-        usuario.setAtivo(bundle.getBoolean("ativo"));
+        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+
+        Usuario usuario = usuarioDAO.recuperarPorID(sharedPreferences.getInt("user_id",0));
+
+        if (usuario == null) {
+            Toast.makeText(this, "Erro, tente novamente", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         if (!usuario.isAdm()) {
             navigationView.getMenu().findItem(R.id.nav_pessoas).getSubMenu().removeItem(R.id.nav_usuarios);
@@ -62,8 +67,11 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        navTitle.setText(usuario.getLogin());
-        navSubtitle.setText(usuario.getStringAdm());
+        navTitle.setText(usuario.getNome());
+        navSubtitle.setText(usuario.getEmail());
+        if (usuario.getImagem_usuario() != null) {
+            navImage.setImageBitmap(usuario.getImageView());
+        }
 
         navigationView.setNavigationItemSelectedListener(this);
     }

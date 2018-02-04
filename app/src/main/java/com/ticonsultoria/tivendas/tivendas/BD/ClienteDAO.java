@@ -85,7 +85,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         cliente.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
         cliente.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         cliente.setEmail(contentValues.getAsString(COLUNA_EMAIL));
-        cliente.setTelefone(contentValues.getAsInteger(COLUNA_TELEFONE));
+        cliente.setTelefone(contentValues.getAsString(COLUNA_TELEFONE));
         cliente.setNome(contentValues.getAsString(COLUNA_NOME_CLIENTE));
         cliente.setNomeMercado(contentValues.getAsString(COLUNA_NOME_MERCADO));
         cliente.setCpf(contentValues.getAsString(COLUNA_CPF));

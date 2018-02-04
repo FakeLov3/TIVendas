@@ -84,14 +84,22 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         final EditText edtDialogNome = dialogView.findViewById(R.id.edt_dialog_cliente_nome);
         final EditText edtDialogMercado = dialogView.findViewById(R.id.edt_dialog_cliente_mercado);
         final EditText edtDialogCpf = dialogView.findViewById(R.id.edt_dialog_cliente_cpf);
+        final EditText edtDialogTelefone = dialogView.findViewById(R.id.edt_dialog_cliente_telefone);
+        final EditText edtDialogEmail = dialogView.findViewById(R.id.edt_dialog_cliente_email);
 
         SimpleMaskFormatter smf = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
         MaskTextWatcher mtw = new MaskTextWatcher(edtDialogCpf, smf);
         edtDialogCpf.addTextChangedListener(mtw);
 
+        SimpleMaskFormatter smfTelefone = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
+        MaskTextWatcher mtwTelefone = new MaskTextWatcher(edtDialogTelefone, smfTelefone);
+        edtDialogTelefone.addTextChangedListener(mtwTelefone);
+
         edtDialogNome.setText(cliente.getNome());
         edtDialogMercado.setText(cliente.getNomeMercado());
         edtDialogCpf.setText(cliente.getCpf());
+        edtDialogEmail.setText(cliente.getEmail());
+        edtDialogTelefone.setText(cliente.getTelefone());
 
         builder.setView(dialogView).setTitle("Editar cliente")
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
@@ -99,11 +107,17 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                     public void onClick(DialogInterface dialog, int id) {
 
                         String cpf = edtDialogCpf.getText().toString().replace(".","").replace("-","");
-
+                        String telefone = edtDialogTelefone.getText().toString()
+                                .replace("(","")
+                                .replace(")","")
+                                .replace(" ","")
+                                .replace("-","");
 
                         if (    edtDialogNome.getText().toString().equals("") ||
                                 edtDialogMercado.getText().toString().equals("")||
-                                cpf.equals("")
+                                cpf.equals("") ||
+                                telefone.equals("") ||
+                                edtDialogEmail.getText().toString().equals("")
                                 ){
                             Toast.makeText(context,
                                     "Preencha todos os campos para editar o Cliente",
@@ -112,18 +126,21 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                         }
 
                         //Verificar se já existe cliente com o cpf
-                        boolean cpfValido = verificarCpfValido(cpf);
-                        if (!cpfValido) {
-                            Toast.makeText(context,
-                                    "Já existe um cliente cadastrado com esse CPF",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
+                        if (!cliente.getCpf().equals(cpf)){
+                            boolean cpfValido = verificarCpfValido(cpf);
+                            if (!cpfValido) {
+                                Toast.makeText(context,
+                                        "Já existe um cliente cadastrado com esse CPF",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
-
 
                         cliente.setNome(edtDialogNome.getText().toString());
                         cliente.setNomeMercado(edtDialogMercado.getText().toString());
                         cliente.setCpf(cpf);
+                        cliente.setTelefone(telefone);
+                        cliente.setEmail(edtDialogEmail.getText().toString());
 
                         daoCliente.editar(cliente);
 
@@ -183,6 +200,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    
     @Override
     public int getItemCount() {return mClientes != null ? mClientes.size() : 0;}
 

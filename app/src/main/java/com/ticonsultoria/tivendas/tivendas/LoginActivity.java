@@ -86,21 +86,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logar(Usuario usuario) {
-        Bundle bundle = new Bundle();
-
-        bundle.putInt("id", usuario.getId());
-        bundle.putString("login", usuario.getLogin());
-        bundle.putString("senha", usuario.getSenha());
-        bundle.putBoolean("adm", usuario.isAdm());
-        bundle.putBoolean("cadastrarProdutos", usuario.isCadastrarProdutos());
-        bundle.putBoolean("ativo", usuario.isAtivo());
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("user_id", usuario.getId());
         editor.commit();
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }

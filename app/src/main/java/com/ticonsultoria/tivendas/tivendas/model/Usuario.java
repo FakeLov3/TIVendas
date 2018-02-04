@@ -144,16 +144,12 @@ public class Usuario implements EntidadePersistivel {
 
     public void setFotoImageView(ImageView img){
         Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-        int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
-        Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
         ByteArrayOutputStream saida = new ByteArrayOutputStream();
-        Log.d("bitmapaux", ""+bitmapaux.getByteCount());
-        bitmapaux.compress(Bitmap.CompressFormat.PNG,100,saida);
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
         imagem_usuario = saida.toByteArray();
     }
 
     public Bitmap getImageView(){
-
         Bitmap raw  = BitmapFactory.decodeByteArray(imagem_usuario,0,imagem_usuario.length);
         return raw;
 

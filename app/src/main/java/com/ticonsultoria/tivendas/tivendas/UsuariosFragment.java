@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -59,6 +61,10 @@ public class UsuariosFragment extends Fragment {
         if(resultCode != Activity.RESULT_CANCELED){
             Uri selectedImage = data.getData();
             imageView.setImageURI(selectedImage);
+            Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+            int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
+            Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+            imageView.setImageBitmap(bitmapaux);
         }
 
     }
