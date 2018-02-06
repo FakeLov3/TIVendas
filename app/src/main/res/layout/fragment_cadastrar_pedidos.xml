@@ -151,5 +151,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_cadastrar_pedido_cancelar" />
 
+    <EditText
+        android:id="@+id/edt_cadastrar_pedido_desconto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Desconto"
+        android:inputType="number"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_forma_pagamento"
+        app:layout_constraintEnd_toStartOf="@+id/txt_info_porcentagem"
+        app:layout_constraintStart_toEndOf="@+id/rg_forma_pagamento"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/txt_info_porcentagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="%"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_cadastrar_pedido_desconto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edt_cadastrar_pedido_desconto"
+        android:textSize="24sp"/>
+
 
 </android.support.constraint.ConstraintLayout>

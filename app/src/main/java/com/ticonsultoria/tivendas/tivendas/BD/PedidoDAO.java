@@ -86,7 +86,9 @@ public class PedidoDAO extends DAOBasico<Pedido> {
         Pedido pedido = new Pedido();
 
         pedido.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
-        pedido.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        if (contentValues.getAsInteger(COLUNA_ID_WEB) != null) {
+            pedido.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        }
         pedido.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         pedido.setPrecoTotal(contentValues.getAsDouble(COLUNA_PRECO_TOTAL));
         pedido.setFormaPagamento(contentValues.getAsString(COLUNA_FORMA_PAGAMENTO));

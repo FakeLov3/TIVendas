@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +57,7 @@ public class CadastrarPedidosFragment extends Fragment {
 
     public static final String INFO_TOTAL = "Total: R$ ";
     double total = 0;
+    int desconto = 0;
 
     RecyclerView mRecyclerView;
 
@@ -93,6 +97,7 @@ public class CadastrarPedidosFragment extends Fragment {
         daoPedido = new PedidoDAO(getContext());
         daoCliente = new ClienteDAO(getContext());
 
+        txtInfoTotal = view.findViewById(R.id.txt_info_total);
 
         pedido = new Pedido();
 
@@ -106,8 +111,61 @@ public class CadastrarPedidosFragment extends Fragment {
         rgFormaPagamento = view.findViewById(R.id.rg_forma_pagamento);
         rgFormaPagamento.check(R.id.rg_forma_pagamento_vista);
 
-        txtInfoTotal = view.findViewById(R.id.txt_info_total);
-        txtInfoTotal.setText(INFO_TOTAL + total);
+        final TextView textViewInfoPorcentagem = view.findViewById(R.id.txt_info_porcentagem);
+        RadioButton radioButtonVista = view.findViewById(R.id.rg_forma_pagamento_vista);
+        RadioButton radioButtonPrazo = view.findViewById(R.id.rg_forma_pagamento_prazo);
+        final EditText edtDesconto = view.findViewById(R.id.edt_cadastrar_pedido_desconto);
+
+        edtDesconto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().equals("")){
+                    int d = Integer.parseInt(editable.toString());
+                    if (d >= 0 && d <= 100) {
+                        desconto = d;
+                    } else {
+                        edtDesconto.setText("100");
+                        desconto = 100;
+                    }
+                } else {
+                    desconto = 0;
+                }
+
+                atualizarValorTela();
+
+            }
+        });
+
+        radioButtonVista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edtDesconto.setVisibility(EditText.VISIBLE);
+                textViewInfoPorcentagem.setVisibility(TextView.VISIBLE);
+                edtDesconto.setText("");
+                edtDesconto.setEnabled(true);
+                desconto = 0;
+            }
+        });
+        radioButtonPrazo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edtDesconto.setVisibility(EditText.INVISIBLE);
+                textViewInfoPorcentagem.setVisibility(TextView.INVISIBLE);
+                edtDesconto.setText("");
+                edtDesconto.setEnabled(false);
+                desconto = 0;
+            }
+        });
+
+        atualizarValorTela();
 
         edtCliente = view.findViewById(R.id.edt_cadastrar_pedido_nome_cliente);
 
@@ -257,7 +315,7 @@ public class CadastrarPedidosFragment extends Fragment {
                                 item.setId_produto(mProdutos.get(position).getId());
                                 mAdapter.insertItem(item);
                                 total += (mProdutos.get(position).getPreco() * quant);
-                                txtInfoTotal.setText(String.format(INFO_TOTAL + "%.2f", total));
+                                atualizarValorTela();
 
                             }
                         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -338,7 +396,7 @@ public class CadastrarPedidosFragment extends Fragment {
                     return;
                 }
 
-                pedido.setPrecoTotal(total);
+                pedido.setPrecoTotal(getTotalComDesconto());
 
                 if (editando) {
 
@@ -447,7 +505,7 @@ public class CadastrarPedidosFragment extends Fragment {
 
         total = pedido.getPrecoTotal();
 
-        txtInfoTotal.setText(String.format(INFO_TOTAL + "%.2f", total));
+        atualizarValorTela();
 
         if (pedido.getFormaPagamento().equals(Pedido.PAGAMENTO_PRAZO)) {
             rgFormaPagamento.check(R.id.rg_forma_pagamento_prazo);
@@ -460,6 +518,14 @@ public class CadastrarPedidosFragment extends Fragment {
         cliente = daoCliente.recuperarPorID(pedido.getId_cliente());
         edtCliente.setText(cliente.getNome());
 
+    }
+
+    private void atualizarValorTela() {
+        txtInfoTotal.setText(String.format(INFO_TOTAL + "%.2f", getTotalComDesconto()));
+    }
+
+    private double getTotalComDesconto() {
+        return (total - ((total*desconto)/100));
     }
 
     private void retornar() {
@@ -499,7 +565,7 @@ public class CadastrarPedidosFragment extends Fragment {
                 }
 
                 total -= item.getQuantidade() * preco;
-                txtInfoTotal.setText(String.format(INFO_TOTAL + "%.2f", total));
+                atualizarValorTela();
 
                 mAdapter.removerItem(position);
 

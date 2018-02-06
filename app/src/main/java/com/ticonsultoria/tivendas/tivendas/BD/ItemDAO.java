@@ -85,7 +85,9 @@ public class ItemDAO extends DAOBasico<Item> {
         Item item = new Item();
 
         item.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
-        item.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        if (contentValues.getAsInteger(COLUNA_ID_WEB) != null) {
+            item.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        }
         item.setId_pedido(contentValues.getAsInteger(COLUNA_ID_PEDIDO));
         item.setId_produto(contentValues.getAsInteger(COLUNA_ID_PRODUTO));
         item.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));

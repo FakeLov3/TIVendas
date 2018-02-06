@@ -88,7 +88,9 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public Produto contentValuesParaEntidade(ContentValues contentValues) {
         Produto produto = new Produto();
         produto.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
-        produto.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        if (contentValues.getAsInteger(COLUNA_ID_WEB) != null) {
+            produto.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
+        }
         produto.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         produto.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
         produto.setMarca(contentValues.getAsString(COLUNA_MARCA));
