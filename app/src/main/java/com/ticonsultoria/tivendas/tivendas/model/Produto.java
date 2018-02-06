@@ -120,12 +120,10 @@ public class Produto implements EntidadePersistivel {
 
     public void setFotoImageView(ImageView img){
         Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-        int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
-        Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
         ByteArrayOutputStream saida = new ByteArrayOutputStream();
-        Log.d("bitmapaux", ""+bitmapaux.getByteCount());
-        bitmapaux.compress(Bitmap.CompressFormat.PNG,100,saida);
-        foto = saida.toByteArray();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
+        foto  = saida.toByteArray();
+
     }
 
     public Bitmap getImageView(){

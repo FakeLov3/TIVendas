@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -42,7 +44,6 @@ public class ProdutosFragment extends Fragment {
 
     private ProdutoDAO dao;
     ImageView image;
-    private boolean temImagem;
 
     public ProdutosFragment() {
         // Required empty public constructor
@@ -52,13 +53,12 @@ public class ProdutosFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode != Activity.RESULT_CANCELED){
-                Uri selectedImage = data.getData();
-                image.setImageURI(selectedImage);
-
-                if(!selectedImage.equals("")){
-                    temImagem = true;
-                }
-                Toast.makeText(getActivity(), selectedImage.toString(), Toast.LENGTH_SHORT).show();
+            Uri selectedImage = data.getData();
+            image.setImageURI(selectedImage);
+            Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+            int nh = (int) (bitmap.getHeight()* (512.0 / bitmap.getWidth()));
+            Bitmap bitmapaux = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+            image.setImageBitmap(bitmapaux);
             }
 
     }
@@ -119,8 +119,7 @@ public class ProdutosFragment extends Fragment {
                                         edtCategoria.getText().toString().equals("") ||
                                         edtFornecedor.getText().toString().equals("") ||
                                         edtMarca.getText().toString().equals("") ||
-                                        edtQuantidade.getText().toString().equals("") ||
-                                        temImagem == false
+                                        edtQuantidade.getText().toString().equals("")
                                         ) {
 
                                     Toast.makeText(getActivity(),
