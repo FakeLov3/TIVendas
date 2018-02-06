@@ -23,6 +23,14 @@ public class Item implements EntidadePersistivel {
         this.quantidade = quantidade;
     }
 
+    public int getId_web() {
+        return id_web;
+    }
+
+    public void setId_web(int id_web) {
+        this.id_web = id_web;
+    }
+
     public int getId_produto() {
         return id_produto;
     }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,10 @@ import android.widget.Toast;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
+import com.ticonsultoria.tivendas.tivendas.LoginActivity;
+import com.ticonsultoria.tivendas.tivendas.MainActivity;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -41,14 +45,16 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
     UsuarioDAO dao;
 
     CustomEditClickListener editClickListener;
+    CustomDeleteClickListener deleteClickListener;
 
 
-    public RecyclerUsuariosAdapter(ArrayList users, Context c, CustomEditClickListener editClickListener) {
+    public RecyclerUsuariosAdapter(ArrayList users, Context c, CustomEditClickListener editClickListener, CustomDeleteClickListener deleteClickListener) {
         mUsers = users;
         context = c;
         dao = new UsuarioDAO(context);
 
         this.editClickListener = editClickListener;
+        this.deleteClickListener = deleteClickListener;
     }
 
     @Override
@@ -75,7 +81,8 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removerItem(position);
+                deleteClickListener.onDeleteClick(view, position);
+                //removerItem(position);
             }
         });
     }
@@ -113,43 +120,6 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
     // Método responsável por remover um usuário da lista.
     private void removerItem(int position) {
 
-        final int p = position;
-        final Usuario usuario = mUsers.get(position);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle("Excluir usuário").setMessage("Tem certeza que deseja excluir o usuário " + mUsers.get(p).getLogin() + "?")
-                .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        try {
-
-                            usuario.setAtivo(false);
-                            dao.editar(usuario);
-
-                        } catch (Exception e) {
-                            Log.e("RecyclerUsuariosAdapter", e.getMessage());
-                            Toast.makeText(context,
-                                    "Falha ao excluir o usuário, tente novamente",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        Toast.makeText(context,
-                                "Usuário excluído com sucesso",
-                                Toast.LENGTH_SHORT).show();
-
-                        mUsers.remove(p);
-                        notifyItemRemoved(p);
-                        notifyItemRangeChanged(p, mUsers.size());
-
-                    }
-                })
-                .setNegativeButton("Cancelar", null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
 

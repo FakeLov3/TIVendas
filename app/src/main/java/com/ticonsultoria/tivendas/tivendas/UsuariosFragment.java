@@ -3,8 +3,10 @@ package com.ticonsultoria.tivendas.tivendas;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -29,6 +31,7 @@ import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerUsuariosAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -379,7 +382,62 @@ public class UsuariosFragment extends Fragment {
             public void onEditClick(View v, int id, int position) {
                 editClick(v, id, position);
             }
+        }, new CustomDeleteClickListener() {
+            @Override
+            public void onDeleteClick(View v, int position) {
+                final int p = position;
+                final Usuario usuario = mUsers.get(position);
+
+                final SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                final int idUsuarioLogado = sharedPreferences.getInt("user_id", 0);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder.setTitle("Excluir usuário").setMessage("Tem certeza que deseja excluir o usuário " + mUsers.get(p).getLogin() + "?")
+                        .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                try {
+
+                                    usuario.setAtivo(false);
+                                    dao.editar(usuario);
+
+                                } catch (Exception e) {
+                                    Log.e("RecyclerUsuariosAdapter", e.getMessage());
+                                    Toast.makeText(getContext(),
+                                            "Falha ao excluir o usuário, tente novamente",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Toast.makeText(getContext(),
+                                        "Usuário excluído com sucesso",
+                                        Toast.LENGTH_SHORT).show();
+
+                                mUsers.remove(p);
+                                mAdapter.notifyItemRemoved(p);
+                                mAdapter.notifyItemRangeChanged(p, mUsers.size());
+
+                                if (usuario.getId() == idUsuarioLogado) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putInt("user_id", 0);
+                                    editor.commit();
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+
+
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
+
         mRecyclerView.setAdapter(mAdapter);
 
         // Configurando um dividr entre linhas, para uma melhor visualização.

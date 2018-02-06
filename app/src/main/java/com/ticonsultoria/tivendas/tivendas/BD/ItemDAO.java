@@ -14,14 +14,16 @@ import java.util.List;
 public class ItemDAO extends DAOBasico<Item> {
 
     public static final String NOME_TABELA = "itens";
-    public static final String COLUNA_ID = "id";
+    public static final String COLUNA_ID_LOCAL = "id_local";
+    public static final String COLUNA_ID_WEB = "id_web";
     public static final String COLUNA_ID_PRODUTO = "id_produto";
     public static final String COLUNA_ID_PEDIDO = "id_pedido";
     public static final String COLUNA_QUANTIDADE = "quantidade";
 
 
     public static final String SCRIPT_CRIACAO_TABELA_ITENS = "CREATE TABLE " + NOME_TABELA + "("
-            + COLUNA_ID + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
+            + COLUNA_ID_WEB + "INTEGER,"
             + COLUNA_ID_PRODUTO + " INTEGER,"
             + COLUNA_ID_PEDIDO + " INTEGER,"
             + COLUNA_QUANTIDADE + " INTEGER"
@@ -35,7 +37,7 @@ public class ItemDAO extends DAOBasico<Item> {
 
     @Override
     public String getNomeColunaPrimaryKey() {
-        return COLUNA_ID;
+        return COLUNA_ID_LOCAL;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class ItemDAO extends DAOBasico<Item> {
     public ContentValues entidadeParaContentValues(Item item) {
         ContentValues values = new ContentValues();
         if(item.getId() > 0) {
-            values.put(COLUNA_ID, item.getId());
+            values.put(COLUNA_ID_LOCAL, item.getId());
         }
         if(item.getId_pedido() > 0) {
             values.put(COLUNA_ID_PEDIDO, item.getId_pedido());
@@ -71,6 +73,9 @@ public class ItemDAO extends DAOBasico<Item> {
         if(item.getQuantidade() > 0) {
             values.put(COLUNA_QUANTIDADE, item.getQuantidade());
         }
+        if (item.getId_web() > 0) {
+            values.put(COLUNA_ID_WEB, item.getId_web());
+        }
 
         return values;
     }
@@ -79,7 +84,8 @@ public class ItemDAO extends DAOBasico<Item> {
     public Item contentValuesParaEntidade(ContentValues contentValues) {
         Item item = new Item();
 
-        item.setId(contentValues.getAsInteger(COLUNA_ID));
+        item.setId(contentValues.getAsInteger(COLUNA_ID_LOCAL));
+        item.setId_web(contentValues.getAsInteger(COLUNA_ID_WEB));
         item.setId_pedido(contentValues.getAsInteger(COLUNA_ID_PEDIDO));
         item.setId_produto(contentValues.getAsInteger(COLUNA_ID_PRODUTO));
         item.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
