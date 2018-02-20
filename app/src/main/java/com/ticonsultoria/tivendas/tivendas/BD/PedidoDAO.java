@@ -24,6 +24,7 @@ public class PedidoDAO extends DAOBasico<Pedido> {
     public static final String COLUNA_FORMA_PAGAMENTO = "forma_pagamento";
     public static final String COLUNA_PRECO_TOTAL = "preco_total";
     public static final String COLUNA_ATIVO = "ativo";
+    public static final String COLUNA_EMP_CODIGO = "emp_codigo";
 
     public static final String SCRIPT_CRIACAO_TABELA_PEDIDOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
@@ -35,7 +36,8 @@ public class PedidoDAO extends DAOBasico<Pedido> {
             + COLUNA_ID_CLIENTE + " INT,"
             + COLUNA_FORMA_PAGAMENTO + " TEXT,"
             + COLUNA_PRECO_TOTAL + " DOUBLE,"
-            + COLUNA_ATIVO + " BOOLEAN"
+            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_PEDIDOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -61,6 +63,11 @@ public class PedidoDAO extends DAOBasico<Pedido> {
     }
 
     @Override
+    public String getNomeColunaEmpresa() {
+        return COLUNA_EMP_CODIGO;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Pedido pedido) {
         ContentValues values = new ContentValues();
         if(pedido.getId() > 0) {
@@ -77,6 +84,7 @@ public class PedidoDAO extends DAOBasico<Pedido> {
         values.put(COLUNA_FORMA_PAGAMENTO, pedido.getFormaPagamento());
         values.put(COLUNA_PRECO_TOTAL, pedido.getPrecoTotal());
         values.put(COLUNA_ATIVO, pedido.isAtivo());
+        values.put(COLUNA_EMP_CODIGO, pedido.getEmp_codigo());
 
         return values;
     }
@@ -97,6 +105,7 @@ public class PedidoDAO extends DAOBasico<Pedido> {
         pedido.setData(new Date(Long.valueOf(contentValues.getAsString(COLUNA_DATA))));
         pedido.setCodigo_pedido(contentValues.getAsInteger(COLUNA_CODIGO_PEDIDO));
         pedido.setNumero_pedido(contentValues.getAsString(COLUNA_NUMERO_PEDIDO));
+        pedido.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
 
         return pedido;
     }

@@ -25,6 +25,7 @@ public class Produto implements EntidadePersistivel {
     private int quantidade;
     private boolean ativo;
     private byte [] foto;
+    private int emp_codigo;
 
     public Produto() {
     }
@@ -36,6 +37,22 @@ public class Produto implements EntidadePersistivel {
         this.categoria = categoria;
         this.fornecedor = fornecedor;
         this.marca = marca;
+    }
+
+    public int getId_local() {
+        return id_local;
+    }
+
+    public void setId_local(int id_local) {
+        this.id_local = id_local;
+    }
+
+    public int getEmp_codigo() {
+        return emp_codigo;
+    }
+
+    public void setEmp_codigo(int emp_codigo) {
+        this.emp_codigo = emp_codigo;
     }
 
     public int getId() {

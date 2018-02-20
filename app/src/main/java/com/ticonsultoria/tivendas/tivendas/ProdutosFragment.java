@@ -3,8 +3,10 @@ package com.ticonsultoria.tivendas.tivendas;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -137,6 +139,10 @@ public class ProdutosFragment extends Fragment {
                                 produto.setQuantidade(Integer.parseInt(edtQuantidade.getText().toString()));
                                 produto.setFotoImageView(image);
 
+                                SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                                int idEmpresa = sharedPreferences.getInt("id_empresa",0);
+
+                                produto.setEmp_codigo(idEmpresa);
 
                                 produto.setAtivo(true);
 

@@ -181,6 +181,11 @@ public class UsuariosFragment extends Fragment {
                                         return;
                                     }
 
+                                    SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                                    int idEmpresa = sharedPreferences.getInt("id_empresa",0);
+
+                                    usuario.setEmp_codigo(id);
+
                                     usuario.setCadastrarProdutos(cadastrarProdutos.isChecked());
                                     usuario.setFotoImageView(imageView);
 

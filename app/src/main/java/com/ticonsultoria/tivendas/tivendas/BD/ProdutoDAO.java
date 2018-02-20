@@ -22,6 +22,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public static final String COLUNA_QUANTIDADE = "quantidade";
     public static final String COLUNA_ATIVO = "ativo";
     public static final String COLUNA_FOTO = "foto";
+    public static final String COLUNA_EMP_CODIGO = "emp_codigo";
 
     public static final String SCRIPT_CRIACAO_TABELA_PRODUTOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
@@ -33,7 +34,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
             + COLUNA_MARCA + " TEXT,"
             + COLUNA_QUANTIDADE + " INT,"
             + COLUNA_ATIVO + " BOOLEAN,"
-            + COLUNA_FOTO + " BLOB"
+            + COLUNA_FOTO + " BLOB,"
+            + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_PRODUTOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -66,6 +68,11 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     }
 
     @Override
+    public String getNomeColunaEmpresa() {
+        return COLUNA_EMP_CODIGO;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Produto produto) {
         ContentValues values = new ContentValues();
         if(produto.getId() > 0) {
@@ -80,6 +87,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         values.put(COLUNA_QUANTIDADE, produto.getQuantidade());
         values.put(COLUNA_ATIVO, produto.isAtivo());
         values.put(COLUNA_FOTO, produto.getFoto());
+        values.put(COLUNA_EMP_CODIGO, produto.getEmp_codigo());
 
         return values;
     }
@@ -99,6 +107,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         produto.setPreco(contentValues.getAsDouble(COLUNA_PRECO));
         produto.setNome_produto(contentValues.getAsString(COLUNA_NOME_PRODUTO));
         produto.setFoto(contentValues.getAsByteArray(COLUNA_FOTO));
+        produto.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
         return produto;
     }
 
