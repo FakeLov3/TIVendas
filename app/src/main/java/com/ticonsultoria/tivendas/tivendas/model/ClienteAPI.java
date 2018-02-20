@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface ClienteAPI {
 
-    public static final String URL_BASE = "http://cadiizmob.kinghost.net/api/";
+    public static final String URL_BASE = "http://cadiizmob.kinghost.net/api/estagio/";
 
     @GET("clientes")
     Call<List<Cliente>> getListaClientes();
