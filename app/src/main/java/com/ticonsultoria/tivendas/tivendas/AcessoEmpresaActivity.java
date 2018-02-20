@@ -33,11 +33,11 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acesso_empresa);
-
-        verificarEmpresa();
         
         empresaDao = new EmpresaDAO(this);
         sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
+        verificarEmpresa();
 
         Button botao = findViewById(R.id.button);
         final EditText editChave = findViewById(R.id.editText);
