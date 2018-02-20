@@ -94,7 +94,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         empresaDao.salvar(empresa);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("chave_empresa", empresa.getEmp_chave());
-        editor.putInt("id_empresa", empresa.getId());
+        editor.putInt("id_empresa", empresa.getEmp_codigo());
         editor.commit();
         Intent intent = new Intent(AcessoEmpresaActivity.this, LoginActivity.class);
         startActivity(intent);
