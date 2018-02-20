@@ -464,6 +464,7 @@ public class CadastrarPedidosFragment extends Fragment {
                 List<Item> itens = mAdapter.getmItens();
 
                 for (Item item: itens) {
+                    item.setEmp_codigo(idEmpresa);
                     item.setId_pedido(pedido.getId());
                     dao.salvar(item);
                     for (Produto p: mProdutos) {
