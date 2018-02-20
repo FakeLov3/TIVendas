@@ -1,6 +1,7 @@
 package com.ticonsultoria.tivendas.tivendas;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ public class ClientesFragment extends Fragment {
     private RecyclerClienteAdapter mAdapter;
 
     private ClienteDAO daoCliente;
-    SharedPreferences sharedPreferences;
 
     public ClientesFragment() {
     //precisa de um construtor limpo
@@ -104,7 +104,8 @@ public class ClientesFragment extends Fragment {
                                             Toast.LENGTH_SHORT).show();
                                     return;
                                 }
-                                int emp_codido = sharedPreferences.getInt("empresa_id",0);
+                                SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                                int emp_codido = sharedPreferences.getInt("id_empresa",0);
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(cpf);
