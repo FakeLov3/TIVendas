@@ -2,6 +2,7 @@ package com.ticonsultoria.tivendas.tivendas;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ public class ClientesFragment extends Fragment {
     private RecyclerClienteAdapter mAdapter;
 
     private ClienteDAO daoCliente;
+    SharedPreferences sharedPreferences;
 
     public ClientesFragment() {
     //precisa de um construtor limpo
@@ -102,13 +104,15 @@ public class ClientesFragment extends Fragment {
                                             Toast.LENGTH_SHORT).show();
                                     return;
                                 }
-
+                                int emp_codido = sharedPreferences.getInt("empresa_id",0);
                                 cliente.setNome(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(cpf);
                                 cliente.setTelefone(telefone);
                                 cliente.setEmail(edtDialogEmail.getText().toString());
                                 cliente.setAtivo(true);
+                                cliente.setEmp_codigo(emp_codido);
+
 
                                 try {
                                     cliente.setId((int)daoCliente.salvar(cliente));

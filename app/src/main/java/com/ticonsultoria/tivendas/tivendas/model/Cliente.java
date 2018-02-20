@@ -14,17 +14,19 @@ public class Cliente implements EntidadePersistivel {
     private String cpf;
     private String nomeMercado;
     private boolean ativo;
+    private int emp_codigo;
 
     public Cliente(){
 
     }
 
-    public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo) {
+    public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo, int emp_codigo) {
         this.id_local = id;
         this.nome = nome;
         this.cpf = cpf;
         this.nomeMercado = nomeMercado;
         this.ativo = ativo;
+        this.emp_codigo = emp_codigo;
     }
 
     public boolean isAtivo() {
@@ -91,5 +93,13 @@ public class Cliente implements EntidadePersistivel {
     @Override
     public void setId(int id) { this.id_local = id;
 
+    }
+
+    public int getEmp_codigo() {
+        return emp_codigo;
+    }
+
+    public void setEmp_codigo(int emp_codigo) {
+        this.emp_codigo = emp_codigo;
     }
 }

@@ -11,16 +11,26 @@ public class Item implements EntidadePersistivel {
     private int id_produto;
     private int id_pedido;
     private int quantidade;
+    private int emp_codigo;
 
     public Item() {
 
     }
 
-    public Item(int id, int id_produto, int id_pedido, int quantidade) {
+    public Item(int id, int id_produto, int id_pedido, int quantidade, int emp_codigo) {
         this.id_local = id;
         this.id_produto = id_produto;
         this.id_pedido = id_pedido;
         this.quantidade = quantidade;
+        this.emp_codigo = emp_codigo;
+    }
+
+    public int getEmp_codigo() {
+        return emp_codigo;
+    }
+
+    public void setEmp_codigo(int emp_codigo) {
+        this.emp_codigo = emp_codigo;
     }
 
     public int getId_web() {

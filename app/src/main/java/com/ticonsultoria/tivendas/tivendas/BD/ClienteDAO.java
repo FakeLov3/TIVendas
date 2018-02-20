@@ -20,6 +20,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
     public static final String COLUNA_CPF = "CPF";
     public static final String COLUNA_NOME_MERCADO = "nome_mercado";
     public static final String COLUNA_ATIVO = "ativo";
+    public static final String COLUNA_EMP_CODIGO = "emp_codigo";
 
     public static final String SCRIPT_CRIACAO_TABELA_CLIENTES = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
@@ -29,7 +30,8 @@ public class ClienteDAO extends DAOBasico<Cliente> {
             + COLUNA_TELEFONE + " TEXT,"
             + COLUNA_CPF + " TEXT,"
             + COLUNA_NOME_MERCADO + " TEXT,"
-            + COLUNA_ATIVO + " BOOLEAN"
+            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_CLIENTES =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -62,6 +64,11 @@ public class ClienteDAO extends DAOBasico<Cliente> {
     }
 
     @Override
+    public String getNomeColunaEmpresa() {
+        return COLUNA_EMP_CODIGO;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Cliente cliente) {
         ContentValues values = new ContentValues();
         if(cliente.getId() > 0) {
@@ -74,6 +81,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         values.put(COLUNA_CPF, cliente.getCpf());
         values.put(COLUNA_NOME_MERCADO, cliente.getNomeMercado());
         values.put(COLUNA_ATIVO, cliente.isAtivo());
+        values.put(COLUNA_EMP_CODIGO, cliente.getEmp_codigo());
 
         return values;
     }
@@ -91,6 +99,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         cliente.setNome(contentValues.getAsString(COLUNA_NOME_CLIENTE));
         cliente.setNomeMercado(contentValues.getAsString(COLUNA_NOME_MERCADO));
         cliente.setCpf(contentValues.getAsString(COLUNA_CPF));
+        cliente.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
 
         return cliente;
     }

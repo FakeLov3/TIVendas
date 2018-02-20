@@ -19,6 +19,7 @@ public class ItemDAO extends DAOBasico<Item> {
     public static final String COLUNA_ID_PRODUTO = "id_produto";
     public static final String COLUNA_ID_PEDIDO = "id_pedido";
     public static final String COLUNA_QUANTIDADE = "quantidade";
+    public static final String COLUNA_EMP_CODIGO = "emp_codigo";
 
 
     public static final String SCRIPT_CRIACAO_TABELA_ITENS = "CREATE TABLE " + NOME_TABELA + "("
@@ -26,7 +27,8 @@ public class ItemDAO extends DAOBasico<Item> {
             + COLUNA_ID_WEB + "INTEGER,"
             + COLUNA_ID_PRODUTO + " INTEGER,"
             + COLUNA_ID_PEDIDO + " INTEGER,"
-            + COLUNA_QUANTIDADE + " INTEGER"
+            + COLUNA_QUANTIDADE + " INTEGER,"
+            + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_ITENS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -49,6 +51,12 @@ public class ItemDAO extends DAOBasico<Item> {
     public String getNomeColunaAtivo() {
         return null;
     }
+
+    @Override
+    public String getNomeColunaEmpresa() {
+        return COLUNA_EMP_CODIGO;
+    }
+
 
     public List<Item> recuperarItensPedido(int idPedido) {
 
@@ -76,6 +84,9 @@ public class ItemDAO extends DAOBasico<Item> {
         if (item.getId_web() > 0) {
             values.put(COLUNA_ID_WEB, item.getId_web());
         }
+        if (item.getEmp_codigo() > 0){
+            values.put(COLUNA_EMP_CODIGO, item.getEmp_codigo());
+        }
 
         return values;
     }
@@ -91,6 +102,9 @@ public class ItemDAO extends DAOBasico<Item> {
         item.setId_pedido(contentValues.getAsInteger(COLUNA_ID_PEDIDO));
         item.setId_produto(contentValues.getAsInteger(COLUNA_ID_PRODUTO));
         item.setQuantidade(contentValues.getAsInteger(COLUNA_QUANTIDADE));
+        if (contentValues.getAsInteger(COLUNA_EMP_CODIGO) != null){
+            item.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
+        }
 
         return item;
     }
