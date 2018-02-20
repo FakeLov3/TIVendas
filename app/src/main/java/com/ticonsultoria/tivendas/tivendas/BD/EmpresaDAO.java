@@ -56,6 +56,11 @@ public class EmpresaDAO extends DAOBasico<Empresa> {
     }
 
     @Override
+    public String getNomeColunaEmpresa() {
+        return null;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Empresa empresa) {
         ContentValues values = new ContentValues();
         if(empresa.getId() > 0) {
