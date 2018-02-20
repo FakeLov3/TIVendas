@@ -12,13 +12,13 @@ import retrofit2.http.Path;
 
 public interface EmpresaAPI {
 
-    public static final String URL_BASE = "cadizmob.kinghost.net/api/estagio/";
+    public static final String URL_BASE = "http://cadizmob.kinghost.net/api/estagio/";
 
     @GET("empresas")
     Call<List<Empresa>> getListaEmpresas();
 
     @GET("empresas/chave/{chave}")
-    Call<Empresa> getEmpresa(@Path("chave") String chave);
+    Call<List<Empresa>> getEmpresa(@Path("chave") String chave);
 
 
 
