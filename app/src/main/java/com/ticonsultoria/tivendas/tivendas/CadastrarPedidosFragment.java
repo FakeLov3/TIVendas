@@ -455,6 +455,10 @@ public class CadastrarPedidosFragment extends Fragment {
 
                 pedido.setAtivo(true);
 
+                int idEmpresa = sharedPreferences.getInt("id_empresa",0);
+
+                pedido.setEmp_codigo(idEmpresa);
+
                 pedido.setId((int) daoPedido.salvar(pedido));
 
                 List<Item> itens = mAdapter.getmItens();
