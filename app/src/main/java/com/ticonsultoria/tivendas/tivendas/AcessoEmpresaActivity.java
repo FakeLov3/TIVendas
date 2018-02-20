@@ -54,6 +54,12 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String chave = editChave.getText().toString();
+
+                if (chave.equals("")){
+                    Toast.makeText(AcessoEmpresaActivity.this, "Insira uma chave", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Call<List<Empresa>> call = service.getEmpresa(chave);
                 call.enqueue(new Callback<List<Empresa>>() {
                     @Override

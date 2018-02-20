@@ -2,10 +2,14 @@ package com.ticonsultoria.tivendas.tivendas.BD;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ticonsultoria.tivendas.tivendas.AcessoEmpresaActivity;
+import com.ticonsultoria.tivendas.tivendas.LoginActivity;
 import com.ticonsultoria.tivendas.tivendas.model.EntidadePersistivel;
 
 import java.util.ArrayList;
@@ -18,8 +22,11 @@ import java.util.List;
 public abstract class DAOBasico <T extends EntidadePersistivel> {
 
     protected SQLiteDatabase dataBase = null;
+    SharedPreferences sharedPreferences;
 
     public DAOBasico(Context context){
+        sharedPreferences = context.
+                getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         DataBaseHelper persistenceHelper = DataBaseHelper.getInstance(context);
         dataBase = persistenceHelper.getWritableDatabase();
     }
@@ -27,6 +34,7 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
     public abstract String getNomeColunaPrimaryKey();
     public abstract String getNomeTabela();
     public abstract String getNomeColunaAtivo();
+    public abstract String getNomeColunaEmpresa();
 
     public abstract ContentValues entidadeParaContentValues(T entidade);
     public abstract T contentValuesParaEntidade(ContentValues contentValues);
@@ -52,14 +60,17 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
     }
 
     public List<T> recuperarTodos() {
-        String queryReturnAll = "SELECT * FROM " + getNomeTabela();
+        int idEmpresa = sharedPreferences.getInt("id_empresa",0);
+        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaEmpresa() + " = " + idEmpresa;
         List<T> result = recuperarPorQuery(queryReturnAll);
 
         return result;
     }
 
     public List<T> recuperarAtivos() {
-        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 1";
+        int idEmpresa = sharedPreferences.getInt("id_empresa",0);
+        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 1 AND "
+                + getNomeColunaEmpresa() + " = " + idEmpresa;
         List<T> result = recuperarPorQuery(queryReturnAll);
 
         return result;

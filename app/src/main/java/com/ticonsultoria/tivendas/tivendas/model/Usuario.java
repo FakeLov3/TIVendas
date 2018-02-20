@@ -25,6 +25,7 @@ public class Usuario implements EntidadePersistivel {
     private boolean adm;
     private boolean cadastrarProdutos;
     private boolean ativo;
+    private int emp_codigo;
 
     public Usuario() {
     }
@@ -41,6 +42,22 @@ public class Usuario implements EntidadePersistivel {
         this.email = email;
         this.telefone = telefone;
         this.imagem_usuario = imagem;
+    }
+
+    public int getId_local() {
+        return id_local;
+    }
+
+    public void setId_local(int id_local) {
+        this.id_local = id_local;
+    }
+
+    public int getEmp_codigo() {
+        return emp_codigo;
+    }
+
+    public void setEmp_codigo(int emp_codigo) {
+        this.emp_codigo = emp_codigo;
     }
 
     public boolean isAtivo() {

@@ -26,6 +26,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     public static final String COLUNA_ADM = "adm";
     public static final String COLUNA_CADASTRAR_PRODUTOS = "cadastrar_produtos";
     public static final String COLUNA_ATIVO = "ativo";
+    public static final String COLUNA_EMP_CODIGO = "emp_codigo";
 
 
     public static final String SCRIPT_CRIACAO_TABELA_USUARIOS = "CREATE TABLE " + NOME_TABELA + "("
@@ -39,12 +40,13 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + COLUNA_SENHA + " TEXT,"
             + COLUNA_ADM + " BOOLEAN,"
             + COLUNA_CADASTRAR_PRODUTOS + " BOOLEAN,"
-            + COLUNA_ATIVO + " BOOLEAN"
+            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
 
     public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
             + COLUNA_NOME + "," + COLUNA_EMAIL + "," + COLUNA_TELEFONE + "," + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + ")"
-            + " VALUES ('Administrador', 'adm@adm.com', '0000000000000', 'root', 'root', 1, 1, 1)";
+            + " VALUES ('Administrador', 'adm@adm.com', '0000000000000', 'root', 'root', 1, 1, 1, 'codigousuariopadrao223415')";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
 
@@ -76,6 +78,11 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     }
 
     @Override
+    public String getNomeColunaEmpresa() {
+        return COLUNA_EMP_CODIGO;
+    }
+
+    @Override
     public ContentValues entidadeParaContentValues(Usuario usuario) {
         ContentValues values = new ContentValues();
         if(usuario.getId() > 0) {
@@ -91,6 +98,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         values.put(COLUNA_ADM, usuario.isAdm());
         values.put(COLUNA_CADASTRAR_PRODUTOS, usuario.isCadastrarProdutos());
         values.put(COLUNA_ATIVO, usuario.isAtivo());
+        values.put(COLUNA_EMP_CODIGO, usuario.getEmp_codigo());
 
         return values;
     }
@@ -114,6 +122,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         usuario.setAdm(contentValues.getAsInteger(COLUNA_ADM) > 0);
         usuario.setCadastrarProdutos(contentValues.getAsInteger(COLUNA_CADASTRAR_PRODUTOS) > 0);
         usuario.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
+        usuario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
 
         return usuario;
     }
