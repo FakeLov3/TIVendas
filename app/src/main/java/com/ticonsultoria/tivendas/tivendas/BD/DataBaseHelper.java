@@ -12,7 +12,7 @@ import android.util.Log;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String NOME_BANCO =  "DBVendas";
-    public static final int VERSAO =  10;
+    public static final int VERSAO =  11;
 
     private static DataBaseHelper instance;
 
