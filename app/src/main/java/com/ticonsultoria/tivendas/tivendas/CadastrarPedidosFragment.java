@@ -82,6 +82,8 @@ public class CadastrarPedidosFragment extends Fragment {
     EditText edtCliente;
     RadioGroup rgFormaPagamento;
 
+    EditText edtDesconto;
+
     boolean editando;
 
     @Override
@@ -114,7 +116,7 @@ public class CadastrarPedidosFragment extends Fragment {
         final TextView textViewInfoPorcentagem = view.findViewById(R.id.txt_info_porcentagem);
         RadioButton radioButtonVista = view.findViewById(R.id.rg_forma_pagamento_vista);
         RadioButton radioButtonPrazo = view.findViewById(R.id.rg_forma_pagamento_prazo);
-        final EditText edtDesconto = view.findViewById(R.id.edt_cadastrar_pedido_desconto);
+        edtDesconto = view.findViewById(R.id.edt_cadastrar_pedido_desconto);
 
         edtDesconto.addTextChangedListener(new TextWatcher() {
             @Override
@@ -396,7 +398,8 @@ public class CadastrarPedidosFragment extends Fragment {
                     return;
                 }
 
-                pedido.setPrecoTotal(getTotalComDesconto());
+                pedido.setPrecoTotal(total);
+                pedido.setDesconto(desconto);
 
                 if (editando) {
 
@@ -509,6 +512,9 @@ public class CadastrarPedidosFragment extends Fragment {
         }
 
         total = pedido.getPrecoTotal();
+        desconto = pedido.getDesconto();
+
+        edtDesconto.setText(desconto);
 
         atualizarValorTela();
 

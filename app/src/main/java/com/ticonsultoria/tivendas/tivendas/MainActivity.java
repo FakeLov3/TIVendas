@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.model.SyncFragment;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.io.Serializable;
@@ -132,6 +133,9 @@ public class MainActivity extends AppCompatActivity
         }
         if (id == R.id.nav_vendas){
             fragment = new PedidosFragment();
+        }
+        if (id == R.id.nav_sync){
+            fragment = new SyncFragment();
         }
 
         if (fragment != null) {

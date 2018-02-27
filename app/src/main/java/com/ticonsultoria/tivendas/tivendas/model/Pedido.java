@@ -22,19 +22,12 @@ public class Pedido implements EntidadePersistivel {
     private double precoTotal;
     private boolean ativo;
     private int emp_codigo;
+    private int desconto;
+    private boolean enviado;
 
 
     public Pedido() {
 
-    }
-
-    public Pedido(int id, Date data, int id_vendedor, int id_cliente, String formaPagamento, double precoTotal) {
-        this.id_local = id;
-        this.data = data;
-        this.id_vendedor = id_vendedor;
-        this.id_cliente = id_cliente;
-        this.formaPagamento = formaPagamento;
-        this.precoTotal = precoTotal;
     }
 
     public int getId_local() {
@@ -43,6 +36,14 @@ public class Pedido implements EntidadePersistivel {
 
     public void setId_local(int id_local) {
         this.id_local = id_local;
+    }
+
+    public int getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(int desconto) {
+        this.desconto = desconto;
     }
 
     public int getEmp_codigo() {
@@ -143,6 +144,13 @@ public class Pedido implements EntidadePersistivel {
         this.id_web = id_web;
     }
 
+    public boolean isEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(boolean enviado) {
+        this.enviado = enviado;
+    }
 
     public String getStringFormaPagamento() {
         if (formaPagamento.equals(PAGAMENTO_VISTA)) {
