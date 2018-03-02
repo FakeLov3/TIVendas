@@ -26,6 +26,7 @@ public class Pedido implements EntidadePersistivel {
     private boolean enviado;
 
 
+
     public Pedido() {
 
     }

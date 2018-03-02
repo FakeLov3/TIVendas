@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 
 /**
@@ -26,17 +27,27 @@ public class Produto implements EntidadePersistivel {
     private boolean ativo;
     private byte [] foto;
     private int emp_codigo;
+    private Date dataCriacao;
 
     public Produto() {
     }
 
-    public Produto(int id, String nome_produto, double preco, String categoria, String fornecedor, String marca) {
+    public Produto(int id, String nome_produto, double preco, String categoria, String fornecedor, String marca, Date dataCriacao) {
         this.id_local = id;
         this.nome_produto = nome_produto;
         this.preco = preco;
         this.categoria = categoria;
         this.fornecedor = fornecedor;
         this.marca = marca;
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public int getId_local() {
