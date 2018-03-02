@@ -35,7 +35,6 @@ import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -281,7 +280,7 @@ public class UsuariosFragment extends Fragment {
         MaskTextWatcher mtw = new MaskTextWatcher(edtDialogTelefone, smf);
         edtDialogTelefone.addTextChangedListener(mtw);
 
-        if (usuario.getImagem_usuario() != null) {
+        if (usuario.getImagem_usuario_bytes() != null) {
             imageView.setImageBitmap(usuario.getImageView());
         }
 

@@ -1,11 +1,8 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -21,7 +18,8 @@ public class Usuario implements EntidadePersistivel {
     private String nome;
     private String email;
     private String telefone;
-    private byte [] imagem_usuario;
+    private byte [] imagem_usuario_bytes;
+    private String imagem_usuario;
     private String login;
     private String senha;
     private boolean adm;
@@ -43,7 +41,15 @@ public class Usuario implements EntidadePersistivel {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.imagem_usuario = imagem;
+        this.imagem_usuario_bytes = imagem;
+    }
+
+    public String getImagem_usuario() {
+        return imagem_usuario;
+    }
+
+    public void setImagem_usuario(String imagem_usuario) {
+        this.imagem_usuario = imagem_usuario;
     }
 
     public int getId_local() {
@@ -153,23 +159,23 @@ public class Usuario implements EntidadePersistivel {
         this.telefone = telefone;
     }
 
-    public byte[] getImagem_usuario() {
-        return imagem_usuario;
+    public byte[] getImagem_usuario_bytes() {
+        return imagem_usuario_bytes;
     }
 
-    public void setImagem_usuario(byte[] imagem_usuario) {
-        this.imagem_usuario = imagem_usuario;
+    public void setImagem_usuario_bytes(byte[] imagem_usuario_bytes) {
+        this.imagem_usuario_bytes = imagem_usuario_bytes;
     }
 
     public void setFotoImageView(ImageView img){
         Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
         ByteArrayOutputStream saida = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,saida);
-        imagem_usuario = saida.toByteArray();
+        imagem_usuario_bytes = saida.toByteArray();
     }
 
     public Bitmap getImageView(){
-        Bitmap raw  = BitmapFactory.decodeByteArray(imagem_usuario,0,imagem_usuario.length);
+        Bitmap raw  = BitmapFactory.decodeByteArray(imagem_usuario_bytes,0, imagem_usuario_bytes.length);
         return raw;
 
     }

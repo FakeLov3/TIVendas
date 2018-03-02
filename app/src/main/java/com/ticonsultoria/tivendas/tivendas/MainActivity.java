@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
 
         navTitle.setText(usuario.getNome());
         navSubtitle.setText(usuario.getEmail());
-        if (usuario.getImagem_usuario() != null) {
+        if (usuario.getImagem_usuario_bytes() != null) {
             navImage.setImageBitmap(usuario.getImageView());
         }
 

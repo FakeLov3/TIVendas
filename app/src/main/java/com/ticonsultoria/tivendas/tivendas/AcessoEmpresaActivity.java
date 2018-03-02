@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.BD.EmpresaDAO;
+import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Empresa;
 import com.ticonsultoria.tivendas.tivendas.model.EmpresaAPI;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
@@ -28,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AcessoEmpresaActivity extends AppCompatActivity {
 
     private EmpresaDAO empresaDao;
+    private UsuarioDAO usuarioDao;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -36,6 +38,8 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_acesso_empresa);
         
         empresaDao = new EmpresaDAO(this);
+        usuarioDao = new UsuarioDAO(this);
+
         sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
         verificarEmpresa();
@@ -67,8 +71,8 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                     public void onResponse(Call<List<Empresa>> call, Response<List<Empresa>> response) {
                         if (response.body().size() > 0) {
                             Empresa empresa = response.body().get(0);
-                            baixarDados(empresa);
-                            //acessar(empresa);
+                            baixarUsuarios(empresa);
+                            acessar(empresa);
                         } else {
                             Toast.makeText(AcessoEmpresaActivity.this, "Chave de identificação incorreta", Toast.LENGTH_SHORT).show();
                         }
@@ -83,7 +87,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         });
     }
 
-    private void baixarDados(Empresa empresa){
+    private void baixarUsuarios(Empresa empresa){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UsuarioAPI.BASE_URL + empresa.getEmp_codigo() + "/")
@@ -98,7 +102,16 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 for (int i =0; i<response.body().size(); i++){
-                    Log.e("NOME", response.body().get(i).getNome());
+                    usuarioDao.salvar(response.body().get(i));
+                }
+                List<Usuario> usuariosAtivos = usuarioDao.recuperarAtivos();
+                List<Usuario> TodosOsUsuarios = usuarioDao.recuperarTodos();
+
+                for (int i =0; i<usuariosAtivos.size(); i++){
+                    Log.e("ATIVO", usuariosAtivos.get(i).getLogin());
+                }
+                for (int i =0; i<TodosOsUsuarios.size(); i++){
+                    Log.e("TODOS", TodosOsUsuarios.get(i).getLogin());
                 }
             }
 

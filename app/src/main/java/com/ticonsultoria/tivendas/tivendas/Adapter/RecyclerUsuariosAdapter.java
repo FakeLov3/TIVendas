@@ -1,35 +1,19 @@
 package com.ticonsultoria.tivendas.tivendas.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.rtoshiro.util.format.SimpleMaskFormatter;
-import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
-import com.ticonsultoria.tivendas.tivendas.LoginActivity;
-import com.ticonsultoria.tivendas.tivendas.MainActivity;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +52,7 @@ public class RecyclerUsuariosAdapter extends RecyclerView.Adapter<RecyclerUsuari
         holder.title.setText(mUsers.get(position).getLogin());
         holder.nivel.setText(mUsers.get(position).getStringAdm());
 
-        if(mUsers.get(position).getImagem_usuario() != null) {
+        if(mUsers.get(position).getImagem_usuario_bytes() != null) {
             holder.foto.setImageBitmap(mUsers.get(position).getImageView());
         }
 

@@ -2,6 +2,7 @@ package com.ticonsultoria.tivendas.tivendas.BD;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Base64;
 
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
@@ -94,7 +95,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         values.put(COLUNA_NOME, usuario.getNome());
         values.put(COLUNA_EMAIL, usuario.getEmail());
         values.put(COLUNA_TELEFONE, usuario.getTelefone());
-        values.put(COLUNA_IMAGEM, usuario.getImagem_usuario());
+        values.put(COLUNA_IMAGEM, usuario.getImagem_usuario_bytes());
         values.put(COLUNA_LOGIN, usuario.getLogin());
         values.put(COLUNA_SENHA, usuario.getSenha());
         values.put(COLUNA_ADM, usuario.isAdm());
@@ -118,7 +119,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         usuario.setNome(contentValues.getAsString(COLUNA_NOME));
         usuario.setEmail(contentValues.getAsString(COLUNA_EMAIL));
         usuario.setTelefone(contentValues.getAsString(COLUNA_TELEFONE));
-        usuario.setImagem_usuario(contentValues.getAsByteArray(COLUNA_IMAGEM));
+        usuario.setImagem_usuario_bytes(contentValues.getAsByteArray(COLUNA_IMAGEM));
         usuario.setLogin(contentValues.getAsString(COLUNA_LOGIN));
         usuario.setSenha(contentValues.getAsString(COLUNA_SENHA));
         usuario.setAdm(contentValues.getAsInteger(COLUNA_ADM) > 0);
@@ -132,6 +133,10 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     @Override
     public long salvar(Usuario entidade) {
         List<Usuario> usuarios = super.recuperarPorQuery("SELECT * FROM " + NOME_TABELA + " WHERE " + COLUNA_LOGIN + " = '" + entidade.getLogin() + "'");
+
+        if (!entidade.getImagem_usuario().equals("")){
+            entidade.setImagem_usuario_bytes(Base64.decode(entidade.getImagem_usuario(), Base64.DEFAULT));
+        }
 
         if (usuarios.isEmpty()) {
             return super.salvar(entidade);
