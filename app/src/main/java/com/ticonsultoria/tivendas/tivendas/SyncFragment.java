@@ -1,4 +1,4 @@
-package com.ticonsultoria.tivendas.tivendas.model;
+package com.ticonsultoria.tivendas.tivendas;
 
 
 import android.os.Bundle;

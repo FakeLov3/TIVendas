@@ -15,6 +15,7 @@ import com.ticonsultoria.tivendas.tivendas.BD.EmpresaDAO;
 import com.ticonsultoria.tivendas.tivendas.model.Empresa;
 import com.ticonsultoria.tivendas.tivendas.model.EmpresaAPI;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
+import com.ticonsultoria.tivendas.tivendas.model.UsuarioAPI;
 
 import java.util.List;
 
@@ -66,7 +67,8 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                     public void onResponse(Call<List<Empresa>> call, Response<List<Empresa>> response) {
                         if (response.body().size() > 0) {
                             Empresa empresa = response.body().get(0);
-                            acessar(empresa);
+                            baixarDados(empresa);
+                            //acessar(empresa);
                         } else {
                             Toast.makeText(AcessoEmpresaActivity.this, "Chave de identificação incorreta", Toast.LENGTH_SHORT).show();
                         }
@@ -79,6 +81,33 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void baixarDados(Empresa empresa){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(UsuarioAPI.BASE_URL + empresa.getEmp_codigo() + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UsuarioAPI service = retrofit.create(UsuarioAPI.class);
+
+        Call<List<Usuario>> call = service.getListaUsuarios();
+
+        call.enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                for (int i =0; i<response.body().size(); i++){
+                    Log.e("NOME", response.body().get(i).getNome());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                Log.e("ERRO",t.getMessage());
+            }
+        });
+
     }
 
     private void verificarEmpresa() {
