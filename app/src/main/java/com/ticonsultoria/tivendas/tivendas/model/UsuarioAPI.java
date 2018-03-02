@@ -3,7 +3,9 @@ package com.ticonsultoria.tivendas.tivendas.model;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 /**
  * Created by Helder on 20/02/2018.
@@ -15,4 +17,7 @@ public interface UsuarioAPI {
 
     @GET("usuarios")
     Call<List<Usuario>> getListaUsuarios();
+
+    @POST("usuarios")
+    Call<List<Usuario>> setListaUsuarios(@Body List<Usuario> list);
 }
