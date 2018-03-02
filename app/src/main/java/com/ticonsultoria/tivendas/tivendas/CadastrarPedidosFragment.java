@@ -514,7 +514,7 @@ public class CadastrarPedidosFragment extends Fragment {
         total = pedido.getPrecoTotal();
         desconto = pedido.getDesconto();
 
-        edtDesconto.setText(desconto);
+        edtDesconto.setText(String.valueOf(desconto));
 
         atualizarValorTela();
 
