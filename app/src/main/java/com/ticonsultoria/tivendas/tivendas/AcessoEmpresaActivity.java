@@ -104,16 +104,6 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                 for (int i =0; i<response.body().size(); i++){
                     usuarioDao.salvar(response.body().get(i));
                 }
-                List<Usuario> usuariosAtivos = usuarioDao.recuperarAtivos();
-                List<Usuario> TodosOsUsuarios = usuarioDao.recuperarTodos();
-
-                for (int i =0; i<usuariosAtivos.size(); i++){
-                    Log.e("ATIVO", usuariosAtivos.get(i).getLogin());
-                }
-                for (int i =0; i<TodosOsUsuarios.size(); i++){
-                    Log.e("TODOS", TodosOsUsuarios.get(i).getLogin());
-                    Log.e("TODOS", "boolean " + TodosOsUsuarios.get(i).isAtivo());
-                }
             }
 
             @Override

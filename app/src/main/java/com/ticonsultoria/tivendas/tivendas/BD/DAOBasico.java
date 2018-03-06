@@ -69,7 +69,7 @@ public abstract class DAOBasico <T extends EntidadePersistivel> {
 
     public List<T> recuperarAtivos() {
         int idEmpresa = sharedPreferences.getInt("id_empresa",0);
-        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 1 AND "
+        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 'S' AND "
                 + getNomeColunaEmpresa() + " = " + idEmpresa;
         List<T> result = recuperarPorQuery(queryReturnAll);
 

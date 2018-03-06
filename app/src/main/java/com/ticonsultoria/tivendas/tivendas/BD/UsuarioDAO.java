@@ -149,7 +149,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     @Override
     public List<Usuario> recuperarAtivos() {
         int idEmpresa = sharedPreferences.getInt("id_empresa",0);
-        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 1 AND ("
+        String queryReturnAll = "SELECT * FROM " + getNomeTabela() + " WHERE " + getNomeColunaAtivo() + " = 'S' AND ("
                 + getNomeColunaEmpresa() + " = " + idEmpresa + " OR " + getNomeColunaEmpresa() + " = '" + codigoUsuarioPadrao + "')";
         return recuperarPorQuery(queryReturnAll);
     }
