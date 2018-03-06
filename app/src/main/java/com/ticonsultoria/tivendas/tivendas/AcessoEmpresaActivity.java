@@ -112,6 +112,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                 }
                 for (int i =0; i<TodosOsUsuarios.size(); i++){
                     Log.e("TODOS", TodosOsUsuarios.get(i).getLogin());
+                    Log.e("TODOS", "boolean " + TodosOsUsuarios.get(i).isAtivo());
                 }
             }
 
