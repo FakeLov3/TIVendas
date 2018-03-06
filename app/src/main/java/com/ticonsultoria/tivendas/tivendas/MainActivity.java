@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        if (!usuario.isAdm()) {
+        if (!usuario.isAdm().equals("S")) {
             navigationView.getMenu().findItem(R.id.nav_pessoas).getSubMenu().removeItem(R.id.nav_usuarios);
-            if (!usuario.isCadastrarProdutos()) {
+            if (!usuario.isCadastrarProdutos().equals("S")) {
                 navigationView.getMenu().removeItem(R.id.nav_produtos);
             }
         }

@@ -122,9 +122,9 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         usuario.setImagem_usuario_bytes(contentValues.getAsByteArray(COLUNA_IMAGEM));
         usuario.setLogin(contentValues.getAsString(COLUNA_LOGIN));
         usuario.setSenha(contentValues.getAsString(COLUNA_SENHA));
-        usuario.setAdm(contentValues.getAsInteger(COLUNA_ADM) > 0);
-        usuario.setCadastrarProdutos(contentValues.getAsInteger(COLUNA_CADASTRAR_PRODUTOS) > 0);
-        usuario.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
+        usuario.setAdm(contentValues.getAsString(COLUNA_ADM));
+        usuario.setCadastrarProdutos(contentValues.getAsString(COLUNA_CADASTRAR_PRODUTOS));
+        usuario.setAtivo(contentValues.getAsString(COLUNA_ATIVO));
         usuario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
 
         return usuario;

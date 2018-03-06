@@ -22,15 +22,15 @@ public class Usuario implements EntidadePersistivel {
     private String imagem_usuario;
     private String login;
     private String senha;
-    private boolean adm;
-    private boolean cadastrarProdutos;
-    private boolean ativo;
+    private String adm;
+    private String cadastrarProdutos;
+    private String ativo;
     private int emp_codigo;
 
     public Usuario() {
     }
 
-    public Usuario(int id_local,int id_web, String login, String senha, boolean adm, boolean cadastrarProdutos, boolean ativo, String nome, String email, String telefone, byte[] imagem) {
+    public Usuario(int id_local,int id_web, String login, String senha, String adm, String cadastrarProdutos, String ativo, String nome, String email, String telefone, byte[] imagem) {
         this.id_local = id_local;
         this.login = login;
         this.senha = senha;
@@ -68,19 +68,19 @@ public class Usuario implements EntidadePersistivel {
         this.emp_codigo = emp_codigo;
     }
 
-    public boolean isAtivo() {
+    public String isAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(String ativo) {
         this.ativo = ativo;
     }
 
-    public boolean isCadastrarProdutos() {
+    public String isCadastrarProdutos() {
         return cadastrarProdutos;
     }
 
-    public void setCadastrarProdutos(boolean cadastrarProdutos) {
+    public void setCadastrarProdutos(String cadastrarProdutos) {
         this.cadastrarProdutos = cadastrarProdutos;
     }
 
@@ -100,19 +100,19 @@ public class Usuario implements EntidadePersistivel {
         this.senha = senha;
     }
 
-    public boolean isAdm() {
+    public String isAdm() {
         return adm;
     }
 
     public String getStringAdm() {
-        if (adm) {
+        if (adm.equals("S")) {
             return "Administrador";
         } else {
             return "Vendedor";
         }
     }
 
-    public void setAdm(boolean adm) {
+    public void setAdm(String adm) {
         this.adm = adm;
     }
 

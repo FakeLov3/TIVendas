@@ -170,9 +170,9 @@ public class UsuariosFragment extends Fragment {
                                         && !telefone.equals("")) {
 
                                     if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_adm) {
-                                        usuario.setAdm(true);
+                                        usuario.setAdm("S");
                                     } else if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_user) {
-                                        usuario.setAdm(false);
+                                        usuario.setAdm("N");
                                     } else {
                                         Toast.makeText(getActivity(),
                                                 "Selecione um nível de acesso para o usuário",
@@ -184,11 +184,15 @@ public class UsuariosFragment extends Fragment {
                                     int idEmpresa = sharedPreferences.getInt("id_empresa",0);
 
                                     usuario.setEmp_codigo(idEmpresa);
+                                    if(cadastrarProdutos.isChecked()){
+                                        usuario.setCadastrarProdutos("S");
+                                    }else{
+                                        usuario.setCadastrarProdutos("N");
+                                    }
 
-                                    usuario.setCadastrarProdutos(cadastrarProdutos.isChecked());
                                     usuario.setFotoImageView(imageView);
 
-                                    usuario.setAtivo(true);
+                                    usuario.setAtivo("S");
                                     try {
 
                                         int idUsuario = ((int) dao.salvar(usuario));
@@ -284,14 +288,14 @@ public class UsuariosFragment extends Fragment {
             imageView.setImageBitmap(usuario.getImageView());
         }
 
-        cadastrarProdutos.setChecked(usuario.isCadastrarProdutos());
+        cadastrarProdutos.setChecked(usuario.isCadastrarProdutos().equals("S"));
         edtDialogTelefone.setText(usuario.getTelefone());
         edtDialogNome.setText(usuario.getNome());
         edtDialogEmail.setText(usuario.getEmail());
         edtDialogLogin.setText(usuario.getLogin());
         edtDialogSenha.setText(usuario.getSenha());
 
-        if (usuario.isAdm()) {
+        if (usuario.isAdm().equals("S")) {
             radioGroupDialog.check(R.id.radio_adm);
             cadastrarProdutos.setVisibility(Switch.INVISIBLE);
             cadastrarProdutos.setEnabled(false);
@@ -326,17 +330,21 @@ public class UsuariosFragment extends Fragment {
                                 && !telefone.equals("")) {
 
                             if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_adm) {
-                                usuario.setAdm(true);
+                                usuario.setAdm("S");
                             } else if (radioGroupDialog.getCheckedRadioButtonId() == R.id.radio_user) {
-                                usuario.setAdm(false);
+                                usuario.setAdm("N");
                             } else {
                                 Toast.makeText(getContext(),
                                         "Selecione um nível de acesso para o usuário",
                                         Toast.LENGTH_SHORT).show();
                                 return;
                             }
+                            if(cadastrarProdutos.isChecked()){
+                                usuario.setCadastrarProdutos("S");
+                            } else {
+                                usuario.setCadastrarProdutos("N");
+                            }
 
-                            usuario.setCadastrarProdutos(cadastrarProdutos.isChecked());
                             usuario.setFotoImageView(imageView);
 
                             try {
@@ -404,7 +412,7 @@ public class UsuariosFragment extends Fragment {
 
                                 try {
 
-                                    usuario.setAtivo(false);
+                                    usuario.setAtivo("N");
                                     dao.editar(usuario);
 
                                 } catch (Exception e) {
