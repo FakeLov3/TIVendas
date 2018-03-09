@@ -104,6 +104,12 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                 for (int i =0; i<response.body().size(); i++){
                     usuarioDao.salvar(response.body().get(i));
                 }
+
+                List<Usuario> usuarios = usuarioDao.recuperarAtivos();
+
+                for (Usuario usuario : usuarios){
+                    Log.e("CADASTRAR PRODUTOS: ", usuario.isCadastrarProdutos());
+                }
             }
 
             @Override

@@ -23,7 +23,7 @@ public class Usuario implements EntidadePersistivel {
     private String login;
     private String senha;
     private String adm;
-    private String cadastrarProdutos;
+    private String cadastrar_produtos;
     private String ativo;
     private int emp_codigo;
 
@@ -35,7 +35,7 @@ public class Usuario implements EntidadePersistivel {
         this.login = login;
         this.senha = senha;
         this.adm = adm;
-        this.cadastrarProdutos = cadastrarProdutos;
+        this.cadastrar_produtos = cadastrarProdutos;
         this.ativo = ativo;
         this.id_web = id_web;
         this.nome = nome;
@@ -77,11 +77,11 @@ public class Usuario implements EntidadePersistivel {
     }
 
     public String isCadastrarProdutos() {
-        return cadastrarProdutos;
+        return cadastrar_produtos;
     }
 
-    public void setCadastrarProdutos(String cadastrarProdutos) {
-        this.cadastrarProdutos = cadastrarProdutos;
+    public void setCadastrarProdutos(String cadastrar_produtos) {
+        this.cadastrar_produtos = cadastrar_produtos;
     }
 
     public String getLogin() {

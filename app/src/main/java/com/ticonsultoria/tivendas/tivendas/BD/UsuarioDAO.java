@@ -31,7 +31,6 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
 
     private static int codigoUsuarioPadrao = 255423165;
 
-
     public static final String SCRIPT_CRIACAO_TABELA_USUARIOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
             + COLUNA_ID_WEB + " INTEGER,"
@@ -46,10 +45,6 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + COLUNA_ATIVO + " BOOLEAN,"
             + COLUNA_EMP_CODIGO + " INTEGER"
             + ")";
-
-    public static final String SCRIPT_INSERCAO_USUARIO_PADRAO = "INSERT INTO " + NOME_TABELA + "("
-            + COLUNA_NOME + "," + COLUNA_EMAIL + "," + COLUNA_TELEFONE + "," + COLUNA_LOGIN + "," + COLUNA_SENHA + "," + COLUNA_ADM + "," + COLUNA_CADASTRAR_PRODUTOS + "," + COLUNA_ATIVO + "," + COLUNA_EMP_CODIGO + ")"
-            + " VALUES ('Administrador', 'adm@adm.com', '0000000000000', 'root', 'root', 1, 1, 1, "+codigoUsuarioPadrao+")";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
 
