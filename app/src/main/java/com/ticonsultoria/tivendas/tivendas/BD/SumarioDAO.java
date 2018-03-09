@@ -92,6 +92,25 @@ public class SumarioDAO extends DAOBasico<Sumario> {
         }
         return null;
     }
+    public String getLastSyncCliente(){
+        List<Sumario> sumarios = super.recuperarTodos();
+        for(Sumario sumario: sumarios){
+            if (sumario.getNomeTabela().equals(ClienteDAO.NOME_TABELA)){
+                return String.valueOf(sumario.getLastSync());
+            }
+        }
+        return null;
+    }
+    public String getLastSyncProduto(){
+        List<Sumario> sumarios = super.recuperarTodos();
+        for(Sumario sumario: sumarios){
+            if(sumario.getNomeTabela().equals(ProdutoDAO.NOME_TABELA)){
+                return String.valueOf(sumario.getLastSync());
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public long salvar(Sumario sumario) {
@@ -104,4 +123,6 @@ public class SumarioDAO extends DAOBasico<Sumario> {
         }
 
     }
+
+
 }
