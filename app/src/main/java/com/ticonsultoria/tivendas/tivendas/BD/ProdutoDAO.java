@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.ticonsultoria.tivendas.tivendas.model.Produto;
 
+import java.util.Date;
+
 /**
  * Created by Helder on 23/01/2018.
  */
@@ -23,6 +25,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
     public static final String COLUNA_ATIVO = "ativo";
     public static final String COLUNA_FOTO = "foto";
     public static final String COLUNA_EMP_CODIGO = "emp_codigo";
+    public static final String COLUNA_LAST_SYNC = "last_sync";
 
     public static final String SCRIPT_CRIACAO_TABELA_PRODUTOS = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
@@ -35,7 +38,8 @@ public class ProdutoDAO extends DAOBasico<Produto> {
             + COLUNA_QUANTIDADE + " INT,"
             + COLUNA_ATIVO + " BOOLEAN,"
             + COLUNA_FOTO + " BLOB,"
-            + COLUNA_EMP_CODIGO + " INTEGER"
+            + COLUNA_EMP_CODIGO + " INTEGER,"
+            + COLUNA_LAST_SYNC + " TEXT"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_PRODUTOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -88,6 +92,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         values.put(COLUNA_ATIVO, produto.isAtivo());
         values.put(COLUNA_FOTO, produto.getFoto());
         values.put(COLUNA_EMP_CODIGO, produto.getEmp_codigo());
+        values.put(COLUNA_LAST_SYNC, String.valueOf(produto.getLast_sync()));
 
         return values;
     }
@@ -108,6 +113,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         produto.setNome_produto(contentValues.getAsString(COLUNA_NOME_PRODUTO));
         produto.setFoto(contentValues.getAsByteArray(COLUNA_FOTO));
         produto.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
+        produto.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
         return produto;
     }
 

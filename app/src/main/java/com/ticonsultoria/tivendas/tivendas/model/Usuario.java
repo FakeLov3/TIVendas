@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 /**
  * Created by mpire on 18/01/2018.
@@ -26,6 +27,7 @@ public class Usuario implements EntidadePersistivel {
     private String cadastrar_produtos;
     private String ativo;
     private int emp_codigo;
+    private Date last_sync;
 
     public Usuario() {
     }
@@ -42,6 +44,14 @@ public class Usuario implements EntidadePersistivel {
         this.email = email;
         this.telefone = telefone;
         this.imagem_usuario_bytes = imagem;
+    }
+
+    public Date getLast_sync() {
+        return last_sync;
+    }
+
+    public void setLast_sync(Date last_sync) {
+        this.last_sync = last_sync;
     }
 
     public String getImagem_usuario() {

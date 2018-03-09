@@ -30,6 +30,7 @@ public class Pedido implements EntidadePersistivel {
     public Pedido() {
     }
 
+
     public int getId_local() {
         return id_local;
     }

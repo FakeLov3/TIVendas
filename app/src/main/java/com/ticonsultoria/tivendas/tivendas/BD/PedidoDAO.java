@@ -92,6 +92,7 @@ public class PedidoDAO extends DAOBasico<Pedido> {
         values.put(COLUNA_ENVIADO, pedido.isEnviado());
         values.put(COLUNA_DESCONTO, pedido.getDesconto());
 
+
         return values;
     }
 

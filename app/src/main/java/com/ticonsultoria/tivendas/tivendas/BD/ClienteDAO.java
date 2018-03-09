@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
 
+import java.util.Date;
+
 /**
  * Created by Helder on 19/01/2018.
  */
@@ -21,6 +23,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
     public static final String COLUNA_NOME_MERCADO = "nome_mercado";
     public static final String COLUNA_ATIVO = "ativo";
     public static final String COLUNA_EMP_CODIGO = "emp_codigo";
+    public static final String COLUNA_LAST_SYNC = "last_sync";
 
     public static final String SCRIPT_CRIACAO_TABELA_CLIENTES = "CREATE TABLE " + NOME_TABELA + "("
             + COLUNA_ID_LOCAL + " INTEGER PRIMARY KEY autoincrement,"
@@ -31,7 +34,8 @@ public class ClienteDAO extends DAOBasico<Cliente> {
             + COLUNA_CPF + " TEXT,"
             + COLUNA_NOME_MERCADO + " TEXT,"
             + COLUNA_ATIVO + " BOOLEAN,"
-            + COLUNA_EMP_CODIGO + " INTEGER"
+            + COLUNA_EMP_CODIGO + " INTEGER,"
+            + COLUNA_LAST_SYNC + " TEXT"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_CLIENTES =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -82,6 +86,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         values.put(COLUNA_NOME_MERCADO, cliente.getNomeMercado());
         values.put(COLUNA_ATIVO, cliente.isAtivo());
         values.put(COLUNA_EMP_CODIGO, cliente.getEmp_codigo());
+        values.put(COLUNA_LAST_SYNC, String.valueOf(cliente.getLast_sync()));
 
         return values;
     }
@@ -100,6 +105,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         cliente.setNomeMercado(contentValues.getAsString(COLUNA_NOME_MERCADO));
         cliente.setCpf(contentValues.getAsString(COLUNA_CPF));
         cliente.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
+        cliente.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
 
         return cliente;
     }

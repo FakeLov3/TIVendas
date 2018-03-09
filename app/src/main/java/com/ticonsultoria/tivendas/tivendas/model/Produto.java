@@ -28,6 +28,7 @@ public class Produto implements EntidadePersistivel {
     private byte [] foto;
     private int emp_codigo;
     private Date dataCriacao;
+    private Date last_sync;
 
     public Produto() {
     }
@@ -40,6 +41,14 @@ public class Produto implements EntidadePersistivel {
         this.fornecedor = fornecedor;
         this.marca = marca;
         this.dataCriacao = dataCriacao;
+    }
+
+    public Date getLast_sync() {
+        return last_sync;
+    }
+
+    public void setLast_sync(Date last_sync) {
+        this.last_sync = last_sync;
     }
 
     public Date getDataCriacao() {

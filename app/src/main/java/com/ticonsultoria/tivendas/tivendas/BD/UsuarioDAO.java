@@ -6,6 +6,7 @@ import android.util.Base64;
 
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,6 +29,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
     public static final String COLUNA_CADASTRAR_PRODUTOS = "cadastrar_produtos";
     public static final String COLUNA_ATIVO = "ativo";
     public static final String COLUNA_EMP_CODIGO = "emp_codigo";
+    public static final String COLUNA_LAST_SYNC = "last_sync";
 
     private static int codigoUsuarioPadrao = 255423165;
 
@@ -43,7 +45,8 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
             + COLUNA_ADM + " BOOLEAN,"
             + COLUNA_CADASTRAR_PRODUTOS + " BOOLEAN,"
             + COLUNA_ATIVO + " BOOLEAN,"
-            + COLUNA_EMP_CODIGO + " INTEGER"
+            + COLUNA_EMP_CODIGO + " INTEGER,"
+            + COLUNA_LAST_SYNC + " TEXT"
             + ")";
 
     public static final String SCRIPT_DELECAO_TABELA_USUARIOS =  "DROP TABLE IF EXISTS " + NOME_TABELA;
@@ -97,6 +100,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         values.put(COLUNA_CADASTRAR_PRODUTOS, usuario.isCadastrarProdutos());
         values.put(COLUNA_ATIVO, usuario.isAtivo());
         values.put(COLUNA_EMP_CODIGO, usuario.getEmp_codigo());
+        values.put(COLUNA_LAST_SYNC, String.valueOf(usuario.getLast_sync()));
 
         return values;
     }
@@ -121,6 +125,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         usuario.setCadastrarProdutos(contentValues.getAsString(COLUNA_CADASTRAR_PRODUTOS));
         usuario.setAtivo(contentValues.getAsString(COLUNA_ATIVO));
         usuario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
+        usuario.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
 
         return usuario;
     }
