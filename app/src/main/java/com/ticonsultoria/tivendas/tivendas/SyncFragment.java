@@ -98,4 +98,13 @@ public class SyncFragment extends Fragment {
             }
         });
     }
+    private void atualizarTabelaClientes(){
+
+    };
+
+    private void atualizarProdutos(){
+
+    };
+
+
 }
