@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (!usuario.isAdm().equals("S")) {
-            navigationView.getMenu().findItem(R.id.nav_pessoas).getSubMenu().removeItem(R.id.nav_usuarios);
             if (!usuario.isCadastrarProdutos().equals("S")) {
                 navigationView.getMenu().removeItem(R.id.nav_produtos);
             }
@@ -114,10 +113,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         android.support.v4.app.Fragment fragment = null;
-
-        if (id == R.id.nav_usuarios) {
-                fragment = new UsuariosFragment();
-        }
+        
         if (id == R.id.nav_clientes) {
             fragment = new ClientesFragment();
         }

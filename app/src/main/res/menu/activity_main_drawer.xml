@@ -24,10 +24,6 @@
             android:title="Pessoas">
             <menu>
                 <item
-                    android:id="@+id/nav_usuarios"
-                    android:icon="@drawable/ic_action_user"
-                    android:title="Usuarios" />
-                <item
                     android:id="@+id/nav_clientes"
                     android:icon="@drawable/ic_people"
                     android:title="Clientes" />

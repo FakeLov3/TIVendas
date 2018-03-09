@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by Helder on 20/02/2018.
@@ -17,6 +18,9 @@ public interface UsuarioAPI {
 
     @GET("usuarios")
     Call<List<Usuario>> getListaUsuarios();
+
+    @GET("usuarios")
+    Call<List<Usuario>> getListaUsuariosLastSync(@Query("last_sync") String lastSync);
 
     @POST("usuarios")
     Call<List<Usuario>> setListaUsuarios(@Body List<Usuario> list);

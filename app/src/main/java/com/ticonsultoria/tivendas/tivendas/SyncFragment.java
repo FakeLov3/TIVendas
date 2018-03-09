@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.ticonsultoria.tivendas.tivendas.BD.SumarioDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
@@ -33,6 +34,9 @@ public class SyncFragment extends Fragment {
     SharedPreferences sharedPreferences;
     int empresaId;
 
+    SumarioDAO sumarioDAO;
+    UsuarioDAO usuarioDAO;
+
     public SyncFragment() {
         // Required empty public constructor
     }
@@ -46,6 +50,9 @@ public class SyncFragment extends Fragment {
 
         Button btnEnviar = view.findViewById(R.id.btn_enviar);
         Button btnBaixar = view.findViewById(R.id.btn_baixar);
+
+        sumarioDAO = new SumarioDAO(getContext());
+        usuarioDAO = new UsuarioDAO(getContext());
 
         sharedPreferences = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
@@ -82,13 +89,15 @@ public class SyncFragment extends Fragment {
 
         UsuarioAPI service = retrofit.create(UsuarioAPI.class);
 
-        Call<List<Usuario>> call = service.getListaUsuarios();
+        String lastSyncUsuarios = sumarioDAO.getLastSyncUsuarios();
+
+        Call<List<Usuario>> call = service.getListaUsuariosLastSync(lastSyncUsuarios);
 
         call.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 for (int i =0; i<response.body().size(); i++){
-
+                    usuarioDAO.salvar(response.body().get(i));
                 }
             }
 

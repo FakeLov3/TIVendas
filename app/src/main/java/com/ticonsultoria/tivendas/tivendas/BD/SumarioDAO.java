@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.ticonsultoria.tivendas.tivendas.model.Sumario;
-import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 
 import java.util.Date;
 import java.util.List;
@@ -78,10 +77,20 @@ public class SumarioDAO extends DAOBasico<Sumario> {
         if (contentValues.getAsInteger(COLUNA_EMP_CODIGO) != null) {
             sumario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
         }
-        sumario.setNomeTabla(contentValues.getAsString(COLUNA_NOME_TABELA));
-        sumario.setLastSync(new Date(Long.valueOf(contentValues.getAsString(COLUNA_LAST_SYNC))));
+        sumario.setNomeTabela(contentValues.getAsString(COLUNA_NOME_TABELA));
+        sumario.setLastSync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
 
         return sumario;
+    }
+
+    public String getLastSyncUsuarios(){
+        List<Sumario> sumarios = super.recuperarTodos();
+        for(Sumario sumario: sumarios){
+            if (sumario.getNomeTabela().equals(UsuarioDAO.NOME_TABELA)){
+                return String.valueOf(sumario.getLastSync());
+            }
+        }
+        return null;
     }
 
     @Override

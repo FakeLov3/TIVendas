@@ -9,7 +9,7 @@ import java.util.Date;
 public class Sumario implements EntidadePersistivel {
 
     private int id;
-    private String nomeTabla;
+    private String nomeTabela;
     private Date lastSync;
     private int emp_codigo;
 
@@ -18,7 +18,7 @@ public class Sumario implements EntidadePersistivel {
     }
 
     public Sumario(int id, String nomeTabla, Date lastSync) {
-        this.nomeTabla = nomeTabla;
+        this.nomeTabela = nomeTabla;
         this.lastSync = lastSync;
         this.id = id;
     }
@@ -31,12 +31,12 @@ public class Sumario implements EntidadePersistivel {
         this.emp_codigo = emp_codigo;
     }
 
-    public String getNomeTabla() {
-        return nomeTabla;
+    public String getNomeTabela() {
+        return nomeTabela;
     }
 
-    public void setNomeTabla(String nomeTabla) {
-        this.nomeTabla = nomeTabla;
+    public void setNomeTabela(String nomeTabla) {
+        this.nomeTabela = nomeTabla;
     }
 
     public Date getLastSync() {
