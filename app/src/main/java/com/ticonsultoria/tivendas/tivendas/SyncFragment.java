@@ -32,7 +32,15 @@ public class SyncFragment extends Fragment {
         Button btnEnviar = view.findViewById(R.id.btn_enviar);
         Button btnBaixar = view.findViewById(R.id.btn_baixar);
 
+        //Baixar dados
         btnBaixar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+        //Enviar dados
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             }
