@@ -10,14 +10,14 @@ public class Sumario implements EntidadePersistivel {
 
     private int id;
     private String nomeTabela;
-    private Date lastSync;
+    private String lastSync;
     private int emp_codigo;
 
     public Sumario() {
 
     }
 
-    public Sumario(int id, String nomeTabla, Date lastSync) {
+    public Sumario(int id, String nomeTabla, String lastSync) {
         this.nomeTabela = nomeTabla;
         this.lastSync = lastSync;
         this.id = id;
@@ -39,11 +39,11 @@ public class Sumario implements EntidadePersistivel {
         this.nomeTabela = nomeTabla;
     }
 
-    public Date getLastSync() {
+    public String getLastSync() {
         return lastSync;
     }
 
-    public void setLastSync(Date lastSync) {
+    public void setLastSync(String lastSync) {
         this.lastSync = lastSync;
     }
 

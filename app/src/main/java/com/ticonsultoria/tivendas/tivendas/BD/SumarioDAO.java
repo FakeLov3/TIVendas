@@ -35,6 +35,7 @@ public class SumarioDAO extends DAOBasico<Sumario> {
         super(context);
     }
 
+
     @Override
     public String getNomeColunaPrimaryKey() {
         return COLUNA_ID;
@@ -78,7 +79,7 @@ public class SumarioDAO extends DAOBasico<Sumario> {
             sumario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
         }
         sumario.setNomeTabela(contentValues.getAsString(COLUNA_NOME_TABELA));
-        sumario.setLastSync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
+        sumario.setLastSync(contentValues.getAsString(COLUNA_LAST_SYNC));
 
         return sumario;
     }

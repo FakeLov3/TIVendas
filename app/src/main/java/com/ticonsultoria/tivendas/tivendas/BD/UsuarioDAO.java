@@ -125,7 +125,7 @@ public class UsuarioDAO extends DAOBasico<Usuario> {
         usuario.setCadastrarProdutos(contentValues.getAsString(COLUNA_CADASTRAR_PRODUTOS));
         usuario.setAtivo(contentValues.getAsString(COLUNA_ATIVO));
         usuario.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
-        usuario.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
+        usuario.setLast_sync(contentValues.getAsString(COLUNA_LAST_SYNC));
 
         return usuario;
     }

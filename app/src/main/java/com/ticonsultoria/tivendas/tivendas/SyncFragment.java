@@ -13,11 +13,9 @@ import android.widget.Button;
 
 import com.ticonsultoria.tivendas.tivendas.BD.SumarioDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
-import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 import com.ticonsultoria.tivendas.tivendas.model.UsuarioAPI;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -91,7 +89,7 @@ public class SyncFragment extends Fragment {
 
         String lastSyncUsuarios = sumarioDAO.getLastSyncUsuarios();
 
-        Call<List<Usuario>> call = service.getListaUsuariosLastSync(lastSyncUsuarios);
+        Call<List<Usuario>> call = service.getListaUsuariosByData(lastSyncUsuarios);
 
         call.enqueue(new Callback<List<Usuario>>() {
             @Override

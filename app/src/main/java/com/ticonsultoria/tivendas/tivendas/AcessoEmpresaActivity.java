@@ -12,12 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.BD.EmpresaDAO;
+import com.ticonsultoria.tivendas.tivendas.BD.SumarioDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.toDate;
 import com.ticonsultoria.tivendas.tivendas.model.Empresa;
 import com.ticonsultoria.tivendas.tivendas.model.EmpresaAPI;
+import com.ticonsultoria.tivendas.tivendas.model.Sumario;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 import com.ticonsultoria.tivendas.tivendas.model.UsuarioAPI;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,6 +35,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
 
     private EmpresaDAO empresaDao;
     private UsuarioDAO usuarioDao;
+    private SumarioDAO sumarioDao;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -39,6 +45,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         
         empresaDao = new EmpresaDAO(this);
         usuarioDao = new UsuarioDAO(this);
+        sumarioDao = new SumarioDAO(this);
 
         sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
@@ -87,7 +94,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         });
     }
 
-    private void baixarUsuarios(Empresa empresa){
+    private void baixarUsuarios(final Empresa empresa){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UsuarioAPI.BASE_URL + empresa.getEmp_codigo() + "/")
@@ -101,9 +108,32 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+
+                Date lastSync = null;
+
+                if (response.body().size() > 0){
+                    lastSync = toDate.from(response.body().get(0).getLast_sync());
+                }
+
                 for (int i =0; i<response.body().size(); i++){
                     usuarioDao.salvar(response.body().get(i));
+                    Date data = toDate.from(response.body().get(i).getLast_sync());
+                    if (lastSync.before(data)){
+                        lastSync = data;
+                    }
                 }
+
+                Sumario sumario = new Sumario();
+
+                sumario.setNomeTabela(UsuarioDAO.NOME_TABELA);
+                sumario.setEmp_codigo(empresa.getEmp_codigo());
+                sumario.setLastSync(lastSync.toString());
+
+                sumarioDao.salvar(sumario);
+
+                String lastSyncUsuarios = sumarioDao.getLastSyncUsuarios();
+
+                Log.e("LastSyncUsuarios", lastSyncUsuarios);
 
                 List<Usuario> usuarios = usuarioDao.recuperarAtivos();
 
@@ -114,7 +144,7 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
-                Log.e("ERRO",t.getMessage());
+                t.printStackTrace();
             }
         });
 

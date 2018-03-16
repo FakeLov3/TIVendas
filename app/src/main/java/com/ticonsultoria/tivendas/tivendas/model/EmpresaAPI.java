@@ -21,6 +21,4 @@ public interface EmpresaAPI {
     Call<List<Empresa>> getEmpresa(@Path("chave") String chave);
 
 
-
-
 }

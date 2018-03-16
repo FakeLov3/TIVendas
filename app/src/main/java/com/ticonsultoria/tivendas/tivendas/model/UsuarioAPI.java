@@ -20,7 +20,7 @@ public interface UsuarioAPI {
     Call<List<Usuario>> getListaUsuarios();
 
     @GET("usuarios")
-    Call<List<Usuario>> getListaUsuariosLastSync(@Query("last_sync") String lastSync);
+    Call<List<Usuario>> getListaUsuariosByData(@Query("data") String Data);
 
     @POST("usuarios")
     Call<List<Usuario>> setListaUsuarios(@Body List<Usuario> list);
