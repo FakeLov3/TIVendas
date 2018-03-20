@@ -62,7 +62,7 @@ public class SumarioDAO extends DAOBasico<Sumario> {
         if(sumario.getId() > 0) {
             values.put(COLUNA_ID, sumario.getId());
         }
-        values.put(COLUNA_NOME_TABELA, sumario.getId());
+        values.put(COLUNA_NOME_TABELA, sumario.getNomeTabela());
         values.put(COLUNA_EMP_CODIGO, sumario.getEmp_codigo());
         values.put(COLUNA_LAST_SYNC, String.valueOf(sumario.getLastSync()));
 

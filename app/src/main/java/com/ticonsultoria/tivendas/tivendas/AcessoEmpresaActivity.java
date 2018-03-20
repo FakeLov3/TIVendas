@@ -109,10 +109,12 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
 
-                Date lastSync = null;
+                Date lastSync;
 
                 if (response.body().size() > 0){
                     lastSync = toDate.from(response.body().get(0).getLast_sync());
+                } else {
+                    return;
                 }
 
                 for (int i =0; i<response.body().size(); i++){
@@ -127,17 +129,19 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
 
                 sumario.setNomeTabela(UsuarioDAO.NOME_TABELA);
                 sumario.setEmp_codigo(empresa.getEmp_codigo());
-                sumario.setLastSync(lastSync.toString());
+                sumario.setLastSync(toDate.string(lastSync));
 
                 sumarioDao.salvar(sumario);
 
                 String lastSyncUsuarios = sumarioDao.getLastSyncUsuarios();
 
-                Log.e("LastSyncUsuarios", lastSyncUsuarios);
+                Log.e("LastSyncUsuarios", "" + lastSyncUsuarios);
 
                 List<Usuario> usuarios = usuarioDao.recuperarAtivos();
 
                 for (Usuario usuario : usuarios){
+                    Log.e("USUARIO", usuario.getLogin());
+                    Log.e("SENHA", usuario.getSenha());
                     Log.e("CADASTRAR PRODUTOS: ", usuario.isCadastrarProdutos());
                 }
             }

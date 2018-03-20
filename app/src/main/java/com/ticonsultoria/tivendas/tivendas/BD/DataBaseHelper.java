@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ticonsultoria.tivendas.tivendas.model.Sumario;
+
 /**
  * Created by mpire on 23/01/2018.
  */
@@ -34,6 +36,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(PedidoDAO.SCRIPT_CRIACAO_TABELA_PEDIDOS);
         db.execSQL(ItemDAO.SCRIPT_CRIACAO_TABELA_ITENS);
         db.execSQL(EmpresaDAO.SCRIPT_CRIACAO_TABELA_EMPRESAS);
+        db.execSQL(SumarioDAO.SCRIPT_CRIACAO_TABELA_SUMARIO);
         Log.i("DATABASE", "CRIANDO TABELA");
 
     }
@@ -48,6 +51,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(PedidoDAO.SCRIPT_DELECAO_TABELA_PEDIDOS);
         db.execSQL(ItemDAO.SCRIPT_DELECAO_TABELA_ITENS);
         db.execSQL(EmpresaDAO.SCRIPT_DELECAO_TABELA_EMPRESAS);
+        db.execSQL(SumarioDAO.SCRIPT_DELECAO_TABELA_SUMARIO);
         onCreate(db);
     }
 
