@@ -17,7 +17,7 @@ public class Cliente implements EntidadePersistivel {
     private String nomeMercado;
     private boolean ativo;
     private int emp_codigo;
-    private Date last_sync;
+    private String last_sync;
 
     public Cliente(){
 
@@ -32,11 +32,11 @@ public class Cliente implements EntidadePersistivel {
         this.emp_codigo = emp_codigo;
     }
 
-    public Date getLast_sync() {
+    public String getLast_sync() {
         return last_sync;
     }
 
-    public void setLast_sync(Date last_sync) {
+    public void setLast_sync(String last_sync) {
         this.last_sync = last_sync;
     }
 

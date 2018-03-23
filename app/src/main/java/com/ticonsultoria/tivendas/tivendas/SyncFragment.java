@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.SumarioDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
 import com.ticonsultoria.tivendas.tivendas.Helper.toDate;
+import com.ticonsultoria.tivendas.tivendas.model.Cliente;
+import com.ticonsultoria.tivendas.tivendas.model.ClienteAPI;
 import com.ticonsultoria.tivendas.tivendas.model.Sumario;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 import com.ticonsultoria.tivendas.tivendas.model.UsuarioAPI;
@@ -37,6 +40,7 @@ public class SyncFragment extends Fragment {
 
     SumarioDAO sumarioDAO;
     UsuarioDAO usuarioDAO;
+    ClienteDAO clienteDAO;
 
     public SyncFragment() {
         // Required empty public constructor
@@ -54,7 +58,7 @@ public class SyncFragment extends Fragment {
 
         sumarioDAO = new SumarioDAO(getContext());
         usuarioDAO = new UsuarioDAO(getContext());
-
+        clienteDAO = new ClienteDAO(getContext());
         sharedPreferences = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
         empresaId = sharedPreferences.getInt("id_empresa",0);
@@ -133,8 +137,55 @@ public class SyncFragment extends Fragment {
         });
     }
     private void atualizarTabelaClientes(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ClienteAPI.URL_BASE + empresaId + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-    };
+        ClienteAPI service = retrofit.create(ClienteAPI.class);
+
+        String lastSyncClientes = sumarioDAO.getLastSyncUsuarios();
+
+        Call<List<Cliente>> call = service.getListaClientesByData(lastSyncClientes);
+
+        call.enqueue(new Callback<List<Cliente>>(){
+
+            @Override
+            public void onResponse(Call<List<Cliente>> call, Response<List<Cliente>> response) {
+                Date lastSync;
+
+                if (response.body().size() > 0) {
+                    lastSync = toDate.from(response.body().get(0).getLast_sync());
+                } else {
+                    return;
+                }
+
+                for (int i = 0; i < response.body().size(); i++) {
+                    clienteDAO.salvar(response.body().get(i));
+                    Date data = toDate.from(response.body().get(i).getLast_sync());
+                    if (lastSync.before(data)) {
+                        lastSync = data;
+                    }
+                }
+
+                Sumario sumario = new Sumario();
+
+                int empCodigo = sharedPreferences.getInt("id_empresa", 0);
+
+                sumario.setNomeTabela(ClienteDAO.NOME_TABELA);
+                sumario.setEmp_codigo(empCodigo);
+                sumario.setLastSync(toDate.string(lastSync));
+
+                sumarioDAO.salvar(sumario);
+
+            }
+
+                @Override
+            public void onFailure(Call<List<Cliente>> call, Throwable t) {
+                    Log.e("ERRO",t.getMessage());
+            }
+            });
+    }
 
     private void atualizarProdutos(){
 

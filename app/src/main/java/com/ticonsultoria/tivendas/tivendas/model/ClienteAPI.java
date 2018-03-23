@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by Helder on 20/02/2018.
@@ -11,10 +12,12 @@ import retrofit2.http.GET;
 
 public interface ClienteAPI {
 
-    public static final String URL_BASE = "http://cadiizmob.kinghost.net/api/estagio/";
+    public static final String URL_BASE = "http://cadizmob.kinghost.net/api/estagio/";
 
     @GET("clientes")
-    Call<List<Cliente>> getListaClientes();
+    Call<List<Cliente>> getListaClientesByData(@Query("data") String data);
+
+
 
 
 }
