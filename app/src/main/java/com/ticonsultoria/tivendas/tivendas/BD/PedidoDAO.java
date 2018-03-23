@@ -38,9 +38,9 @@ public class PedidoDAO extends DAOBasico<Pedido> {
             + COLUNA_ID_CLIENTE + " INT,"
             + COLUNA_FORMA_PAGAMENTO + " TEXT,"
             + COLUNA_PRECO_TOTAL + " DOUBLE,"
-            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_ATIVO + " TEXT,"
             + COLUNA_EMP_CODIGO + " INTEGER,"
-            + COLUNA_ENVIADO + " BOOLEAN,"
+            + COLUNA_ENVIADO + " TEXT,"
             + COLUNA_DESCONTO + " INTEGER"
             + ")";
 

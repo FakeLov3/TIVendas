@@ -3,8 +3,6 @@ package com.ticonsultoria.tivendas.tivendas.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +18,6 @@ import com.ticonsultoria.tivendas.tivendas.BD.ItemDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.PedidoDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.ProdutoDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
-import com.ticonsultoria.tivendas.tivendas.CadastrarPedidosFragment;
-import com.ticonsultoria.tivendas.tivendas.Helper.CustomDeleteClickListener;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomEditClickListener;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
@@ -81,7 +77,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
 
         for (int i=0; i < mClientes.size(); i++) {
             if (mClientes.get(i).getId() == mPedidos.get(position).getId_cliente()) {
-                nomeCliente = mClientes.get(i).getNome();
+                nomeCliente = mClientes.get(i).getNome_cliente();
             }
         }
 
@@ -119,7 +115,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
 
         for (int i=0; i < mClientes.size(); i++) {
             if (mClientes.get(i).getId() == mPedidos.get(position).getId_cliente()) {
-                nomeCliente = mClientes.get(i).getNome();
+                nomeCliente = mClientes.get(i).getNome_cliente();
             }
         }
         for (int i=0; i < mUsuarios.size(); i++) {

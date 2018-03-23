@@ -36,7 +36,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
             + COLUNA_FORNECEDOR + " TEXT,"
             + COLUNA_MARCA + " TEXT,"
             + COLUNA_QUANTIDADE + " INT,"
-            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_ATIVO + " TEXT,"
             + COLUNA_FOTO + " BLOB,"
             + COLUNA_EMP_CODIGO + " INTEGER,"
             + COLUNA_LAST_SYNC + " TEXT"
@@ -92,7 +92,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         values.put(COLUNA_ATIVO, produto.isAtivo());
         values.put(COLUNA_FOTO, produto.getFoto());
         values.put(COLUNA_EMP_CODIGO, produto.getEmp_codigo());
-        values.put(COLUNA_LAST_SYNC, String.valueOf(produto.getLast_sync()));
+        values.put(COLUNA_LAST_SYNC, produto.getLast_sync());
 
         return values;
     }
@@ -113,7 +113,7 @@ public class ProdutoDAO extends DAOBasico<Produto> {
         produto.setNome_produto(contentValues.getAsString(COLUNA_NOME_PRODUTO));
         produto.setFoto(contentValues.getAsByteArray(COLUNA_FOTO));
         produto.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
-        produto.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
+        produto.setLast_sync(contentValues.getAsString(COLUNA_LAST_SYNC));
         return produto;
     }
 

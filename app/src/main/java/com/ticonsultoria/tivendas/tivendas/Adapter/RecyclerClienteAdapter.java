@@ -54,7 +54,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
     @Override
     public void onBindViewHolder(RecyclerHolder holder,final int position) {
-        holder.title.setText(mClientes.get(position).getNome());
+        holder.title.setText(mClientes.get(position).getNome_cliente());
         holder.nivel.setText(mClientes.get(position).getNomeMercado());
 
         holder.editButton.setOnClickListener (new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
         MaskTextWatcher mtwTelefone = new MaskTextWatcher(edtDialogTelefone, smfTelefone);
         edtDialogTelefone.addTextChangedListener(mtwTelefone);
 
-        edtDialogNome.setText(cliente.getNome());
+        edtDialogNome.setText(cliente.getNome_cliente());
         edtDialogMercado.setText(cliente.getNomeMercado());
         edtDialogCpf.setText(cliente.getCpf());
         edtDialogEmail.setText(cliente.getEmail());
@@ -136,7 +136,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                             }
                         }
 
-                        cliente.setNome(edtDialogNome.getText().toString());
+                        cliente.setNome_cliente(edtDialogNome.getText().toString());
                         cliente.setNomeMercado(edtDialogMercado.getText().toString());
                         cliente.setCpf(cpf);
                         cliente.setTelefone(telefone);
@@ -172,7 +172,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle("Excluir cliente").setMessage("Tem certeza que deseja excluir o cliente " + mClientes.get(position).getNome() + "?")
+        builder.setTitle("Excluir cliente").setMessage("Tem certeza que deseja excluir o cliente " + mClientes.get(position).getNome_cliente() + "?")
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

@@ -106,7 +106,7 @@ public class ClientesFragment extends Fragment {
                                 }
                                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
                                 int emp_codido = sharedPreferences.getInt("id_empresa",0);
-                                cliente.setNome(edtDialogNome.getText().toString());
+                                cliente.setNome_cliente(edtDialogNome.getText().toString());
                                 cliente.setNomeMercado(edtDialogMercado.getText().toString());
                                 cliente.setCpf(cpf);
                                 cliente.setTelefone(telefone);

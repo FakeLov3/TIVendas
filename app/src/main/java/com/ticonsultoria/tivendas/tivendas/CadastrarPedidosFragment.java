@@ -4,11 +4,8 @@ package com.ticonsultoria.tivendas.tivendas;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerAdicionarProdutosAdapter;
-import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerClienteAdapter;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerItensPedidoAdapter;
-import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerPedidosAdapter;
 import com.ticonsultoria.tivendas.tivendas.Adapter.RecyclerProcurarClienteAdapter;
 import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.ItemDAO;
@@ -212,7 +206,7 @@ public class CadastrarPedidosFragment extends Fragment {
                     @Override
                     public void onItemClick(View v, int position) {
                         cliente = array.get(position);
-                        edtCliente.setText(cliente.getNome());
+                        edtCliente.setText(cliente.getNome_cliente());
                         dialog.dismiss();
                     }
                 });
@@ -527,7 +521,7 @@ public class CadastrarPedidosFragment extends Fragment {
         }
 
         cliente = daoCliente.recuperarPorID(pedido.getId_cliente());
-        edtCliente.setText(cliente.getNome());
+        edtCliente.setText(cliente.getNome_cliente());
 
     }
 

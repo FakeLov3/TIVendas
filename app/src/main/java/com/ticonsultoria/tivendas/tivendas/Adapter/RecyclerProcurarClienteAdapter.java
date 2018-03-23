@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ticonsultoria.tivendas.tivendas.BD.ClienteDAO;
 import com.ticonsultoria.tivendas.tivendas.Helper.CustomItemClickListener;
 import com.ticonsultoria.tivendas.tivendas.R;
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
@@ -49,7 +48,7 @@ public class RecyclerProcurarClienteAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(RecyclerHolder holder, int position) {
 
-        holder.nomeCliente.setText(mClientes.get(position).getNome());
+        holder.nomeCliente.setText(mClientes.get(position).getNome_cliente());
         holder.nomeMercado.setText(mClientes.get(position).getNomeMercado());
 
     }

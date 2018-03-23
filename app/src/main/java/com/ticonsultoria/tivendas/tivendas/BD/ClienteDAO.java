@@ -5,8 +5,6 @@ import android.content.Context;
 
 import com.ticonsultoria.tivendas.tivendas.model.Cliente;
 
-import java.util.Date;
-
 /**
  * Created by Helder on 19/01/2018.
  */
@@ -33,7 +31,7 @@ public class ClienteDAO extends DAOBasico<Cliente> {
             + COLUNA_TELEFONE + " TEXT,"
             + COLUNA_CPF + " TEXT,"
             + COLUNA_NOME_MERCADO + " TEXT,"
-            + COLUNA_ATIVO + " BOOLEAN,"
+            + COLUNA_ATIVO + " TEXT,"
             + COLUNA_EMP_CODIGO + " INTEGER,"
             + COLUNA_LAST_SYNC + " TEXT"
             + ")";
@@ -79,14 +77,14 @@ public class ClienteDAO extends DAOBasico<Cliente> {
             values.put(COLUNA_ID_LOCAL, cliente.getId());
         }
         values.put(COLUNA_ID_WEB, cliente.getId_web());
-        values.put(COLUNA_NOME_CLIENTE, cliente.getNome());
+        values.put(COLUNA_NOME_CLIENTE, cliente.getNome_cliente());
         values.put(COLUNA_EMAIL, cliente.getEmail());
         values.put(COLUNA_TELEFONE, cliente.getTelefone());
         values.put(COLUNA_CPF, cliente.getCpf());
         values.put(COLUNA_NOME_MERCADO, cliente.getNomeMercado());
         values.put(COLUNA_ATIVO, cliente.isAtivo());
         values.put(COLUNA_EMP_CODIGO, cliente.getEmp_codigo());
-        values.put(COLUNA_LAST_SYNC, String.valueOf(cliente.getLast_sync()));
+        values.put(COLUNA_LAST_SYNC, cliente.getLast_sync());
 
         return values;
     }
@@ -101,11 +99,11 @@ public class ClienteDAO extends DAOBasico<Cliente> {
         cliente.setAtivo(contentValues.getAsInteger(COLUNA_ATIVO) > 0);
         cliente.setEmail(contentValues.getAsString(COLUNA_EMAIL));
         cliente.setTelefone(contentValues.getAsString(COLUNA_TELEFONE));
-        cliente.setNome(contentValues.getAsString(COLUNA_NOME_CLIENTE));
+        cliente.setNome_cliente(contentValues.getAsString(COLUNA_NOME_CLIENTE));
         cliente.setNomeMercado(contentValues.getAsString(COLUNA_NOME_MERCADO));
         cliente.setCpf(contentValues.getAsString(COLUNA_CPF));
         cliente.setEmp_codigo(contentValues.getAsInteger(COLUNA_EMP_CODIGO));
-        cliente.setLast_sync(new Date(contentValues.getAsString(COLUNA_LAST_SYNC)));
+        cliente.setLast_sync(contentValues.getAsString(COLUNA_LAST_SYNC));
 
         return cliente;
     }

@@ -144,8 +144,10 @@ public class SyncFragment extends Fragment {
 
         ClienteAPI service = retrofit.create(ClienteAPI.class);
 
-        String lastSyncClientes = sumarioDAO.getLastSyncUsuarios();
-
+        String lastSyncClientes = sumarioDAO.getLastSyncCliente();
+        if (lastSyncClientes == null){
+            lastSyncClientes = "";
+        }
         Call<List<Cliente>> call = service.getListaClientesByData(lastSyncClientes);
 
         call.enqueue(new Callback<List<Cliente>>(){

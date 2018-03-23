@@ -1,7 +1,5 @@
 package com.ticonsultoria.tivendas.tivendas.model;
 
-import java.util.Date;
-
 /**
  * Created by Helder on 18/01/2018.
  */
@@ -10,11 +8,11 @@ public class Cliente implements EntidadePersistivel {
 
     private int id_local;
     private int id_web;
-    private String nome;
+    private String nome_cliente;
     private String email;
     private String telefone;
     private String cpf;
-    private String nomeMercado;
+    private String nome_mercado;
     private boolean ativo;
     private int emp_codigo;
     private String last_sync;
@@ -25,9 +23,9 @@ public class Cliente implements EntidadePersistivel {
 
     public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo, int emp_codigo) {
         this.id_local = id;
-        this.nome = nome;
+        this.nome_cliente = nome;
         this.cpf = cpf;
-        this.nomeMercado = nomeMercado;
+        this.nome_mercado = nomeMercado;
         this.ativo = ativo;
         this.emp_codigo = emp_codigo;
     }
@@ -48,12 +46,12 @@ public class Cliente implements EntidadePersistivel {
         this.ativo = ativo;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNome_cliente() {
+        return nome_cliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome_cliente(String nome_cliente) {
+        this.nome_cliente = nome_cliente;
     }
 
     public String getCpf() {
@@ -65,11 +63,11 @@ public class Cliente implements EntidadePersistivel {
     }
 
     public String getNomeMercado() {
-        return nomeMercado;
+        return nome_mercado;
     }
 
     public void setNomeMercado(String nomeMercado) {
-        this.nomeMercado = nomeMercado;
+        this.nome_mercado = nomeMercado;
     }
 
     public int getId_web() {
