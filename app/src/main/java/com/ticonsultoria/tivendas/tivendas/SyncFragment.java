@@ -13,9 +13,12 @@ import android.widget.Button;
 
 import com.ticonsultoria.tivendas.tivendas.BD.SumarioDAO;
 import com.ticonsultoria.tivendas.tivendas.BD.UsuarioDAO;
+import com.ticonsultoria.tivendas.tivendas.Helper.toDate;
+import com.ticonsultoria.tivendas.tivendas.model.Sumario;
 import com.ticonsultoria.tivendas.tivendas.model.Usuario;
 import com.ticonsultoria.tivendas.tivendas.model.UsuarioAPI;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -62,6 +65,7 @@ public class SyncFragment extends Fragment {
             public void onClick(View view) {
 
                 atualizarTabelaUsuarios();
+                atualizarTabelaClientes();
 
             }
         });
@@ -94,9 +98,32 @@ public class SyncFragment extends Fragment {
         call.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                Date lastSync;
+
+                if (response.body().size() > 0){
+                    lastSync = toDate.from(response.body().get(0).getLast_sync());
+                } else {
+                    return;
+                }
+
                 for (int i =0; i<response.body().size(); i++){
                     usuarioDAO.salvar(response.body().get(i));
+                    Date data = toDate.from(response.body().get(i).getLast_sync());
+                    if (lastSync.before(data)){
+                        lastSync = data;
+                    }
                 }
+
+                Sumario sumario = new Sumario();
+
+                int empCodigo = sharedPreferences.getInt("id_empresa",0);
+
+                sumario.setNomeTabela(UsuarioDAO.NOME_TABELA);
+                sumario.setEmp_codigo(empCodigo);
+                sumario.setLastSync(toDate.string(lastSync));
+
+                sumarioDAO.salvar(sumario);
+
             }
 
             @Override

@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new SyncFragment();
         }
 
+
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);

@@ -79,7 +79,6 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                         if (response.body().size() > 0) {
                             Empresa empresa = response.body().get(0);
                             baixarUsuarios(empresa);
-                            acessar(empresa);
                         } else {
                             Toast.makeText(AcessoEmpresaActivity.this, "Chave de identificação incorreta", Toast.LENGTH_SHORT).show();
                         }
@@ -132,6 +131,8 @@ public class AcessoEmpresaActivity extends AppCompatActivity {
                 sumario.setLastSync(toDate.string(lastSync));
 
                 sumarioDao.salvar(sumario);
+
+                acessar(empresa);
 
                 String lastSyncUsuarios = sumarioDao.getLastSyncUsuarios();
 
