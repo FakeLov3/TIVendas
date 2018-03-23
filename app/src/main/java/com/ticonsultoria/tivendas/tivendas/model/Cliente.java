@@ -13,7 +13,7 @@ public class Cliente implements EntidadePersistivel {
     private String telefone;
     private String cpf;
     private String nome_mercado;
-    private boolean ativo;
+    private String ativo;
     private int emp_codigo;
     private String last_sync;
 
@@ -21,7 +21,7 @@ public class Cliente implements EntidadePersistivel {
 
     }
 
-    public Cliente(int id, String nome, String cpf, String nomeMercado, boolean ativo, int emp_codigo) {
+    public Cliente(int id, String nome, String cpf, String nomeMercado, String ativo, int emp_codigo) {
         this.id_local = id;
         this.nome_cliente = nome;
         this.cpf = cpf;
@@ -38,11 +38,11 @@ public class Cliente implements EntidadePersistivel {
         this.last_sync = last_sync;
     }
 
-    public boolean isAtivo() {
+    public String isAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(String ativo) {
         this.ativo = ativo;
     }
 

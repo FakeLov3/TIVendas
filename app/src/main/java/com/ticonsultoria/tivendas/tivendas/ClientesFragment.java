@@ -111,7 +111,7 @@ public class ClientesFragment extends Fragment {
                                 cliente.setCpf(cpf);
                                 cliente.setTelefone(telefone);
                                 cliente.setEmail(edtDialogEmail.getText().toString());
-                                cliente.setAtivo(true);
+                                cliente.setAtivo("S");
                                 cliente.setEmp_codigo(emp_codido);
 
 

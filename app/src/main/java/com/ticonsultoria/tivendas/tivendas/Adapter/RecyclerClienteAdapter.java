@@ -178,7 +178,7 @@ public class RecyclerClienteAdapter extends RecyclerView.Adapter<RecyclerCliente
                     public void onClick(DialogInterface dialog, int id) {
 
                         try {
-                            cliente.setAtivo(false);
+                            cliente.setAtivo("N");
                             daoCliente.editar(cliente);
                         } catch (Exception e){
                             Log.e("RecyclerClienteAdapter", e.getMessage());
